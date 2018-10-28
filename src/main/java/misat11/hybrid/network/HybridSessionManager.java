@@ -19,7 +19,7 @@ public class HybridSessionManager implements SessionManager<HybridSession>{
 
 	@Override
 	public boolean remove(HybridSession session) {
-		return false;
+		return sessions.values().remove(session);
 	}
 
 	@Override

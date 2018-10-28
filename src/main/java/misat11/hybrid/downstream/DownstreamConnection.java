@@ -35,12 +35,14 @@ public class DownstreamConnection {
 	}
 
 	public void connect() {
-		log("§aConnecting to downstream server... (" + ip + ":" + port + ")");
-
 		if (this.protocol == null) {
 			session.disconnect("ERROR!");
 			return;
 		}
+
+		log("§f[" + this.protocol.getProfile().getName() + "] §aConnecting to downstream server... (" + ip + ":" + port
+				+ ")");
+
 		remoteClient = new Client(ip, port, protocol, new TcpSessionFactory());
 		remoteClient.getSession().setConnectTimeout(5);
 		remoteClient.getSession().setReadTimeout(5);
@@ -49,7 +51,8 @@ public class DownstreamConnection {
 
 			@Override
 			public void connected(ConnectedEvent event) {
-				// onConnected
+				log("§f[" + DownstreamConnection.this.protocol.getProfile().getName()
+						+ "] §aDownstream server connected!");
 			}
 
 			@Override
@@ -59,6 +62,8 @@ public class DownstreamConnection {
 
 			@Override
 			public void disconnected(DisconnectedEvent event) {
+				log("§f[" + DownstreamConnection.this.protocol.getProfile().getName()
+						+ "] §cDisconnected from downstream!");
 				session.disconnect(event.getReason());
 			}
 
@@ -76,13 +81,13 @@ public class DownstreamConnection {
 	}
 
 	public void disconnect() {
-        if (isConnected()) {
-            remoteClient.getSession().disconnect("Disconnect");
-        }
+		if (isConnected()) {
+			remoteClient.getSession().disconnect("Disconnect");
+		}
 	}
 
 	public boolean isConnected() {
-        return remoteClient != null && remoteClient.getSession().isConnected();
+		return remoteClient != null && remoteClient.getSession().isConnected();
 	}
 
 	public void send(Packet... packets) {
@@ -90,15 +95,15 @@ public class DownstreamConnection {
 			send(p);
 	}
 
-    public void sendChat(String chat) {
-        remoteClient.getSession().send(new ClientChatPacket(chat));
-    }
+	public void sendChat(String chat) {
+		remoteClient.getSession().send(new ClientChatPacket(chat));
+	}
 
 	public void send(Packet packet) {
-        if (packet == null) {
-            return;
-        }
-        remoteClient.getSession().send(packet);
+		if (packet == null) {
+			return;
+		}
+		remoteClient.getSession().send(packet);
 	}
 
 	public HybridSession getSession() {

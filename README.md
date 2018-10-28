@@ -1,4 +1,4 @@
-# HybridMC
+# HybridMC (WIP)
 HybridMC is plugin that allows connection of Bedrock Edition clients on your Java Edition Spigot or Craftbukkit server!
 
 ## Features

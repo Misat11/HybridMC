@@ -25,7 +25,6 @@ import com.nukkitx.server.network.bedrock.BedrockPacketCodec;
 import com.nukkitx.server.network.bedrock.NetworkPacketHandler;
 import com.nukkitx.server.network.bedrock.annotations.NoEncryption;
 import com.nukkitx.server.network.bedrock.packet.DisconnectPacket;
-import com.nukkitx.server.network.bedrock.packet.WrappedPacket;
 import com.nukkitx.server.network.bedrock.session.data.AuthData;
 import com.nukkitx.server.network.bedrock.session.data.ClientData;
 import com.nukkitx.server.network.bedrock.wrapper.DefaultWrapperHandler;
@@ -132,7 +131,7 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 				String to = connection.getRemoteAddress().orElse(LOOPBACK_BEDROCK).toString();
 				log("Outbound " + to + ": " + packet);
 			}
-			WrappedPacket wrappedPacket = new WrappedPacket();
+			HybridWrappedPacket wrappedPacket = new HybridWrappedPacket();
 			wrappedPacket.getPackets().add((BedrockPacket) packet);
 			if (packet.getClass().isAnnotationPresent(NoEncryption.class)) {
 				wrappedPacket.setEncrypted(true);
@@ -140,8 +139,8 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 			packet = wrappedPacket;
 		}
 
-		if (packet instanceof WrappedPacket) {
-			WrappedPacket wrappedPacket = (WrappedPacket) packet;
+		if (packet instanceof HybridWrappedPacket) {
+			HybridWrappedPacket wrappedPacket = (HybridWrappedPacket) packet;
 			ByteBuf compressed;
 			if (wrappedPacket.getBatched() == null) {
 				compressed = wrapperHandler.compressPackets(packetCodec, wrappedPacket.getPackets());
@@ -194,14 +193,14 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 
 	private void sendQueued() {
 		BedrockPacket packet;
-		WrappedPacket wrapper = new WrappedPacket();
+		HybridWrappedPacket wrapper = new HybridWrappedPacket();
 		while ((packet = currentlyQueued.poll()) != null) {
 			if (packet.getClass().isAnnotationPresent(NoEncryption.class)) {
 				// We hit a wrappable packet. Send the current wrapper and then send the
 				// un-wrappable packet.
 				if (!wrapper.getPackets().isEmpty()) {
 					internalSendPackage(wrapper);
-					wrapper = new WrappedPacket();
+					wrapper = new HybridWrappedPacket();
 				}
 
 				internalSendPackage(packet);
@@ -273,6 +272,10 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 	}
 
 	public void close() {
+		if (isDownstreamConnect()) {
+			downstreamDisconnect();
+		}
+
 		if (!connection.isClosed()) {
 			connection.close();
 		}
@@ -333,11 +336,9 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 		sendImmediatePackage(packet);
 
 		if (authData != null) {
-			log(authData.getDisplayName() + " (" + getRemoteAddress().map(Object::toString).orElse("UNKNOWN")
-					+ ") has been disconnected from the server: " + reason);
+			log("§f[" + authData.getDisplayName() + "] §cDisconnected from server: §r" + reason);
 		} else {
-			log(getRemoteAddress().map(Object::toString).orElse("UNKNOWN") + " has lost connection to the server: "
-					+ reason);
+			log("§f[" + getRemoteAddress().map(Object::toString).orElse("UNKNOWN") + "] §cDisconnected from server: §r" + reason);
 		}
 
 		close();

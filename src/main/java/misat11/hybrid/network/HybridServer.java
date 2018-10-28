@@ -58,6 +58,7 @@ public class HybridServer {
 	            return false;
 	        }
 	        timerService.scheduleAtFixedRate(sessionManager::onTick, 50, 50, TimeUnit.MILLISECONDS);
+	        running = true;
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,7 +70,7 @@ public class HybridServer {
 		if (!isRunning()) {
 			return;
 		}
-		Bukkit.getLogger().info("Stopping PE server...");
+		log("§cStopping PE server...");
 		timerService.shutdown();
 		rakNetServer.close();
 	}
