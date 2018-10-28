@@ -1,0 +1,20 @@
+# HybridMC plugin configuration
+# Plugin version ${project.version}
+
+# Port of Bedrock Edition Server
+port: 19132
+
+# Motd of Bedrock Edition Server
+motd: "Minecraft Server"
+
+# Submotd of Bedrock Edition Server
+submotd: "Server by HybridMC"
+
+# Network threads count
+networkthreads: 8
+
+# Enable xbox authenticate
+xbox: true
+
+# Enable debug
+debug: false

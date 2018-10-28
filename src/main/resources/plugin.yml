@@ -1,0 +1,6 @@
+name: HybridMC
+main: misat11.hybrid.HybridPlugin
+version: ${project.version}
+author: Misat11
+api-version: 1.13
+load: postworld
