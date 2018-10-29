@@ -74,7 +74,7 @@ public class DownstreamConnection {
 
 			@Override
 			public void packetReceived(PacketReceivedEvent event) {
-				// Handle the packet
+				DownstreamTranslatorRegister.translate(session, event.getPacket());
 			}
 		});
 		remoteClient.getSession().connect();
