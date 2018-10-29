@@ -1,8 +1,9 @@
-package misat11.hybrid.network;
+package misat11.hybrid.network.bedrock.packet;
 
 import com.nukkitx.network.raknet.CustomRakNetPacket;
 import com.nukkitx.server.network.bedrock.BedrockPacket;
 import io.netty.buffer.ByteBuf;
+import misat11.hybrid.network.bedrock.session.HybridSession;
 
 import java.util.ArrayList;
 import java.util.List;

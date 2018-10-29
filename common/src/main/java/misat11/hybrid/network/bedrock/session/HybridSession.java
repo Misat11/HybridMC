@@ -1,4 +1,4 @@
-package misat11.hybrid.network;
+package misat11.hybrid.network.bedrock.session;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -12,8 +12,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.bukkit.Bukkit;
 
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
 import com.nukkitx.network.NetworkPacket;
@@ -34,11 +32,13 @@ import com.voxelwind.server.jni.hash.VoxelwindHash;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
+import misat11.hybrid.HybridServer;
 import misat11.hybrid.downstream.DownstreamConnection;
+import misat11.hybrid.network.bedrock.packet.HybridWrappedPacket;
 import net.md_5.bungee.jni.cipher.BungeeCipher;
 
-import static misat11.hybrid.HybridPlugin.log;
-import static misat11.hybrid.HybridPlugin.DEBUG;
+import static misat11.hybrid.Platform.log;
+import static misat11.hybrid.Platform.debug;
 
 public class HybridSession implements NetworkSession<RakNetSession> {
 	private static final ThreadLocal<VoxelwindHash> hashLocal = ThreadLocal
@@ -108,7 +108,7 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 	public void addToSendQueue(BedrockPacket packet) {
 		if (checkForClosed())
 			return;
-		if (DEBUG) {
+		if (debug()) {
 			String to = connection.getRemoteAddress().orElse(LOOPBACK_BEDROCK).toString();
 			log("Outbound " + to + ": " + packet);
 		}
@@ -127,7 +127,7 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 
 	private void internalSendPackage(NetworkPacket packet) {
 		if (packet instanceof BedrockPacket) {
-			if (DEBUG) {
+			if (debug()) {
 				String to = connection.getRemoteAddress().orElse(LOOPBACK_BEDROCK).toString();
 				log("Outbound " + to + ": " + packet);
 			}
@@ -366,7 +366,7 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 			String to = getRemoteAddress().orElse(LOOPBACK_BEDROCK).toString();
 			// Decompress and handle packets
 			for (BedrockPacket pk : wrapperHandler.decompressPackets(packetCodec, unwrappedData)) {
-				if (DEBUG) {
+				if (debug()) {
 					log("Inbound " + to + ": " + pk.toString());
 				}
 				pk.handle(handler);
@@ -404,7 +404,7 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 			return;
 		}
 		MinecraftProtocol protocol = new MinecraftProtocol(authData.getDisplayName());
-		downstream = new DownstreamConnection(this, protocol, Bukkit.getIp(), Bukkit.getPort());
+		downstream = new DownstreamConnection(this, protocol, server.pcIp, server.pcPort);
 		downstream.connect();
 	}
 

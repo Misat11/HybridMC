@@ -1,4 +1,4 @@
-package misat11.hybrid.network;
+package misat11.hybrid.network.bedrock.session;
 
 import com.nukkitx.server.network.bedrock.NetworkPacketHandler;
 import com.nukkitx.server.network.bedrock.packet.*;

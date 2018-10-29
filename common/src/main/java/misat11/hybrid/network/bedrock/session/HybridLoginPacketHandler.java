@@ -1,4 +1,4 @@
-package misat11.hybrid.network;
+package misat11.hybrid.network.bedrock.session;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
@@ -19,10 +19,10 @@ import com.nukkitx.server.network.util.EncryptionUtil;
 import com.nukkitx.server.util.NativeCodeFactory;
 import com.voxelwind.server.jni.CryptoUtil;
 
-import misat11.hybrid.HybridPlugin;
+import misat11.hybrid.Platform;
 import misat11.hybrid.downstream.DownstreamConnection;
 
-import static misat11.hybrid.HybridPlugin.log;
+import static misat11.hybrid.Platform.log;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -111,7 +111,7 @@ public class HybridLoginPacketHandler implements NetworkPacketHandler {
 
 			if (!validChain) {
 				// Disconnect if xbox auth is enabled.
-				if (HybridPlugin.getInstance().getConfigurator().config.getBoolean("xbox")) {
+				if (Platform.xbox()) {
 					session.disconnect("disconnectionScreen.notAuthenticated");
 					return;
 				}
@@ -132,7 +132,7 @@ public class HybridLoginPacketHandler implements NetworkPacketHandler {
 			JWSObject clientJwt = JWSObject.parse(packet.getSkinData().toString());
 
 			if (!verifyJwt(clientJwt, identityPublicKey)
-					&& HybridPlugin.getInstance().getConfigurator().config.getBoolean("xbox")) {
+					&& Platform.xbox()) {
 				session.disconnect("disconnectionScreen.invalidSkin");
 			}
 

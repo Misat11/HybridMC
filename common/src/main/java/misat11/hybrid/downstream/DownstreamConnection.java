@@ -12,9 +12,9 @@ import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.github.steveice10.packetlib.packet.Packet;
 import com.github.steveice10.packetlib.tcp.TcpSessionFactory;
 
-import misat11.hybrid.network.HybridSession;
+import misat11.hybrid.network.bedrock.session.HybridSession;
 
-import static misat11.hybrid.HybridPlugin.log;
+import static misat11.hybrid.Platform.log;
 
 public class DownstreamConnection {
 

@@ -2,14 +2,11 @@ package misat11.hybrid.network;
 
 import java.net.InetSocketAddress;
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-
 import com.nukkitx.network.raknet.RakNetServerEventListener;
 import com.nukkitx.server.NukkitServer;
 import com.nukkitx.server.network.bedrock.BedrockPacketCodec;
 
-import misat11.hybrid.HybridPlugin;
+import misat11.hybrid.Platform;
 
 public class HybridRakNetEventListener implements RakNetServerEventListener {
 
@@ -22,10 +19,15 @@ public class HybridRakNetEventListener implements RakNetServerEventListener {
 
 	@Override
 	public Advertisement onQuery(InetSocketAddress address) {
-		FileConfiguration config = HybridPlugin.getInstance().getConfigurator().config;
-		return new Advertisement("MCPE", config.getString("motd"), BedrockPacketCodec.BROADCAST_PROTOCOL_VERSION,
-				NukkitServer.MINECRAFT_VERSION.toString(), Bukkit.getOnlinePlayers().size(), Bukkit.getMaxPlayers(),
-				config.getString("submotd"), "Survival");
+		return new Advertisement("MCPE", // GAME
+				Platform.getMotd(), // Motd
+				BedrockPacketCodec.BROADCAST_PROTOCOL_VERSION, // Minecraft Bedrock Edition protocol
+				NukkitServer.MINECRAFT_VERSION.toString(), // Minecraft Bedrock Edition version
+				Platform.getOnlinePlayers(), // Online Players
+				Platform.getMaxPlayers(), // Max Players
+				Platform.getSubmotd(), // Submotd
+				"Survival" // Default gamemode
+		);
 	}
 
 }

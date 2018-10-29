@@ -22,9 +22,9 @@ public class NMSUtil {
 
 	public static int getServerProtocolVersion() throws Exception {
 		try {
-			Class<?> serverClazz = NMSUtil.nms("MinecraftServer");
+			Class<?> serverClazz = nms("MinecraftServer");
 			Object server = ReflectionUtil.invokeStatic(serverClazz, "getServer");
-			Class<?> pingClazz = NMSUtil.nms("ServerPing");
+			Class<?> pingClazz = nms("ServerPing");
 			Object ping = null;
 			// Search for ping method
 			for (Field f : serverClazz.getDeclaredFields()) {

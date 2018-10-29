@@ -1,10 +1,8 @@
-package misat11.hybrid.network;
+package misat11.hybrid;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import org.bukkit.Bukkit;
 
 import com.github.steveice10.mc.protocol.MinecraftConstants;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -12,14 +10,20 @@ import com.nukkitx.network.raknet.RakNetServer;
 import com.nukkitx.server.NukkitServer;
 import com.nukkitx.server.network.bedrock.BedrockPacketCodec;
 
-import misat11.hybrid.HybridPlugin;
-import misat11.hybrid.utils.NMSUtil;
+import misat11.hybrid.network.HybridRakNetEventListener;
+import misat11.hybrid.network.HybridSessionManager;
+import misat11.hybrid.network.bedrock.packet.HybridWrappedPacket;
+import misat11.hybrid.network.bedrock.session.HybridSession;
 
-import static misat11.hybrid.HybridPlugin.log;
+import static misat11.hybrid.Platform.log;
 
 public class HybridServer {
-	public final String ip;
-	public final int port;
+	public final String peIp;
+	public final int pePort;
+	public final String pcIp;
+	public final int pcPort;
+	public final int pcProtocolVersion;
+	public final int networkthreads;
 	
 	private boolean running;
 	private RakNetServer<HybridSession> rakNetServer;
@@ -28,24 +32,27 @@ public class HybridServer {
 	private final ScheduledExecutorService timerService = Executors.unconfigurableScheduledExecutorService(
             Executors.newSingleThreadScheduledExecutor(new ThreadFactoryBuilder().setNameFormat("HybridMC Ticker").setDaemon(true).build()));
 
-	public HybridServer(String ip, int port) {
-		this.ip = ip;
-		this.port = port;
+	public HybridServer(String peIp, int pePort, String pcIp, int pcPort, int pcProtocolVersion, int networkthreads) {
+		this.peIp = peIp;
+		this.pePort = pePort;
+		this.pcIp = pcIp;
+		this.pcPort = pcPort;
+		this.pcProtocolVersion = pcProtocolVersion;
+		this.networkthreads = networkthreads;
 	}
 
 	public boolean start() {
 		log("§aStarting PE server version " + NukkitServer.MINECRAFT_VERSION + " (protocol "
 				+ BedrockPacketCodec.BROADCAST_PROTOCOL_VERSION + ")");
 		try {
-			int serverProtocol = NMSUtil.getServerProtocolVersion();
-			if (serverProtocol != MinecraftConstants.PROTOCOL_VERSION) {
+			if (pcProtocolVersion != MinecraftConstants.PROTOCOL_VERSION) {
 				log("§cYour server version is not supported!");
 			}
 			sessionManager = new HybridSessionManager();
-	        int configNetThreads = HybridPlugin.getInstance().getConfigurator().config.getInt("networkthreads");
+	        int configNetThreads = networkthreads;
 	        int maxThreads = configNetThreads < 1 ? Runtime.getRuntime().availableProcessors() : configNetThreads;
 	        rakNetServer = RakNetServer.<HybridSession>builder()
-	                .address(ip, port)
+	                .address(peIp, pePort)
 	                .eventListener(new HybridRakNetEventListener())
 	                .packet(HybridWrappedPacket::new, 0xfe)
 	                .id(12345)

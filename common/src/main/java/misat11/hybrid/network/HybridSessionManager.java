@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentMap;
 import com.google.common.collect.ImmutableList;
 import com.nukkitx.network.SessionManager;
 
+import misat11.hybrid.network.bedrock.session.HybridSession;
+
 public class HybridSessionManager implements SessionManager<HybridSession>{
 	
 	private final ConcurrentMap<InetSocketAddress, HybridSession> sessions = new ConcurrentHashMap<InetSocketAddress, HybridSession>();

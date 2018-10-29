@@ -1,5 +1,5 @@
 name: HybridMC
-main: misat11.hybrid.HybridPlugin
+main: misat11.hybrid.HybridPluginBukkit
 version: ${project.version}
 author: Misat11
 api-version: 1.13
