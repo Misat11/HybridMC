@@ -10,6 +10,8 @@ import com.nukkitx.network.raknet.RakNetServer;
 import com.nukkitx.server.NukkitServer;
 import com.nukkitx.server.network.bedrock.BedrockPacketCodec;
 
+import misat11.hybrid.blockitems.IBlockTranslator;
+import misat11.hybrid.blockitems.IItemTranslator;
 import misat11.hybrid.network.HybridRakNetEventListener;
 import misat11.hybrid.network.HybridSessionManager;
 import misat11.hybrid.network.bedrock.packet.HybridWrappedPacket;
@@ -18,27 +20,34 @@ import misat11.hybrid.network.bedrock.session.HybridSession;
 import static misat11.hybrid.Platform.log;
 
 public class HybridServer {
+	
+	public static final int FLATTENING_FIRST_VERSION = 393; // 1.13
+	
 	public final String peIp;
 	public final int pePort;
 	public final String pcIp;
 	public final int pcPort;
 	public final int pcProtocolVersion;
 	public final int networkthreads;
+	public final HybridServerPreStartWorker selector;
 	
 	private boolean running;
 	private RakNetServer<HybridSession> rakNetServer;
 	private HybridSessionManager sessionManager;
+	private IItemTranslator<?> itemTranslator;
+	private IBlockTranslator<?> blockTranslator;
 	
 	private final ScheduledExecutorService timerService = Executors.unconfigurableScheduledExecutorService(
             Executors.newSingleThreadScheduledExecutor(new ThreadFactoryBuilder().setNameFormat("HybridMC Ticker").setDaemon(true).build()));
 
-	public HybridServer(String peIp, int pePort, String pcIp, int pcPort, int pcProtocolVersion, int networkthreads) {
+	public HybridServer(String peIp, int pePort, String pcIp, int pcPort, int pcProtocolVersion, int networkthreads, HybridServerPreStartWorker selector) {
 		this.peIp = peIp;
 		this.pePort = pePort;
 		this.pcIp = pcIp;
 		this.pcPort = pcPort;
 		this.pcProtocolVersion = pcProtocolVersion;
 		this.networkthreads = networkthreads;
+		this.selector = selector;
 	}
 
 	public boolean start() {
@@ -48,6 +57,7 @@ public class HybridServer {
 			if (pcProtocolVersion != MinecraftConstants.PROTOCOL_VERSION) {
 				log("§cYour server version is not supported!");
 			}
+			selector.select(this, pcProtocolVersion);
 			sessionManager = new HybridSessionManager();
 	        int configNetThreads = networkthreads;
 	        int maxThreads = configNetThreads < 1 ? Runtime.getRuntime().availableProcessors() : configNetThreads;
@@ -88,5 +98,25 @@ public class HybridServer {
 	
 	public HybridSessionManager getSessionManager() {
 		return sessionManager;
+	}
+	
+	public IItemTranslator<?> getItemTranslator(){
+		return itemTranslator;
+	}
+	
+	public IBlockTranslator<?> getBlockTranslator(){
+		return blockTranslator;
+	}
+	
+	public void setItemTranslator(IItemTranslator<?> translator) {
+		if (itemTranslator == null) {
+			itemTranslator = translator;
+		}
+	}
+	
+	public void setBlockTranslator(IBlockTranslator<?> translator) {
+		if (blockTranslator == null) {
+			blockTranslator = translator;
+		}
 	}
 }

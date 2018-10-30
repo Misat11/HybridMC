@@ -31,6 +31,10 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>nms-repo</id>
+            <url>https://repo.codemc.org/repository/nms</url>
+        </repository>
 	</repositories>
 
     <modules>
@@ -38,6 +42,8 @@
         <module>bukkit</module>
         <module>common</module>
         <module>plugin</module>
+        <module>flattening</module>
+        <module>legacy</module>
     </modules>
 
 </project>
