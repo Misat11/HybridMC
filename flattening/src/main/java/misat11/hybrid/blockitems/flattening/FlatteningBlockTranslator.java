@@ -16,41 +16,44 @@ import misat11.hybrid.Platform;
 import misat11.hybrid.blockitems.BlockEntry;
 import misat11.hybrid.blockitems.IBlockTranslator;
 
-public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockState>{
+public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockState> {
 
 	public static final int AXIS_X = 0x04;
 	public static final int AXIS_Y = 0x00;
 	public static final int AXIS_Z = 0x08;
 	public static final int AXIS_ALL_SIDE = 0x0c; // All side logs
-	
+
 	private final Map<FlattedBlockState, BlockEntry> PC_TO_PE_OVERRIDE = new HashMap<>();
 	private final Map<Integer, Map<Integer, FlattedBlockState>> PE_TO_PC_OVERRIDE = new HashMap<>();
-	
+
 	private final Map<Integer, String> peIdToName = new HashMap<>();
 	private final Map<String, Integer> peNameToId = new HashMap<>();
-	
+
 	private final IFlatteningBlockData flatteningData;
 
-    private static class TableEntry {
-        private int id;
-        private int data;
-        private String name;
-    }
-	
+	private static class TableEntry {
+		private int id;
+		private int data;
+		private String name;
+	}
+
 	public FlatteningBlockTranslator(IFlatteningBlockData flatteningData) {
 		this.flatteningData = flatteningData;
-		
 
-        Gson gson = new Gson();
-        Reader reader = new InputStreamReader(FlatteningBlockTranslator.class.getResourceAsStream("/runtime_ids.json"), StandardCharsets.UTF_8);
-        Type collectionType = new TypeToken<Collection<TableEntry>>(){}.getType();
-        Collection<TableEntry> entries = gson.fromJson(reader, collectionType);
-      
-        for (TableEntry entry : entries) {
-        	peNameToId.put(entry.name, entry.id);
-            peIdToName.put(entry.id, entry.name);
-        }
-		
+		Platform.log("§f[Flattening] §aLoading block translates...");
+
+		Gson gson = new Gson();
+		Reader reader = new InputStreamReader(
+				FlatteningBlockTranslator.class.getResourceAsStream("/runtimeid_table.json"), StandardCharsets.UTF_8);
+		Type collectionType = new TypeToken<Collection<TableEntry>>() {
+		}.getType();
+		Collection<TableEntry> entries = gson.fromJson(reader, collectionType);
+
+		for (TableEntry entry : entries) {
+			peNameToId.put(entry.name, entry.id);
+			peIdToName.put(entry.id, entry.name);
+		}
+
 		override("granite", "stone", 1);
 		override("polished_granite", "stone", 2);
 		override("diorite", "stone", 3);
@@ -1335,6 +1338,8 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 		override("structure_block", properties("mode", "load"), 3);
 		override("structure_block", properties("mode", "corner"), 4);
 		override("structure_block", properties("mode", "data"), 1);
+
+		Platform.log("§f[Flattening] §aLoaded §7" + PC_TO_PE_OVERRIDE.size() + "§a block translates from pc to pe!");
 	}
 
 	private BlockEntry translateToPE(int stateID) {
@@ -1385,8 +1390,7 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 
 	private void override(String pcName, Map<String, String> properties, String peName, int peData) {
 		try {
-			List<FlattedBlockState> blockStates = flatteningData.fromNameProperties("minecraft:" + pcName,
-					properties);
+			List<FlattedBlockState> blockStates = flatteningData.fromNameProperties("minecraft:" + pcName, properties);
 			int peId = peNameToId.get("minecraft:" + peName);
 			for (FlattedBlockState blockState : blockStates) {
 				override(blockState, new BlockEntry(peId, peData));
@@ -1560,13 +1564,13 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 		overrideAgeable(pcName, properties, property, 0, end, peName, 0);
 	}
 
-	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int end,
-			String peName, int peOffset) {
+	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int end, String peName,
+			int peOffset) {
 		overrideAgeable(pcName, properties, property, 0, end, peName, peOffset);
 	}
 
-	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int end,
-			String peName, Counter func) {
+	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int end, String peName,
+			Counter func) {
 		overrideAgeable(pcName, properties, property, 0, end, peName, func);
 	}
 
@@ -1574,28 +1578,26 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 		overrideAgeable(pcName, null, property, start, end, peName, 0);
 	}
 
-	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int start,
-			int end, String peName) {
+	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int start, int end,
+			String peName) {
 		overrideAgeable(pcName, properties, property, start, end, peName, 0);
 	}
 
-	private void overrideAgeable(String pcName, String property, int start, int end, String peName,
-			int peOffset) {
+	private void overrideAgeable(String pcName, String property, int start, int end, String peName, int peOffset) {
 		overrideAgeable(pcName, null, property, start, end, peName, peOffset);
 	}
 
-	private void overrideAgeable(String pcName, String property, int start, int end, String peName,
-			Counter func) {
+	private void overrideAgeable(String pcName, String property, int start, int end, String peName, Counter func) {
 		overrideAgeable(pcName, null, property, start, end, peName, func);
 	}
 
-	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int start,
-			int end, String peName, int peOffset) {
+	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int start, int end,
+			String peName, int peOffset) {
 		overrideAgeable(pcName, properties, property, start, end, peName, x -> peOffset + x);
 	}
 
-	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int start,
-			int end, String peName, Counter func) {
+	private void overrideAgeable(String pcName, Map<String, String> properties, String property, int start, int end,
+			String peName, Counter func) {
 		if (properties == null) {
 			properties = new HashMap<>();
 		}

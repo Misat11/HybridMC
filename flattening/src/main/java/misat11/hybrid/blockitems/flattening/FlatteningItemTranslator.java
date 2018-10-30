@@ -15,6 +15,8 @@ public class FlatteningItemTranslator implements IItemTranslator<FlattedItem>{
 	
 	public FlatteningItemTranslator(IFlatteningItemData flatteningData) {
 		this.flatteningData = flatteningData;
+
+		Platform.log("§f[Flattening] §aLoading item translates...");
 		
 		override("air", 0);
 		override("stone", 1);
@@ -807,6 +809,8 @@ public class FlatteningItemTranslator implements IItemTranslator<FlattedItem>{
 		override("phantom_membrane", 470);
 		override("nautilus_shell", 465);
 		override("heart_of_the_sea", 467);
+		
+		Platform.log("§f[Flattening] §aLoaded §7" + PC_TO_PE_OVERRIDE.size() + "§a item translates from pc to pe!");
 	}
 
 	private void override(String pcName, int id) {

@@ -20,6 +20,11 @@ public class ReflectionUtil {
         Method m = o.getClass().getDeclaredMethod(method);
         return m.invoke(o);
     }
+    
+    public static Object invoke(Class<?> clazz, Object o, String method) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method m = clazz.getDeclaredMethod(method);
+        return m.invoke(o);
+    }
 
     public static <T> T getStatic(Class<?> clazz, String f, Class<T> t) throws NoSuchFieldException, IllegalAccessException {
         Field field = clazz.getDeclaredField(f);
