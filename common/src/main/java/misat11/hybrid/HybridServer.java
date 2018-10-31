@@ -8,6 +8,7 @@ import com.github.steveice10.mc.protocol.MinecraftConstants;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.nukkitx.network.raknet.RakNetServer;
 import com.nukkitx.server.NukkitServer;
+import com.nukkitx.server.level.manager.LevelPaletteManager;
 import com.nukkitx.server.network.bedrock.BedrockPacketCodec;
 
 import misat11.hybrid.blockitems.IBlockTranslator;
@@ -36,6 +37,7 @@ public class HybridServer {
 	private HybridSessionManager sessionManager;
 	private IItemTranslator<?> itemTranslator;
 	private IBlockTranslator<?> blockTranslator;
+	private LevelPaletteManager paletteManager;
 	
 	private final ScheduledExecutorService timerService = Executors.unconfigurableScheduledExecutorService(
             Executors.newSingleThreadScheduledExecutor(new ThreadFactoryBuilder().setNameFormat("HybridMC Ticker").setDaemon(true).build()));
@@ -48,6 +50,7 @@ public class HybridServer {
 		this.pcProtocolVersion = pcProtocolVersion;
 		this.networkthreads = networkthreads;
 		this.selector = selector;
+		this.paletteManager = new LevelPaletteManager();
 	}
 
 	public boolean start() {
@@ -106,6 +109,10 @@ public class HybridServer {
 	
 	public IBlockTranslator<?> getBlockTranslator(){
 		return blockTranslator;
+	}
+	
+	public LevelPaletteManager getPaletteManager() {
+		return paletteManager;
 	}
 	
 	public void setItemTranslator(IItemTranslator<?> translator) {

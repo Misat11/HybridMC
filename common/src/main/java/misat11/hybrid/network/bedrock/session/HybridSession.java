@@ -390,6 +390,10 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 	public RakNetSession getConnection() {
 		return connection;
 	}
+	
+	public HybridServer getServer() {
+		return server;
+	}
 
 	// CONNECTION TO PC
 

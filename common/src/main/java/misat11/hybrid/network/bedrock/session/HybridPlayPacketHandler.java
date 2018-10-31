@@ -1,5 +1,6 @@
 package misat11.hybrid.network.bedrock.session;
 
+import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
 import com.nukkitx.server.network.bedrock.NetworkPacketHandler;
 import com.nukkitx.server.network.bedrock.packet.*;
 
@@ -41,6 +42,7 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(CommandRequestPacket packet) {
+		session.getDownstream().send(new ClientChatPacket(packet.getCommand()));
 	}
 
 	@Override
@@ -195,6 +197,7 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(TextPacket packet) {
+		session.getDownstream().send(new ClientChatPacket(packet.getMessage().getMessage()));
 	}
 
 }
