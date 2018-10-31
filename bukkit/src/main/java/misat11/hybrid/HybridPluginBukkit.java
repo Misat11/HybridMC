@@ -4,8 +4,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import misat11.hybrid.utils.NMSUtil;
 import misat11.hybrid.HybridServer;
-import misat11.hybrid.blockitems.flattening.BukkitFlatteningBlockData;
-import misat11.hybrid.blockitems.flattening.BukkitFlatteningItemData;
+import misat11.hybrid.blockitems.flattening.CraftBukkitFlatteningBlockData;
+import misat11.hybrid.blockitems.flattening.CraftBukkitFlatteningItemData;
 import misat11.hybrid.blockitems.flattening.FlatteningBlockTranslator;
 import misat11.hybrid.blockitems.flattening.FlatteningItemTranslator;
 import misat11.hybrid.blockitems.legacy.LegacyItemBlockTranslator;
@@ -27,6 +27,7 @@ public final class HybridPluginBukkit extends JavaPlugin implements IPlatform {
 		if (!isNMS) {
 			log("§cHybridMC doesn't work on non-NMS server yet! Please use Craftbukkit, Spigot or forks!");
 			getPluginLoader().disablePlugin(this);
+			// TODO add glowstone support
 			return;
 		}
 		if (getServer().getOnlineMode()) {
@@ -43,8 +44,8 @@ public final class HybridPluginBukkit extends JavaPlugin implements IPlatform {
 						getServer().getPort(), NMSUtil.getServerProtocolVersion(),
 						getConfig().getInt("networkthreads"), (hybridServer, pcProtocolVersion) -> {
 							if (pcProtocolVersion >= HybridServer.FLATTENING_FIRST_VERSION) {
-								BukkitFlatteningBlockData blockData = new BukkitFlatteningBlockData();
-								BukkitFlatteningItemData itemData = new BukkitFlatteningItemData();
+								CraftBukkitFlatteningBlockData blockData = new CraftBukkitFlatteningBlockData();
+								CraftBukkitFlatteningItemData itemData = new CraftBukkitFlatteningItemData();
 								hybridServer.setBlockTranslator(new FlatteningBlockTranslator(blockData));
 								hybridServer.setItemTranslator(new FlatteningItemTranslator(itemData));
 							} else {

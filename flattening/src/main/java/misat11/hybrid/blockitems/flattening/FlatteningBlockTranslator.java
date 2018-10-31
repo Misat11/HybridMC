@@ -50,8 +50,8 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 		Collection<TableEntry> entries = gson.fromJson(reader, collectionType);
 
 		for (TableEntry entry : entries) {
-			peNameToId.put(entry.name, entry.id);
-			peIdToName.put(entry.id, entry.name);
+			peNameToId.put(entry.name.toLowerCase(), entry.id);
+			peIdToName.put(entry.id, entry.name.toLowerCase());
 		}
 
 		override("granite", "stone", 1);
@@ -334,7 +334,7 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 
 		overrideAgeable("sign", "rotation", 15, "standing_sign");
 
-		overrideDoor("oak_door");
+		overrideDoor("oak_door", "wooden_door");
 
 		override("ladder", properties("facing", "north"), 2);
 		override("ladder", properties("facing", "south"), 3);
@@ -388,7 +388,9 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 
 		overrideDoor("iron_door");
 
-		override("oak_pressure_plate", properties("powered", "true"), 1);
+		override("oak_pressure_plate", "wooden_pressure_plate");
+		
+		override("oak_pressure_plate", properties("powered", "true"), "wooden_pressure_plate", 1);
 		override("spruce_pressure_plate", properties("powered", "true"), 1);
 		override("birch_pressure_plate", properties("powered", "true"), 1);
 		override("jungle_pressure_plate", properties("powered", "true"), 1);
@@ -523,7 +525,7 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 
 		override("lily_pad", "waterlily");
 
-		override("nether_bricks", "nether_brick_block");
+		override("nether_bricks", "nether_brick");
 
 		overrideStairs("nether_brick_stairs");
 
@@ -654,7 +656,7 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 		overrideAgeable("carrots", "age", 7);
 		overrideAgeable("potatoes", "age", 7);
 
-		overrideButton("oak_button");
+		overrideButton("oak_button", "wooden_button");
 		overrideButton("spruce_button");
 		overrideButton("birch_button");
 		overrideButton("jungle_button");
@@ -1162,10 +1164,10 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 		override("gray_glazed_terracotta", properties("facing", "east"), 3);
 		override("gray_glazed_terracotta", properties("facing", "west"), 1);
 
-		override("light_gray_glazed_terracotta", properties("facing", "north"), 2);
-		override("light_gray_glazed_terracotta", properties("facing", "south"), 0);
-		override("light_gray_glazed_terracotta", properties("facing", "east"), 3);
-		override("light_gray_glazed_terracotta", properties("facing", "west"), 1);
+		override("light_gray_glazed_terracotta", properties("facing", "north"), "silver_glazed_terracotta", 2);
+		override("light_gray_glazed_terracotta", properties("facing", "south"), "silver_glazed_terracotta", 0);
+		override("light_gray_glazed_terracotta", properties("facing", "east"), "silver_glazed_terracotta", 3);
+		override("light_gray_glazed_terracotta", properties("facing", "west"), "silver_glazed_terracotta", 1);
 
 		override("cyan_glazed_terracotta", properties("facing", "north"), 2);
 		override("cyan_glazed_terracotta", properties("facing", "south"), 0);
@@ -1263,11 +1265,11 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 		override("fire_coral_fan", "coral_fan", 3);
 		override("horn_coral_fan", "coral_fan", 4);
 
-		override("dead_tube_coral_fan", "dead_coral_fan");
-		override("dead_brain_coral_fan", "dead_coral_fan", 1);
-		override("dead_bubble_coral_fan", "dead_coral_fan", 2);
-		override("dead_fire_coral_fan", "dead_coral_fan", 3);
-		override("dead_horn_coral_fan", "dead_coral_fan", 4);
+		override("dead_tube_coral_fan", "coral_fan_dead");
+		override("dead_brain_coral_fan", "coral_fan_dead", 1);
+		override("dead_bubble_coral_fan", "coral_fan_dead", 2);
+		override("dead_fire_coral_fan", "coral_fan_dead", 3);
+		override("dead_horn_coral_fan", "coral_fan_dead", 4);
 
 		override("tube_coral_wall_fan", properties("facing", "north"), "coral_fan_hang", 0);
 		override("tube_coral_wall_fan", properties("facing", "south"), "coral_fan_hang", 4);
@@ -1321,11 +1323,11 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 
 		// Replace missing death variants of coral with death variants of death fan
 		// coral
-		override("dead_tube_coral", "dead_coral_fan");
-		override("dead_brain_coral", "dead_coral_fan", 1);
-		override("dead_bubble_coral", "dead_coral_fan", 2);
-		override("dead_fire_coral", "dead_coral_fan", 3);
-		override("dead_horn_coral", "dead_coral_fan", 4);
+		override("dead_tube_coral", "coral_fan_dead");
+		override("dead_brain_coral", "coral_fan_dead", 1);
+		override("dead_bubble_coral", "coral_fan_dead", 2);
+		override("dead_fire_coral", "coral_fan_dead", 3);
+		override("dead_horn_coral", "coral_fan_dead", 4);
 
 		overrideAgeable("sea_pickle", properties("waterlogged", "true"), "pickles", 1, 4, "sea_pickle", -1);
 		overrideAgeable("sea_pickle", properties("waterlogged", "false"), "pickles", 1, 4, "sea_pickle", 3);

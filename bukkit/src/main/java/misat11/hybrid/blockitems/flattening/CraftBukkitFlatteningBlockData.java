@@ -11,12 +11,9 @@ import com.google.common.collect.ImmutableList;
 import misat11.hybrid.utils.NMSUtil;
 import misat11.hybrid.utils.ReflectionUtil;
 
-public class BukkitFlatteningBlockData implements IFlatteningBlockData {
-	
-	private final HashMap<Integer, FlattedBlockState> flattedBlockStates = new HashMap<Integer, FlattedBlockState>();
-	private final HashMap<String, FlattedBlock> stringFlattedBlocks = new HashMap<String, FlattedBlock>();
+public class CraftBukkitFlatteningBlockData extends AbstractFlatteningBlockData {
 
-	public BukkitFlatteningBlockData() throws Exception {
+	public CraftBukkitFlatteningBlockData() throws Exception {
 		Object REGISTRY = ReflectionUtil.getStatic(NMSUtil.nms("IRegistry"), "BLOCK", Object.class); // since 1.13.1
 		for (Iterator iterator = (Iterator) ReflectionUtil.invoke(Iterable.class, REGISTRY, "iterator"); iterator.hasNext();) {
 			Object block = iterator.next();
@@ -49,46 +46,6 @@ public class BukkitFlatteningBlockData implements IFlatteningBlockData {
 			}
         	stringFlattedBlocks.put(minecraftKey.toString(), flattedBlock);
 		}
-	}
-
-	@Override
-	public FlattedBlockState fromStateID(int id) {
-		return flattedBlockStates.get(id);
-	}
-
-	@Override
-	public FlattedBlock fromName(String name) {
-		return stringFlattedBlocks.get(name);
-	}
-
-	@Override
-	public FlattedBlockState fromNameDefault(String name) {
-		return stringFlattedBlocks.get(name).defaultState;
-	}
-
-	@Override
-	public List<FlattedBlockState> fromNameProperties(String name, Map<String, String> properties) {
-		List<FlattedBlockState> result = new ArrayList<FlattedBlockState>();
-		List<FlattedBlockState> list = stringFlattedBlocks.get(name).states;
-		for (FlattedBlockState state : list) {
-			if (state.properties != null) {
-				boolean success = true;
-				for (Map.Entry<String, String> entry : properties.entrySet()) {
-					success = state.properties.containsKey(entry.getKey());
-					if (!success) {
-						break;
-					}
-					success = state.properties.get(entry.getKey()).equals(entry.getValue());
-					if (!success) {
-						break;
-					}
-				}
-				if (success) {
-					result.add(state);
-				}
-			}
-		}
-		return result;
 	}
 
 }
