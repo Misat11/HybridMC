@@ -4,6 +4,7 @@ public class BlockEntry {
 	
 	private int id;
 	private int data;
+	private boolean canBeWaterLogged;
 	private boolean waterlogged;
 	
 	public BlockEntry(int id) {
@@ -11,12 +12,13 @@ public class BlockEntry {
 	}
 
 	public BlockEntry(int id, int data) {
-		this(id, data, false);
+		this(id, data, false, false);
 	}
 
-	public BlockEntry(int id, int data, boolean waterlogged) {
+	public BlockEntry(int id, int data, boolean canBeWaterLogged, boolean waterlogged) {
 		this.id = id;
 		this.data = data;
+		this.canBeWaterLogged = canBeWaterLogged;
 		this.waterlogged = waterlogged;
 	}
 
@@ -43,7 +45,13 @@ public class BlockEntry {
 	public void setWaterlogged(boolean waterlogged) {
 		this.waterlogged = waterlogged;
 	}
-	
-	
+
+	public boolean canBeWaterLogged() {
+		return canBeWaterLogged;
+	}
+
+	public void setCanBeWaterLogged(boolean canBeWaterLogged) {
+		this.canBeWaterLogged = canBeWaterLogged;
+	}
 
 }

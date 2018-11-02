@@ -1,6 +1,7 @@
 package misat11.hybrid.downstream;
 
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
+import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
 import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
 import com.github.steveice10.packetlib.Client;
 import com.github.steveice10.packetlib.event.session.ConnectedEvent;
@@ -12,9 +13,14 @@ import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.github.steveice10.packetlib.packet.Packet;
 import com.github.steveice10.packetlib.tcp.TcpSessionFactory;
 
+import misat11.hybrid.downstream.cache.ChunkSentCache;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 import static misat11.hybrid.Platform.log;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class DownstreamConnection {
 
@@ -23,6 +29,12 @@ public class DownstreamConnection {
 	private final String ip;
 	private final int port;
 	private Client remoteClient;
+	
+	private ChunkSentCache cache;
+	private HashMap<UUID, PlayerListEntry> listEntryCache = new HashMap<>();
+	
+	public boolean switchFakePos;
+	public long playerEntityId;
 
 	public DownstreamConnection(HybridSession session, MinecraftProtocol protocol, String ip, int port) {
 		this.session = session;
@@ -43,6 +55,7 @@ public class DownstreamConnection {
 		log("§f[" + this.protocol.getProfile().getName() + "] §aConnecting to downstream server... (" + ip + ":" + port
 				+ ")");
 
+		cache = new ChunkSentCache();
 		remoteClient = new Client(ip, port, protocol, new TcpSessionFactory());
 		remoteClient.getSession().setConnectTimeout(5);
 		remoteClient.getSession().setReadTimeout(5);
@@ -112,5 +125,13 @@ public class DownstreamConnection {
 
 	public MinecraftProtocol getMinecraftProtocol() {
 		return protocol;
+	}
+	
+	public ChunkSentCache getChunkCache() {
+		return cache;
+	}
+	
+	public Map<UUID, PlayerListEntry> getPlayerListEntryCache() {
+		return listEntryCache;
 	}
 }

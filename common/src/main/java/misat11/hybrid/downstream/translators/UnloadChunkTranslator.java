@@ -10,6 +10,7 @@ public class UnloadChunkTranslator implements IDownstreamTranslator<ServerUnload
 
 	@Override
 	public BedrockPacket[] translate(HybridSession session, ServerUnloadChunkPacket packet) {
+		session.getDownstream().getChunkCache().unmarkSent(packet.getX(), packet.getZ());
 		return null;
 	}
 
