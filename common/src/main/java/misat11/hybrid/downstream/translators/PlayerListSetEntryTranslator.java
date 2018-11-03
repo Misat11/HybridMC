@@ -1,7 +1,5 @@
 package misat11.hybrid.downstream.translators;
 
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
@@ -31,7 +29,7 @@ public class PlayerListSetEntryTranslator implements IDownstreamTranslator<Serve
 					peEntry.setPlatformChatId("");
 					peEntry.setXuid("");
 					peEntry.setSkin(Skin
-							.create(ImageIO.read(PlayerListSetEntryTranslator.class.getResource("pe/steve_skin.png"))));
+							.create(ImageIO.read(PlayerListSetEntryTranslator.class.getClassLoader().getResourceAsStream("pe/steve_skin.png"))));
 					plp.getEntries().add(peEntry);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -2,6 +2,7 @@ package misat11.hybrid.downstream;
 
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
 import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
+import com.github.steveice10.mc.protocol.data.game.entity.player.GameMode;
 import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
 import com.github.steveice10.packetlib.Client;
 import com.github.steveice10.packetlib.event.session.ConnectedEvent;
@@ -32,9 +33,11 @@ public class DownstreamConnection {
 	
 	private ChunkSentCache cache;
 	private HashMap<UUID, PlayerListEntry> listEntryCache = new HashMap<>();
+	private HashMap<Long, WatchedEntity> watchedEntities = new HashMap<>();
 	
 	public boolean switchFakePos;
 	public long playerEntityId;
+	public GameMode gamemode = GameMode.SURVIVAL;
 
 	public DownstreamConnection(HybridSession session, MinecraftProtocol protocol, String ip, int port) {
 		this.session = session;
@@ -133,5 +136,9 @@ public class DownstreamConnection {
 	
 	public Map<UUID, PlayerListEntry> getPlayerListEntryCache() {
 		return listEntryCache;
+	}
+	
+	public Map<Long, WatchedEntity> getWatchedEntities(){
+		return watchedEntities;
 	}
 }

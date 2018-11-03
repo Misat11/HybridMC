@@ -8,9 +8,10 @@ import com.nukkitx.server.network.bedrock.BedrockPacket;
 import com.nukkitx.server.network.bedrock.packet.AddEntityPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
-public class SpawnExpOrbTranslator implements IDownstreamTranslator<ServerSpawnExpOrbPacket>{
+public class SpawnExpOrbTranslator implements IDownstreamTranslator<ServerSpawnExpOrbPacket> {
 
 	@Override
 	public BedrockPacket[] translate(HybridSession session, ServerSpawnExpOrbPacket packet) {
@@ -24,8 +25,10 @@ public class SpawnExpOrbTranslator implements IDownstreamTranslator<ServerSpawnE
 		aep.setMotion(new Vector3f(0, 0, 0));
 		aep.setRuntimeEntityId(packet.getEntityId());
 		aep.setUniqueEntityId(packet.getEntityId());
-		aep.setRotation(new Rotation(0,0));
-		return new BedrockPacket[] {aep};
+		aep.setRotation(new Rotation(0, 0));
+		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
+				new WatchedEntity(packet.getEntityId(), aep.getEntityType()));
+		return new BedrockPacket[] { aep };
 	}
 
 }

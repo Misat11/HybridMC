@@ -7,6 +7,7 @@ import com.nukkitx.server.network.bedrock.BedrockPacket;
 import com.nukkitx.server.network.bedrock.packet.AddEntityPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 import misat11.hybrid.typeremapper.EntityRemapper;
 
@@ -24,6 +25,8 @@ public class SpawnLivingTranslator implements IDownstreamTranslator<ServerSpawnM
 		aep.setRuntimeEntityId(packet.getEntityId());
 		aep.setUniqueEntityId(packet.getEntityId());
 		aep.setRotation(new Rotation(packet.getPitch(), packet.getYaw(), packet.getHeadYaw()));
+		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
+				new WatchedEntity(packet.getEntityId(), aep.getEntityType()));
 		return new BedrockPacket[] {aep};
 	}
 

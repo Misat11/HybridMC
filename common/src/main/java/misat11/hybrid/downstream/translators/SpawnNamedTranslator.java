@@ -5,10 +5,12 @@ import com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn.Serve
 import com.nukkitx.api.permission.CommandPermission;
 import com.nukkitx.api.permission.PlayerPermission;
 import com.nukkitx.api.util.Rotation;
+import com.nukkitx.server.entity.EntityType;
 import com.nukkitx.server.network.bedrock.BedrockPacket;
 import com.nukkitx.server.network.bedrock.packet.AddPlayerPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class SpawnNamedTranslator implements IDownstreamTranslator<ServerSpawnPlayerPacket>{
@@ -27,6 +29,8 @@ public class SpawnNamedTranslator implements IDownstreamTranslator<ServerSpawnPl
 		app.setCommandPermission(CommandPermission.NORMAL);
 		app.setPlayerPermission(PlayerPermission.MEMBER);
 		app.setUsername(session.getDownstream().getPlayerListEntryCache().get(packet.getUUID()).getProfile().getName());
+		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
+				new WatchedEntity(packet.getEntityId(), EntityType.PLAYER.getType()));
 		return new BedrockPacket[] {app};
 	}
 

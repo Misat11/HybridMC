@@ -10,6 +10,7 @@ public class MapTranslator implements IDownstreamTranslator<ServerMapDataPacket>
 
 	@Override
 	public BedrockPacket[] translate(HybridSession session, ServerMapDataPacket packet) {
+		// Not implemented yet in NukkitX
 		return null;
 	}
 

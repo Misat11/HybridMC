@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.flowpowered.math.vector.Vector3i;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
 import com.nukkitx.server.level.manager.LevelPaletteManager;
 import com.nukkitx.server.network.bedrock.BedrockPacket;
