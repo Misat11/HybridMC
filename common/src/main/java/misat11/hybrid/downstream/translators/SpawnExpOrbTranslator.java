@@ -10,6 +10,7 @@ import com.nukkitx.server.network.bedrock.packet.AddEntityPacket;
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.typeremapper.EntityRemapper;
 
 public class SpawnExpOrbTranslator implements IDownstreamTranslator<ServerSpawnExpOrbPacket> {
 
@@ -21,7 +22,8 @@ public class SpawnExpOrbTranslator implements IDownstreamTranslator<ServerSpawnE
 		if (aep.getEntityType() == 0) {
 			return null;
 		}
-		aep.setPosition(new Vector3f(packet.getX(), packet.getY(), packet.getZ()));
+		Vector3f offset = EntityRemapper.makeOffset(aep.getEntityType());
+		aep.setPosition(new Vector3f(packet.getX() + offset.getX(), packet.getY() + offset.getY(), packet.getZ() + offset.getZ()));
 		aep.setMotion(new Vector3f(0, 0, 0));
 		aep.setRuntimeEntityId(packet.getEntityId());
 		aep.setUniqueEntityId(packet.getEntityId());

@@ -11,7 +11,7 @@ import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 import misat11.hybrid.typeremapper.EntityRemapper;
 
-public class SpawnLivingTranslator implements IDownstreamTranslator<ServerSpawnMobPacket>{
+public class SpawnLivingTranslator implements IDownstreamTranslator<ServerSpawnMobPacket> {
 
 	@Override
 	public BedrockPacket[] translate(HybridSession session, ServerSpawnMobPacket packet) {
@@ -20,14 +20,16 @@ public class SpawnLivingTranslator implements IDownstreamTranslator<ServerSpawnM
 		if (aep.getEntityType() == 0) {
 			return null;
 		}
-		aep.setPosition(new Vector3f(packet.getX(), packet.getY(), packet.getZ()));
+		Vector3f offset = EntityRemapper.makeOffset(aep.getEntityType());
+		aep.setPosition(new Vector3f(packet.getX() + offset.getX(), packet.getY() + offset.getY(),
+				packet.getZ() + offset.getZ()));
 		aep.setMotion(new Vector3f(packet.getMotionX(), packet.getMotionY(), packet.getMotionZ()));
 		aep.setRuntimeEntityId(packet.getEntityId());
 		aep.setUniqueEntityId(packet.getEntityId());
 		aep.setRotation(new Rotation(packet.getPitch(), packet.getYaw(), packet.getHeadYaw()));
 		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
 				new WatchedEntity(packet.getEntityId(), aep.getEntityType()));
-		return new BedrockPacket[] {aep};
+		return new BedrockPacket[] { aep };
 	}
 
 }

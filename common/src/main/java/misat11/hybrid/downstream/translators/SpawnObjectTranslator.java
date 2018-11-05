@@ -20,7 +20,8 @@ public class SpawnObjectTranslator implements IDownstreamTranslator<ServerSpawnO
 		if (aep.getEntityType() == 0) {
 			return null;
 		}
-		aep.setPosition(new Vector3f(packet.getX(), packet.getY(), packet.getZ()));
+		Vector3f offset = EntityRemapper.makeOffset(aep.getEntityType());
+		aep.setPosition(new Vector3f(packet.getX() + offset.getX(), packet.getY() + offset.getY(), packet.getZ() + offset.getZ()));
 		aep.setMotion(new Vector3f(packet.getMotionX(), packet.getMotionY(), packet.getMotionZ()));
 		aep.setRuntimeEntityId(packet.getEntityId());
 		aep.setUniqueEntityId(packet.getEntityId());

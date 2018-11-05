@@ -1,5 +1,6 @@
 package misat11.hybrid.network.bedrock.session;
 
+import com.flowpowered.math.vector.Vector3f;
 import com.github.steveice10.mc.protocol.data.game.ClientRequest;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
 import com.github.steveice10.mc.protocol.data.game.entity.player.GameMode;
@@ -31,6 +32,7 @@ import com.nukkitx.server.network.bedrock.packet.*;
 
 import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.downstream.translators.StartGameTranslator;
+import misat11.hybrid.typeremapper.EntityRemapper;
 
 public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
@@ -260,8 +262,13 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 				session.getDownstream().send(new ClientSteerBoatPacket(vehicle.isRighPaddle(), vehicle.isLeftPaddle()));
 			}
 		}
-		session.getDownstream().getWatchedEntities().get(session.getDownstream().playerEntityId).setLastRidingYaw(packet.getRotation().getYaw());
-		session.getDownstream().send(new ClientVehicleMovePacket(packet.getPosition().getX(), packet.getPosition().getY(), packet.getPosition().getZ(), packet.getRotation().getYaw(), packet.getRotation().getPitch()));
+		Vector3f offset = EntityRemapper.makeOffset(vehicle.getType());
+		session.getDownstream().getWatchedEntities().get(session.getDownstream().playerEntityId)
+				.setLastRidingYaw(packet.getRotation().getYaw());
+		session.getDownstream()
+				.send(new ClientVehicleMovePacket(packet.getPosition().getX() - offset.getX(),
+						packet.getPosition().getY() - offset.getY(), packet.getPosition().getZ() - offset.getZ(),
+						packet.getRotation().getYaw(), packet.getRotation().getPitch()));
 	}
 
 	@Override
@@ -279,10 +286,11 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 				}
 			}
 		}
+		Vector3f offset = EntityRemapper.makeOffset(EntityType.PLAYER.getType());
 		session.getDownstream()
-				.send(new ClientPlayerPositionRotationPacket(packet.isOnGround(), packet.getPosition().getX(),
-						packet.getPosition().getY(), packet.getPosition().getZ(), yaw,
-						packet.getRotation().getPitch()));
+				.send(new ClientPlayerPositionRotationPacket(packet.isOnGround(),
+						packet.getPosition().getX() - offset.getX(), packet.getPosition().getY() - offset.getY(),
+						packet.getPosition().getZ() - offset.getZ(), yaw, packet.getRotation().getPitch()));
 	}
 
 	@Override
@@ -363,7 +371,8 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(PlayerInputPacket packet) {
-		session.getDownstream().send(new ClientSteerVehiclePacket(packet.getInputMotion().getX(), packet.getInputMotion().getY(), packet.isUnknown0(), packet.isUnknown1()));
+		session.getDownstream().send(new ClientSteerVehiclePacket(packet.getInputMotion().getX(),
+				packet.getInputMotion().getY(), packet.isUnknown0(), packet.isUnknown1()));
 	}
 
 	@Override
@@ -393,9 +402,11 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(RiderJumpPacket packet) {
-		session.getDownstream().send(new ClientPlayerStatePacket((int)session.getDownstream().playerEntityId, PlayerState.START_HORSE_JUMP, packet.getUnknown0() / 2));
+		session.getDownstream().send(new ClientPlayerStatePacket((int) session.getDownstream().playerEntityId,
+				PlayerState.START_HORSE_JUMP, packet.getUnknown0() / 2));
 		session.getDownstream().send(new ClientSteerVehiclePacket(0, 0, true, false));
-		session.getDownstream().send(new ClientPlayerStatePacket((int)session.getDownstream().playerEntityId, PlayerState.STOP_HORSE_JUMP, 0));
+		session.getDownstream().send(new ClientPlayerStatePacket((int) session.getDownstream().playerEntityId,
+				PlayerState.STOP_HORSE_JUMP, 0));
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import com.nukkitx.server.network.bedrock.packet.MoveEntityAbsolutePacket;
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.typeremapper.EntityRemapper;
 
 public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEntityTeleportPacket> {
 
@@ -19,16 +20,23 @@ public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEnt
 		if (entity == null) {
 			return null;
 		}
-		Vector3f position = new Vector3f(packet.getX(), packet.getY(), packet.getZ());
+		Vector3f offset = EntityRemapper.makeOffset(entity.getType());
+		Vector3f position = new Vector3f(packet.getX() + offset.getX(), packet.getY() + offset.getY(),
+				packet.getZ() + offset.getZ());
 		// TODO add offset to position
 		if (entity.isRiding()) {
 			WatchedEntity vehicle = session.getDownstream().getWatchedEntities().get(entity.getVehicleID());
 			if (vehicle != null) {
 				if (vehicle.getType() == EntityType.BOAT.getType()) {
 					float relYaw = (float) ((entity.getHeadYaw() - vehicle.getHeadYaw()) + 11.38);
-					if (relYaw <= -128) { relYaw += 256; }
-					if (relYaw > 128) { relYaw -= 256; }
-					return new BedrockPacket[] {updateGeneral(entity, position, new Rotation(packet.getPitch(), relYaw), packet.isOnGround(), false)};
+					if (relYaw <= -128) {
+						relYaw += 256;
+					}
+					if (relYaw > 128) {
+						relYaw -= 256;
+					}
+					return new BedrockPacket[] { updateGeneral(entity, position,
+							new Rotation(packet.getPitch(), relYaw), packet.isOnGround(), false) };
 				}
 			} else {
 				entity.setVehicleID(0);
@@ -37,8 +45,8 @@ public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEnt
 		if (entity.getType() == EntityType.BOAT.getType()) {
 			entity.setHeadYaw(packet.getYaw());
 		}
-		return new BedrockPacket[] { updateGeneral(entity, position, new Rotation(packet.getPitch(), packet.getYaw(), entity.getHeadYaw()),
-				packet.isOnGround(), false) };
+		return new BedrockPacket[] { updateGeneral(entity, position,
+				new Rotation(packet.getPitch(), packet.getYaw(), entity.getHeadYaw()), packet.isOnGround(), false) };
 	}
 
 	public static MoveEntityAbsolutePacket create(long eid, Vector3f position, Rotation rotation, boolean onGround,

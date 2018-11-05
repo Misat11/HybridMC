@@ -7,6 +7,7 @@ import com.flowpowered.math.vector.Vector3f;
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientTeleportConfirmPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
 import com.nukkitx.api.util.Rotation;
+import com.nukkitx.server.entity.EntityType;
 import com.nukkitx.server.network.bedrock.BedrockPacket;
 import com.nukkitx.server.network.bedrock.packet.FullChunkDataPacket;
 import com.nukkitx.server.network.bedrock.packet.MovePlayerPacket;
@@ -15,6 +16,7 @@ import com.nukkitx.server.network.bedrock.packet.MovePlayerPacket.TeleportationC
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.typeremapper.EntityRemapper;
 
 public class SetPositionTranslator implements IDownstreamTranslator<ServerPlayerPositionRotationPacket> {
 
@@ -38,9 +40,11 @@ public class SetPositionTranslator implements IDownstreamTranslator<ServerPlayer
 	}
 	
 	public static MovePlayerPacket create(long entityID, Vector3f position, Rotation rotation, boolean teleported) {
+		Vector3f offset = EntityRemapper.makeOffset(EntityType.PLAYER.getType());
+		Vector3f positionWithOffset = new Vector3f(position.getX() + offset.getX(), position.getY() + offset.getY(), position.getZ() + offset.getZ());
 		MovePlayerPacket mpp = new MovePlayerPacket();
 		mpp.setRuntimeEntityId(entityID);
-		mpp.setPosition(position);
+		mpp.setPosition(positionWithOffset);
 		mpp.setRotation(rotation);
 		mpp.setMode(teleported ? Mode.TELEPORT : Mode.NORMAL);
 		mpp.setTeleportationCause(TeleportationCause.UNKNOWN);
