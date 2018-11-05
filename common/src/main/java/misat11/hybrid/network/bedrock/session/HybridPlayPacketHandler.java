@@ -266,7 +266,10 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(MovePlayerPacket packet) {
-		WatchedEntity entity = session.getDownstream().getWatchedEntities().get(packet.getRuntimeEntityId());
+		WatchedEntity entity = session.getDownstream().getWatchedEntities().get(session.getDownstream().playerEntityId);
+		if (entity == null) {
+			return; // Player isn't initialized yet
+		}
 		float yaw = packet.getRotation().getYaw();
 		if (entity.isRiding()) {
 			WatchedEntity vehicle = session.getDownstream().getWatchedEntities().get(entity.getVehicleID());

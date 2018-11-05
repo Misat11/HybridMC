@@ -2,13 +2,14 @@
 HybridMC is plugin that allows connection of Bedrock Edition clients on your Java Edition Spigot or Craftbukkit server!
 
 ## Features
-- [ ] Connection to downstream server
-- [ ] Loading map
-- [ ] Moving
-- [ ] Spawning entities
+- [x] Connection to downstream server
+- [x] Chat
+- [x] Loading map <span style="color:orange">- With bugs</span>
+- [x] Moving <span style="color:orange">- With bugs</span>
+- [x] Spawning entities - With bugs
 - [ ] Inventory support
 - [ ] Sounds
 - [ ] Effects
-- [ ] API for forms
+- [ ] API for Modal Forms
 - [ ] Skins
 - [ ] Multiversion

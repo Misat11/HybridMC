@@ -81,11 +81,12 @@ public class DownstreamConnection {
 				log("§f[" + DownstreamConnection.this.protocol.getProfile().getName()
 						+ "] §cDisconnected from downstream!");
 				session.disconnect(event.getReason());
+				event.getCause().printStackTrace();
 			}
 
 			@Override
 			public void disconnecting(DisconnectingEvent event) {
-				session.disconnect(event.getReason());
+				event.getCause().printStackTrace();
 			}
 
 			@Override

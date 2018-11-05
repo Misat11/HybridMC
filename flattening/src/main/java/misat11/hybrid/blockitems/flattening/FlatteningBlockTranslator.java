@@ -60,6 +60,8 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 		override("polished_diorite", "stone", 4);
 		override("andesite", "stone", 5);
 		override("polished_andesite", "stone", 6);
+		
+		override("grass_block", "grass");
 
 		override("coarse_dirt", "dirt", 1);
 
@@ -389,7 +391,7 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 		overrideDoor("iron_door");
 
 		override("oak_pressure_plate", "wooden_pressure_plate");
-		
+
 		override("oak_pressure_plate", properties("powered", "true"), "wooden_pressure_plate", 1);
 		override("spruce_pressure_plate", properties("powered", "true"), 1);
 		override("birch_pressure_plate", properties("powered", "true"), 1);
@@ -1349,26 +1351,39 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 	}
 
 	private BlockEntry translateToPE(FlattedBlockState blockState) {
-		if (!PC_TO_PE_OVERRIDE.containsKey(blockState)) {
-			FlattedBlockState defaultState = blockState.block.defaultState;
-			if (!PC_TO_PE_OVERRIDE.containsKey(defaultState)) {
-				return new BlockEntry(peNameToId.get(blockState.block.name), 0, blockState.properties.containsKey("waterlogged"), blockState.properties.containsKey("waterlogged") ? blockState.properties.get("waterlogged").equals("true") : false); // check
+		try {
+			if (!PC_TO_PE_OVERRIDE.containsKey(blockState)) {
+				FlattedBlockState defaultState = blockState.block.defaultState;
+				if (!PC_TO_PE_OVERRIDE.containsKey(defaultState)) {
+					return new BlockEntry(peNameToId.get(blockState.block.name), 0,
+							blockState.properties.containsKey("waterlogged"),
+							blockState.properties.containsKey("waterlogged")
+									? blockState.properties.get("waterlogged").equals("true")
+									: false); // check
+				}
+				return PC_TO_PE_OVERRIDE.get(defaultState);
 			}
-			return PC_TO_PE_OVERRIDE.get(defaultState);
+			return PC_TO_PE_OVERRIDE.get(blockState);
+		} catch (Exception e) {
+			Platform.log("§cAn error occurred while overriding " + blockState.block.name);
+			return new BlockEntry(1); // Stone
 		}
-		return PC_TO_PE_OVERRIDE.get(blockState);
 	}
 
 	private FlattedBlockState translateToPC(int peId, int damage) {
-		if (!PE_TO_PC_OVERRIDE.containsKey(peId)) {
-			String name = peIdToName.get(peId);
-			return flatteningData.fromNameDefault(name);
+		try {
+			if (!PE_TO_PC_OVERRIDE.containsKey(peId)) {
+				String name = peIdToName.get(peId);
+				return flatteningData.fromNameDefault(name);
+			}
+			if (!PE_TO_PC_OVERRIDE.get(peId).containsKey(damage)) {
+				String name = peIdToName.get(peId);
+				return flatteningData.fromNameDefault(name);
+			}
+			return PE_TO_PC_OVERRIDE.get(peId).get(damage);
+		} catch (Exception e) {
+			return null; // Nothing
 		}
-		if (!PE_TO_PC_OVERRIDE.get(peId).containsKey(damage)) {
-			String name = peIdToName.get(peId);
-			return flatteningData.fromNameDefault(name);
-		}
-		return PE_TO_PC_OVERRIDE.get(peId).get(damage);
 	}
 
 	private void override(String pcName, String peName) {
@@ -1395,7 +1410,11 @@ public class FlatteningBlockTranslator implements IBlockTranslator<FlattedBlockS
 			List<FlattedBlockState> blockStates = flatteningData.fromNameProperties("minecraft:" + pcName, properties);
 			int peId = peNameToId.get("minecraft:" + peName);
 			for (FlattedBlockState blockState : blockStates) {
-				override(blockState, new BlockEntry(peId, peData, blockState.properties.containsKey("waterlogged"), blockState.properties.containsKey("waterlogged") ? blockState.properties.get("waterlogged").equals("true") : false)); // Check
+				override(blockState,
+						new BlockEntry(peId, peData, blockState.properties.containsKey("waterlogged"),
+								blockState.properties.containsKey("waterlogged")
+										? blockState.properties.get("waterlogged").equals("true")
+										: false)); // Check
 			}
 		} catch (Exception e) {
 			Platform.log("§cOverriding " + pcName + " failed: " + e.getMessage());
