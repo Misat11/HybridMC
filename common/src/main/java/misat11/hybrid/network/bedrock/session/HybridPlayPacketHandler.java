@@ -22,6 +22,7 @@ import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlaye
 import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerStatePacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientSteerBoatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientSteerVehiclePacket;
+import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientTeleportConfirmPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientVehicleMovePacket;
 import com.nukkitx.server.entity.EntityType;
 import com.nukkitx.server.inventory.transaction.ItemReleaseTransaction;
@@ -31,6 +32,7 @@ import com.nukkitx.server.network.bedrock.NetworkPacketHandler;
 import com.nukkitx.server.network.bedrock.packet.*;
 
 import misat11.hybrid.downstream.WatchedEntity;
+import misat11.hybrid.downstream.cache.MovementCache;
 import misat11.hybrid.downstream.translators.StartGameTranslator;
 import misat11.hybrid.typeremapper.EntityRemapper;
 
@@ -77,7 +79,7 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(CommandRequestPacket packet) {
-		session.getDownstream().send(new ClientChatPacket(packet.getCommand()));
+		session.getDownstream().sendChat(packet.getCommand());
 	}
 
 	@Override
@@ -256,27 +258,44 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(MoveEntityAbsolutePacket packet) {
+		MovementCache cache = session.getDownstream().getMovementCache();
+		if (cache == null) {
+			return; // Player isn't initialized yet
+		}
 		WatchedEntity vehicle = session.getDownstream().getWatchedEntities().get(packet.getRuntimeEntityId());
 		if (vehicle != null) {
 			if (vehicle.getType() == EntityType.BOAT.getType()) {
-				session.getDownstream().send(new ClientSteerBoatPacket(vehicle.isRighPaddle(), vehicle.isLeftPaddle()));
+				session.getDownstream().send(new ClientSteerBoatPacket(cache.isPERightPaddleTurning(), cache.isPELeftPaddleTurning()));
 			}
 		}
 		Vector3f offset = EntityRemapper.makeOffset(vehicle.getType());
 		session.getDownstream().getWatchedEntities().get(session.getDownstream().playerEntityId)
 				.setLastRidingYaw(packet.getRotation().getYaw());
+
+		float realPitch = (360f/256f) * packet.getRotation().getPitch();
+		float realYaw = (360f/256f) * packet.getRotation().getYaw();
 		session.getDownstream()
 				.send(new ClientVehicleMovePacket(packet.getPosition().getX() - offset.getX(),
 						packet.getPosition().getY() - offset.getY(), packet.getPosition().getZ() - offset.getZ(),
-						packet.getRotation().getYaw(), packet.getRotation().getPitch()));
+						realYaw, realPitch));
 	}
 
 	@Override
 	public void handle(MovePlayerPacket packet) {
+		MovementCache cache = session.getDownstream().getMovementCache();
 		WatchedEntity entity = session.getDownstream().getWatchedEntities().get(session.getDownstream().playerEntityId);
-		if (entity == null) {
+		if (entity == null || cache == null) {
 			return; // Player isn't initialized yet
 		}
+		cache.updatePEPositionLeniency(packet.getPosition().getY());
+		cache.setPEClientPosition(packet.getPosition().getX(), packet.getPosition().getY(), packet.getPosition().getZ());
+		
+		int teleport = cache.teleportConfirm();
+		if (teleport != -1) {
+			session.getDownstream().send(new ClientTeleportConfirmPacket(teleport));
+			session.getDownstream().send(new ClientPlayerPositionRotationPacket(packet.isOnGround(), cache.getX(), cache.getY(), cache.getZ(), packet.getRotation().getHeadYaw(), packet.getRotation().getPitch()));
+		}
+		
 		float yaw = packet.getRotation().getYaw();
 		if (entity.isRiding()) {
 			WatchedEntity vehicle = session.getDownstream().getWatchedEntities().get(entity.getVehicleID());
@@ -435,7 +454,7 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(TextPacket packet) {
-		session.getDownstream().send(new ClientChatPacket(packet.getMessage().getMessage()));
+		session.getDownstream().sendChat(packet.getMessage().getMessage());
 	}
 
 }

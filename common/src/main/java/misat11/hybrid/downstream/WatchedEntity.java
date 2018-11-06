@@ -10,9 +10,6 @@ public class WatchedEntity {
 	private float headYaw;
 	private float lastRidingYaw;
 	
-	private boolean leftPaddle;
-	private boolean righPaddle;
-	
 	// Equipment
 	private ItemEntry boots;
 	private ItemEntry leggins;
@@ -108,21 +105,5 @@ public class WatchedEntity {
 
 	public void setLastRidingYaw(float lastRidingYaw) {
 		this.lastRidingYaw = lastRidingYaw;
-	}
-
-	public boolean isLeftPaddle() {
-		return leftPaddle;
-	}
-
-	public void setLeftPaddle(boolean leftPaddle) {
-		this.leftPaddle = leftPaddle;
-	}
-
-	public boolean isRighPaddle() {
-		return righPaddle;
-	}
-
-	public void setRighPaddle(boolean righPaddle) {
-		this.righPaddle = righPaddle;
 	}
 }

@@ -1,47 +1,46 @@
 package misat11.hybrid.network;
 
-import java.net.InetSocketAddress;
-import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-import com.google.common.collect.ImmutableList;
+import com.flowpowered.math.GenericMath;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.nukkitx.network.SessionManager;
 
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
-public class HybridSessionManager implements SessionManager<HybridSession>{
+public class HybridSessionManager extends SessionManager<HybridSession> {
+
+    private static final int SESSIONS_PER_THREAD = 50;
+
+    private final ThreadPoolExecutor sessionTicker = new ThreadPoolExecutor(1, 1, 1, TimeUnit.MINUTES,
+            new LinkedBlockingQueue<>(), new ThreadFactoryBuilder().setNameFormat("HybridMC Session Ticker - #%d").setDaemon(true).build());
+
+	@Override
+	protected void onAddSession(HybridSession session) {	
+		adjustPoolSize();
+	}
 	
-	private final ConcurrentMap<InetSocketAddress, HybridSession> sessions = new ConcurrentHashMap<InetSocketAddress, HybridSession>();
-
 	@Override
-	public boolean add(InetSocketAddress address, HybridSession session) {
-		return sessions.putIfAbsent(address, session) == null;
+	protected void onRemoveSession(HybridSession session) {
+		adjustPoolSize();
 	}
+    
+    private void adjustPoolSize() {
+        int threads = GenericMath.clamp(sessions.size() / SESSIONS_PER_THREAD, 1, Runtime.getRuntime().availableProcessors());
+        if (sessionTicker.getMaximumPoolSize() != threads) {
+            sessionTicker.setMaximumPoolSize(threads);
+        }
+    }
 
-	@Override
-	public boolean remove(HybridSession session) {
-		return sessions.values().remove(session);
-	}
-
-	@Override
-	public HybridSession get(InetSocketAddress address) {
-		return sessions.get(address);
-	}
-
-	@Override
-	public Collection<HybridSession> all() {
-		return ImmutableList.copyOf(sessions.values());
-	}
-
-	@Override
-	public int getCount() {
-		return sessions.size();
-	}
-
-	@Override
-	public void onTick() {
-		sessions.values().forEach((session) -> session.onTick());
-	}
-
+    public void onTick() {
+        for (HybridSession session : sessions.values()) {
+            sessionTicker.execute(session::onTick);
+        }
+    }
+    
+    public ThreadPoolExecutor getSessionTicker() {
+    	return sessionTicker;
+    }
 }

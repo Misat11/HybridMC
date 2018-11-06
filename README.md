@@ -4,9 +4,11 @@ HybridMC is plugin that allows connection of Bedrock Edition clients on your Jav
 ## Features
 - [x] Connection to downstream server
 - [x] Chat
-- [x] Loading map <span style="color:orange">- With bugs</span>
-- [x] Moving <span style="color:orange">- With bugs</span>
+- [x] Loading map - With bugs
+- [x] Moving - With bugs
 - [x] Spawning entities - With bugs
+- [x] Block breaking - With bugs (breaks invalid block)
+- [ ] Block placing
 - [ ] Inventory support
 - [ ] Sounds
 - [ ] Effects

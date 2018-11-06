@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.crypto.SecretKey;
@@ -45,7 +44,6 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 			.withInitial(NativeCodeFactory.hash::newInstance);
 	private static final InetSocketAddress LOOPBACK_BEDROCK = new InetSocketAddress(InetAddress.getLoopbackAddress(),
 			19132);
-	private final AtomicBoolean closed = new AtomicBoolean();
 	private final Queue<BedrockPacket> currentlyQueued = new ConcurrentLinkedQueue<>();
 	private final AtomicLong sentEncryptedPacketCount = new AtomicLong();
 	private final HybridServer server;
@@ -178,16 +176,10 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 	}
 
 	public void onTick() {
-		if (closed.get()) {
-			return;
-		}
-
 		if (connection.isClosed()) {
-			disconnect("disconnect.timeout");
 			return;
 		}
 
-		connection.onTick();
 		sendQueued();
 	}
 
@@ -271,7 +263,7 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 		return encryptionCipher != null;
 	}
 
-	public void close() {
+	private void close() {
 		if (isDownstreamConnect()) {
 			downstreamDisconnect();
 		}
@@ -380,7 +372,7 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 	}
 
 	public boolean isClosed() {
-		return closed.get();
+		return connection.isClosed();
 	}
 
 	public Optional<InetSocketAddress> getRemoteAddress() {
@@ -393,6 +385,16 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 	
 	public HybridServer getServer() {
 		return server;
+	}
+
+	@Override
+	public void onTimeout() {
+        if (authData != null) {
+			log("§f[" + authData.getDisplayName() + "] §cDisconnected from server: §rTimeout!");
+        } else {
+			log("§f[" + getRemoteAddress().map(Object::toString).orElse("UNKNOWN") + "] §cDisconnected from server: §rTimeout!");
+        }
+        close();
 	}
 
 	// CONNECTION TO PC

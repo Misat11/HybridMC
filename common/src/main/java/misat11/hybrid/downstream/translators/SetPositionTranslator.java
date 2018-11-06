@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.flowpowered.math.vector.Vector3f;
-import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientTeleportConfirmPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
 import com.nukkitx.api.util.Rotation;
 import com.nukkitx.server.entity.EntityType;
@@ -22,6 +21,9 @@ public class SetPositionTranslator implements IDownstreamTranslator<ServerPlayer
 
 	@Override
 	public BedrockPacket[] translate(HybridSession session, ServerPlayerPositionRotationPacket packet) {
+		if (packet.getTeleportId() != 0) {
+			session.getDownstream().getMovementCache().setTeleportLocation(packet.getX(), packet.getY(), packet.getZ(), packet.getTeleportId());
+		}
 		List<BedrockPacket> packets = new ArrayList<>();
 		int chunkX = (int) Math.floor(packet.getX()) >> 4;
 		int chunkZ = (int) Math.floor(packet.getZ()) >> 4;
@@ -32,16 +34,18 @@ public class SetPositionTranslator implements IDownstreamTranslator<ServerPlayer
 			fcdp.setData(ChangeDimensionTranslator.emptyChunk);
 			packets.add(fcdp);
 		}
-		packets.add(create(session.getDownstream().playerEntityId, new Vector3f(packet.getX(), packet.getY(), packet.getZ()), new Rotation(packet.getPitch(), packet.getYaw()), true));
-		if (packet.getTeleportId() != 0) {
-			session.getDownstream().send(new ClientTeleportConfirmPacket(packet.getTeleportId()));
+		if (session.getDownstream().getMovementCache().isPEPositionAboveLeniency()) {
+			packets.add(create(session.getDownstream().playerEntityId,
+					new Vector3f(packet.getX(), packet.getY() + 0.01, packet.getZ()),
+					new Rotation(packet.getPitch(), packet.getYaw()), true));
 		}
 		return packets.toArray(new BedrockPacket[packets.size()]);
 	}
-	
+
 	public static MovePlayerPacket create(long entityID, Vector3f position, Rotation rotation, boolean teleported) {
 		Vector3f offset = EntityRemapper.makeOffset(EntityType.PLAYER.getType());
-		Vector3f positionWithOffset = new Vector3f(position.getX() + offset.getX(), position.getY() + offset.getY(), position.getZ() + offset.getZ());
+		Vector3f positionWithOffset = new Vector3f(position.getX() + offset.getX(), position.getY() + offset.getY(),
+				position.getZ() + offset.getZ());
 		MovePlayerPacket mpp = new MovePlayerPacket();
 		mpp.setRuntimeEntityId(entityID);
 		mpp.setPosition(positionWithOffset);
