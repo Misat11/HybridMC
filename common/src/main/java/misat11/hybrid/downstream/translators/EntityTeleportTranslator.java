@@ -20,10 +20,10 @@ public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEnt
 		if (entity == null) {
 			return null;
 		}
+		entity.moveEntityAbsolute((float) packet.getX(), (float) packet.getY(), (float) packet.getZ());
 		Vector3f offset = EntityRemapper.makeOffset(entity.getType());
 		Vector3f position = new Vector3f(packet.getX() + offset.getX(), packet.getY() + offset.getY(),
 				packet.getZ() + offset.getZ());
-		// TODO add offset to position
 		if (entity.isRiding()) {
 			WatchedEntity vehicle = session.getDownstream().getWatchedEntities().get(entity.getVehicleID());
 			if (vehicle != null) {

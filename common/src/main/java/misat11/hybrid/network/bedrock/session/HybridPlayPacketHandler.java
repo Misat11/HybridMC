@@ -11,7 +11,6 @@ import com.github.steveice10.mc.protocol.data.game.entity.player.PlayerState;
 import com.github.steveice10.mc.protocol.data.game.setting.ChatVisibility;
 import com.github.steveice10.mc.protocol.data.game.setting.SkinPart;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockFace;
-import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.ClientRequestPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.ClientSettingsPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerAbilitiesPacket;
@@ -35,6 +34,7 @@ import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.downstream.cache.MovementCache;
 import misat11.hybrid.downstream.translators.StartGameTranslator;
 import misat11.hybrid.typeremapper.EntityRemapper;
+import misat11.hybrid.utils.BlockFaceModificator;
 
 public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
@@ -158,8 +158,10 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 			break;
 		case ITEM_USE:
 			ItemUseTransaction itemTransaction = (ItemUseTransaction) packet.getTransaction();
+			BlockFaceModificator bfmod = BlockFaceModificator.getByFace(itemTransaction.getFace());
 			switch (itemTransaction.getAction()) {
 			case BREAK:
+				// instant break
 				if (session.getDownstream().gamemode == GameMode.CREATIVE) {
 
 					session.getDownstream()
@@ -174,29 +176,22 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 											itemTransaction.getPosition().getY(), itemTransaction.getPosition().getZ()),
 									BlockFace.DOWN));
 
-				} else {
-					session.getDownstream()
-							.send(new ClientPlayerActionPacket(PlayerAction.START_DIGGING,
-									new Position(itemTransaction.getPosition().getX(),
-											itemTransaction.getPosition().getY(), itemTransaction.getPosition().getZ()),
-									BlockFace.DOWN));
 				}
 				break;
 			case PLACE:
-				session.getDownstream().send(new ClientPlayerPlaceBlockPacket(
-						new Position(itemTransaction.getPosition().getX(), itemTransaction.getPosition().getY(),
-								itemTransaction.getPosition().getZ()),
-						BlockFace.values()[itemTransaction.getFace()], Hand.MAIN_HAND,
-						itemTransaction.getClickPosition().getX(), itemTransaction.getClickPosition().getY(),
-						itemTransaction.getClickPosition().getZ()));
+				session.getDownstream()
+						.send(new ClientPlayerPlaceBlockPacket(bfmod.modPosition(itemTransaction.getPosition()),
+								bfmod.getTranslatedBlockFace(), Hand.MAIN_HAND,
+								itemTransaction.getClickPosition().getX(), itemTransaction.getClickPosition().getY(),
+								itemTransaction.getClickPosition().getZ()));
 				break;
 			case USE:
-				session.getDownstream().send(new ClientPlayerPlaceBlockPacket(
-						new Position(itemTransaction.getPosition().getX(), itemTransaction.getPosition().getY(),
-								itemTransaction.getPosition().getZ()),
-						BlockFace.values()[itemTransaction.getFace()], Hand.MAIN_HAND,
-						itemTransaction.getClickPosition().getX(), itemTransaction.getClickPosition().getY(),
-						itemTransaction.getClickPosition().getZ())); // ?
+				bfmod = BlockFaceModificator.getByFace(-1);
+				session.getDownstream()
+						.send(new ClientPlayerPlaceBlockPacket(bfmod.modPosition(itemTransaction.getPosition()),
+								bfmod.getTranslatedBlockFace(), Hand.MAIN_HAND,
+								itemTransaction.getClickPosition().getX(), itemTransaction.getClickPosition().getY(),
+								itemTransaction.getClickPosition().getZ()));
 				break;
 			default:
 				break;
@@ -211,11 +206,11 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 				break;
 			case INTERACT:
 				session.getDownstream().send(new ClientPlayerInteractEntityPacket(
-						(int) entityTransaction.getRuntimeEntityId(), InteractAction.INTERACT));
+						(int) entityTransaction.getRuntimeEntityId(), InteractAction.INTERACT, entityTransaction.getClickPosition().getX(), entityTransaction.getClickPosition().getY(), entityTransaction.getClickPosition().getZ(), Hand.MAIN_HAND));
 				break;
 			case ITEM_INTERACT:
 				session.getDownstream().send(new ClientPlayerInteractEntityPacket(
-						(int) entityTransaction.getRuntimeEntityId(), InteractAction.INTERACT_AT));
+						(int) entityTransaction.getRuntimeEntityId(), InteractAction.INTERACT_AT, entityTransaction.getClickPosition().getX(), entityTransaction.getClickPosition().getY(), entityTransaction.getClickPosition().getZ(), Hand.MAIN_HAND));
 				break;
 			default:
 				break;
@@ -265,15 +260,16 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 		WatchedEntity vehicle = session.getDownstream().getWatchedEntities().get(packet.getRuntimeEntityId());
 		if (vehicle != null) {
 			if (vehicle.getType() == EntityType.BOAT.getType()) {
-				session.getDownstream().send(new ClientSteerBoatPacket(cache.isPERightPaddleTurning(), cache.isPELeftPaddleTurning()));
+				session.getDownstream()
+						.send(new ClientSteerBoatPacket(cache.isPERightPaddleTurning(), cache.isPELeftPaddleTurning()));
 			}
 		}
 		Vector3f offset = EntityRemapper.makeOffset(vehicle.getType());
 		session.getDownstream().getWatchedEntities().get(session.getDownstream().playerEntityId)
 				.setLastRidingYaw(packet.getRotation().getYaw());
 
-		float realPitch = (360f/256f) * packet.getRotation().getPitch();
-		float realYaw = (360f/256f) * packet.getRotation().getYaw();
+		float realPitch = (360f / 256f) * packet.getRotation().getPitch();
+		float realYaw = (360f / 256f) * packet.getRotation().getYaw();
 		session.getDownstream()
 				.send(new ClientVehicleMovePacket(packet.getPosition().getX() - offset.getX(),
 						packet.getPosition().getY() - offset.getY(), packet.getPosition().getZ() - offset.getZ(),
@@ -288,14 +284,16 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 			return; // Player isn't initialized yet
 		}
 		cache.updatePEPositionLeniency(packet.getPosition().getY());
-		cache.setPEClientPosition(packet.getPosition().getX(), packet.getPosition().getY(), packet.getPosition().getZ());
-		
+		cache.setPEClientPosition(packet.getPosition().getX(), packet.getPosition().getY(),
+				packet.getPosition().getZ());
+
 		int teleport = cache.teleportConfirm();
 		if (teleport != -1) {
 			session.getDownstream().send(new ClientTeleportConfirmPacket(teleport));
-			session.getDownstream().send(new ClientPlayerPositionRotationPacket(packet.isOnGround(), cache.getX(), cache.getY(), cache.getZ(), packet.getRotation().getHeadYaw(), packet.getRotation().getPitch()));
+			session.getDownstream().send(new ClientPlayerPositionRotationPacket(packet.isOnGround(), cache.getX(),
+					cache.getY(), cache.getZ(), packet.getRotation().getHeadYaw(), packet.getRotation().getPitch()));
 		}
-		
+
 		float yaw = packet.getRotation().getYaw();
 		if (entity.isRiding()) {
 			WatchedEntity vehicle = session.getDownstream().getWatchedEntities().get(entity.getVehicleID());

@@ -106,5 +106,21 @@ public class MovementCache {
 	public void setPERightPaddleTurning(boolean peRightPaddleTurning) {
 		this.peRightPaddleTurning = peRightPaddleTurning;
 	}
+	
+	protected boolean canPeFly;
+	protected boolean isPeFlying;
+
+	public boolean canPeFly() {
+		return canPeFly;
+	}
+
+	public boolean isPeFlying() {
+		return isPeFlying;
+	}
+	
+	public void updatePeFlying(boolean canPeFly, boolean isPeFlying) {
+		this.canPeFly = canPeFly;
+		this.isPeFlying = isPeFlying;
+	}
 
 }

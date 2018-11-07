@@ -6,7 +6,6 @@ import java.util.List;
 import com.flowpowered.math.vector.Vector3f;
 import com.github.steveice10.mc.protocol.data.game.entity.player.GameMode;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
-import com.nukkitx.api.level.LevelSettings;
 import com.nukkitx.api.permission.CommandPermission;
 import com.nukkitx.api.permission.PlayerPermission;
 import com.nukkitx.api.util.Rotation;
@@ -23,6 +22,7 @@ import com.nukkitx.server.network.bedrock.packet.StartGamePacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
+import misat11.hybrid.downstream.cache.MovementCache;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGamePacket> {
@@ -67,7 +67,7 @@ public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGame
 		asp.setUniqueEntityId(packet.getEntityId());
 		asp.setCustomFlags(0);
 		asp.setFlags2(0x1FF);
-		asp.setFlags(getGameModeFlags(packet.getGameMode()) | AUTOJUMP_ENABLED /* | can pe fly and flying */);
+		asp.setFlags(getGameModeFlags(packet.getGameMode(), session.getDownstream().getMovementCache()));
 		packets.add(asp);
 		session.getDownstream().gamemode = packet.getGameMode();
 
@@ -111,7 +111,7 @@ public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGame
 		}
 	}
 
-	public static int getGameModeFlags(GameMode gamemode) {
+	public static int getGameModeFlags(GameMode gamemode, MovementCache cache) {
 		switch (gamemode) {
 		case ADVENTURE: {
 			return ADVENTURE_MODE_ENABLED;
@@ -120,7 +120,7 @@ public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGame
 			return PVP_DISABLED | PVE_DISABLED | ALLOW_FLIGHT | FLYING | NOCLIP_ENABLED;
 		}
 		default: {
-			return 0;
+			return (cache.canPeFly() ? ALLOW_FLIGHT : 0) | (cache.isPeFlying() ? FLYING : 0);
 		}
 		}
 	}

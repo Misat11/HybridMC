@@ -13,7 +13,7 @@ import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
-public class SpawnNamedTranslator implements IDownstreamTranslator<ServerSpawnPlayerPacket>{
+public class SpawnNamedTranslator implements IDownstreamTranslator<ServerSpawnPlayerPacket> {
 
 	@Override
 	public BedrockPacket[] translate(HybridSession session, ServerSpawnPlayerPacket packet) {
@@ -23,15 +23,16 @@ public class SpawnNamedTranslator implements IDownstreamTranslator<ServerSpawnPl
 		app.setRuntimeEntityId(packet.getEntityId());
 		app.setPosition(new Vector3f(packet.getX(), packet.getY(), packet.getZ()));
 		app.setRotation(new Rotation(packet.getPitch(), packet.getYaw()));
-		app.setMotion(new Vector3f(0,0,0));
+		app.setMotion(new Vector3f(0, 0, 0));
 		app.setPlatformChatId("");
 		app.setDeviceId("");
 		app.setCommandPermission(CommandPermission.NORMAL);
 		app.setPlayerPermission(PlayerPermission.MEMBER);
 		app.setUsername(session.getDownstream().getPlayerListEntryCache().get(packet.getUUID()).getProfile().getName());
 		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
-				new WatchedEntity(packet.getEntityId(), EntityType.PLAYER.getType()));
-		return new BedrockPacket[] {app};
+				new WatchedEntity(packet.getEntityId(), EntityType.PLAYER.getType(), (float) packet.getX(),
+						(float) packet.getY(), (float) packet.getZ()));
+		return new BedrockPacket[] { app };
 	}
 
 }

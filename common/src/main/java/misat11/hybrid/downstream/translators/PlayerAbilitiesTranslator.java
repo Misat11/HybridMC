@@ -13,13 +13,14 @@ public class PlayerAbilitiesTranslator implements IDownstreamTranslator<ServerPl
 
 	@Override
 	public BedrockPacket[] translate(HybridSession session, ServerPlayerAbilitiesPacket packet) {
+		session.getDownstream().getMovementCache().updatePeFlying(packet.getCanFly(), packet.getFlying());
 		AdventureSettingsPacket asp = new AdventureSettingsPacket();
 		asp.setCommandPermission(CommandPermission.NORMAL);
 		asp.setPlayerPermission(PlayerPermission.MEMBER);
 		asp.setUniqueEntityId(session.getDownstream().playerEntityId);
 		asp.setCustomFlags(0);
 		asp.setFlags2(0x1FF);
-		asp.setFlags(StartGameTranslator.getGameModeFlags(session.getDownstream().gamemode) | StartGameTranslator.AUTOJUMP_ENABLED | (packet.getCanFly() ? StartGameTranslator.ALLOW_FLIGHT : 0) | (packet.getFlying() ? StartGameTranslator.FLYING : 0));
+		asp.setFlags(StartGameTranslator.getGameModeFlags(session.getDownstream().gamemode, session.getDownstream().getMovementCache()));
 		return new BedrockPacket[] {asp};
 	}
 

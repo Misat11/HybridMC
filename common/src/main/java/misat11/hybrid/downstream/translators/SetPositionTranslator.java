@@ -24,6 +24,7 @@ public class SetPositionTranslator implements IDownstreamTranslator<ServerPlayer
 		if (packet.getTeleportId() != 0) {
 			session.getDownstream().getMovementCache().setTeleportLocation(packet.getX(), packet.getY(), packet.getZ(), packet.getTeleportId());
 		}
+		session.getDownstream().getWatchedEntities().get(session.getDownstream().playerEntityId).moveEntityAbsolute((float) packet.getX(), (float) packet.getY(), (float) packet.getZ());
 		List<BedrockPacket> packets = new ArrayList<>();
 		int chunkX = (int) Math.floor(packet.getX()) >> 4;
 		int chunkZ = (int) Math.floor(packet.getZ()) >> 4;

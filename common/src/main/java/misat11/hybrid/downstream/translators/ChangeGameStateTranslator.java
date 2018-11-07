@@ -40,7 +40,7 @@ public class ChangeGameStateTranslator implements IDownstreamTranslator<ServerNo
 			asp.setUniqueEntityId(session.getDownstream().playerEntityId);
 			asp.setCustomFlags(0);
 			asp.setFlags2(0x1FF);
-			asp.setFlags(StartGameTranslator.getGameModeFlags(gamemode) | StartGameTranslator.AUTOJUMP_ENABLED /* | can pe fly and flying*/);
+			asp.setFlags(StartGameTranslator.getGameModeFlags(gamemode, session.getDownstream().getMovementCache()));
 			packets.add(asp);
 			break;
 		case DEMO_MESSAGE:

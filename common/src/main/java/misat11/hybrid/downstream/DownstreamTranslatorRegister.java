@@ -1,6 +1,7 @@
 package misat11.hybrid.downstream;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerDifficultyPacket;
@@ -17,6 +18,7 @@ import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntit
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityEquipmentPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityHeadLookPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityMetadataPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityMovementPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPropertiesPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityRemoveEffectPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntitySetPassengersPacket;
@@ -60,6 +62,7 @@ import misat11.hybrid.downstream.translators.ChatTranslator;
 import misat11.hybrid.downstream.translators.ChunkTranslator;
 import misat11.hybrid.downstream.translators.CollectEffectTranslator;
 import misat11.hybrid.downstream.translators.CustomPayloadTranslator;
+import misat11.hybrid.downstream.translators.EntityDeltaPositionRotationTranslator;
 import misat11.hybrid.downstream.translators.EntityDestroyTranslator;
 import misat11.hybrid.downstream.translators.EntityEffectAddTranslator;
 import misat11.hybrid.downstream.translators.EntityEffectRemoveTranslator;
@@ -99,7 +102,7 @@ import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class DownstreamTranslatorRegister {
 
-	private static final HashMap<Class<? extends Packet>, IDownstreamTranslator<? extends Packet>> translators = new HashMap<>();
+	private static final Map<Class<? extends Packet>, IDownstreamTranslator<? extends Packet>> translators = new HashMap<>();
 
 	static {
 		translators.put(ServerEntityAnimationPacket.class, new AnimationPacketTranslator());
@@ -108,6 +111,7 @@ public class DownstreamTranslatorRegister {
 		translators.put(ServerUpdateTileEntityPacket.class, new BlockTileUpdateTranslator());
 		translators.put(ServerEntityCollectItemPacket.class, new CollectEffectTranslator());
 		translators.put(ServerPluginMessagePacket.class, new CustomPayloadTranslator());
+		translators.put(ServerEntityMovementPacket.class, new EntityDeltaPositionRotationTranslator());
 		translators.put(ServerEntityDestroyPacket.class, new EntityDestroyTranslator());
 		translators.put(ServerEntityEffectPacket.class, new EntityEffectAddTranslator());
 		translators.put(ServerEntityRemoveEffectPacket.class, new EntityEffectRemoveTranslator());
@@ -150,13 +154,14 @@ public class DownstreamTranslatorRegister {
 	}
 
 	public static void translate(HybridSession session, Packet packet) {
-		if (translators.containsKey(packet.getClass())) {
-			IDownstreamTranslator<Packet> translator = (IDownstreamTranslator<Packet>) translators
-					.get(packet.getClass());
-			BedrockPacket[] packets = translator.translate(session, packet);
-			if (packets != null)
-				for (BedrockPacket bepacket : packets)
-					session.sendImmediatePackage(bepacket);
+		for(Map.Entry<Class<? extends Packet>, IDownstreamTranslator<? extends Packet>> entry : translators.entrySet()) {
+			if (entry.getKey().isInstance(packet)) {
+				IDownstreamTranslator<Packet> translator = (IDownstreamTranslator<Packet>) entry.getValue();
+				BedrockPacket[] packets = translator.translate(session, packet);
+				if (packets != null)
+					for (BedrockPacket bepacket : packets)
+						session.sendImmediatePackage(bepacket);
+			}
 		}
 	}
 

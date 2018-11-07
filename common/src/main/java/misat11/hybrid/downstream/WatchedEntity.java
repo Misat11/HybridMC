@@ -3,13 +3,13 @@ package misat11.hybrid.downstream;
 import misat11.hybrid.blockitems.ItemEntry;
 
 public class WatchedEntity {
-	
+
 	private long entityID;
 	private int type;
 	private long vehicleID;
 	private float headYaw;
 	private float lastRidingYaw;
-	
+
 	// Equipment
 	private ItemEntry boots;
 	private ItemEntry leggins;
@@ -17,10 +17,21 @@ public class WatchedEntity {
 	private ItemEntry helmet;
 	private ItemEntry hand;
 	private ItemEntry offHand;
-	
+
+	private float x;
+	private float y;
+	private float z;
+
 	public WatchedEntity(long entityID, int type) {
+		this(entityID, type, 0, 0, 0);
+	}
+
+	public WatchedEntity(long entityID, int type, float x, float y, float z) {
 		this.entityID = entityID;
 		this.type = type;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 
 	public long getEntityID() {
@@ -105,5 +116,29 @@ public class WatchedEntity {
 
 	public void setLastRidingYaw(float lastRidingYaw) {
 		this.lastRidingYaw = lastRidingYaw;
+	}
+
+	public void moveEntityAbsolute(float x, float y, float z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+
+	public void moveEntityDelta(float deltaX, float deltaY, float deltaZ) {
+		this.x += deltaX;
+		this.y += deltaY;
+		this.z += deltaZ;
+	}
+	
+	public float getX() {
+		return this.x;
+	}
+	
+	public float getY() {
+		return this.y;
+	}
+	
+	public float getZ() {
+		return this.z;
 	}
 }

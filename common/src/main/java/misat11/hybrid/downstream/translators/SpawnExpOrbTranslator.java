@@ -23,13 +23,15 @@ public class SpawnExpOrbTranslator implements IDownstreamTranslator<ServerSpawnE
 			return null;
 		}
 		Vector3f offset = EntityRemapper.makeOffset(aep.getEntityType());
-		aep.setPosition(new Vector3f(packet.getX() + offset.getX(), packet.getY() + offset.getY(), packet.getZ() + offset.getZ()));
+		aep.setPosition(new Vector3f(packet.getX() + offset.getX(), packet.getY() + offset.getY(),
+				packet.getZ() + offset.getZ()));
 		aep.setMotion(new Vector3f(0, 0, 0));
 		aep.setRuntimeEntityId(packet.getEntityId());
 		aep.setUniqueEntityId(packet.getEntityId());
 		aep.setRotation(new Rotation(0, 0));
 		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
-				new WatchedEntity(packet.getEntityId(), aep.getEntityType()));
+				new WatchedEntity(packet.getEntityId(), aep.getEntityType(), (float) packet.getX(),
+						(float) packet.getY(), (float) packet.getZ()));
 		return new BedrockPacket[] { aep };
 	}
 
