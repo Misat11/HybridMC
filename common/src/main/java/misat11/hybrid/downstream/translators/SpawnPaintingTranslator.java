@@ -42,7 +42,7 @@ public class SpawnPaintingTranslator implements IDownstreamTranslator<ServerSpaw
 		app.setDirection(packet.getDirection().ordinal());
 		app.setTitle(convert(packet.getPaintingType()).getName());
 		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
-				new WatchedEntity(packet.getEntityId(), EntityType.PAINTING.getType(), x, y, z));
+				new WatchedEntity(packet.getEntityId(), EntityType.PAINTING.getType(), x, y, z, 0, 0));
 		return new BedrockPacket[] { app };
 	}
 

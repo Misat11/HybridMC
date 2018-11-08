@@ -27,9 +27,10 @@ public class SpawnLivingTranslator implements IDownstreamTranslator<ServerSpawnM
 		aep.setRuntimeEntityId(packet.getEntityId());
 		aep.setUniqueEntityId(packet.getEntityId());
 		aep.setRotation(new Rotation(packet.getPitch(), packet.getYaw(), packet.getHeadYaw()));
-		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
-				new WatchedEntity(packet.getEntityId(), aep.getEntityType(), (float) packet.getX(),
-						(float) packet.getY(), (float) packet.getZ()));
+		WatchedEntity entity = new WatchedEntity(packet.getEntityId(), aep.getEntityType(), (float) packet.getX(),
+				(float) packet.getY(), (float) packet.getZ(), packet.getYaw(), packet.getPitch());
+		entity.setHeadYaw(packet.getHeadYaw());
+		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(), entity);
 		return new BedrockPacket[] { aep };
 	}
 

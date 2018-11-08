@@ -20,7 +20,7 @@ public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEnt
 		if (entity == null) {
 			return null;
 		}
-		entity.moveEntityAbsolute((float) packet.getX(), (float) packet.getY(), (float) packet.getZ());
+		entity.moveEntityAbsolute((float) packet.getX(), (float) packet.getY(), (float) packet.getZ(), packet.getYaw(), packet.getPitch());
 		Vector3f offset = EntityRemapper.makeOffset(entity.getType());
 		Vector3f position = new Vector3f(packet.getX() + offset.getX(), packet.getY() + offset.getY(),
 				packet.getZ() + offset.getZ());

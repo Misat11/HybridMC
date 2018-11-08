@@ -29,7 +29,7 @@ public class SpawnObjectTranslator implements IDownstreamTranslator<ServerSpawnO
 		aep.setRotation(new Rotation(packet.getPitch(), packet.getYaw()));
 		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
 				new WatchedEntity(packet.getEntityId(), aep.getEntityType(), (float) packet.getX(),
-						(float) packet.getY(), (float) packet.getZ()));
+						(float) packet.getY(), (float) packet.getZ(), packet.getYaw(), packet.getPitch()));
 		return new BedrockPacket[] { aep };
 	}
 

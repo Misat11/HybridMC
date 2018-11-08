@@ -14,7 +14,7 @@ public class SpawnGlobalTranslator implements IDownstreamTranslator<ServerSpawnG
 	public BedrockPacket[] translate(HybridSession session, ServerSpawnGlobalEntityPacket packet) {
 		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
 				new WatchedEntity(packet.getEntityId(), EntityType.LIGHTNING_BOLT.getType(), (float) packet.getX(),
-						(float) packet.getY(), (float) packet.getZ()));
+						(float) packet.getY(), (float) packet.getZ(), 0, 0));
 		// TODO lightning bolt
 		return null;
 	}

@@ -31,7 +31,7 @@ public class SpawnExpOrbTranslator implements IDownstreamTranslator<ServerSpawnE
 		aep.setRotation(new Rotation(0, 0));
 		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
 				new WatchedEntity(packet.getEntityId(), aep.getEntityType(), (float) packet.getX(),
-						(float) packet.getY(), (float) packet.getZ()));
+						(float) packet.getY(), (float) packet.getZ(), 0, 0));
 		return new BedrockPacket[] { aep };
 	}
 

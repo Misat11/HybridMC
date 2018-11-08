@@ -21,17 +21,22 @@ public class WatchedEntity {
 	private float x;
 	private float y;
 	private float z;
+	
+	private float yaw;
+	private float pitch;
 
 	public WatchedEntity(long entityID, int type) {
-		this(entityID, type, 0, 0, 0);
+		this(entityID, type, 0, 0, 0, 0, 0);
 	}
 
-	public WatchedEntity(long entityID, int type, float x, float y, float z) {
+	public WatchedEntity(long entityID, int type, float x, float y, float z, float yaw, float pitch) {
 		this.entityID = entityID;
 		this.type = type;
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.yaw = yaw;
+		this.pitch = pitch;
 	}
 
 	public long getEntityID() {
@@ -118,10 +123,12 @@ public class WatchedEntity {
 		this.lastRidingYaw = lastRidingYaw;
 	}
 
-	public void moveEntityAbsolute(float x, float y, float z) {
+	public void moveEntityAbsolute(float x, float y, float z, float yaw, float pitch) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.yaw = yaw;
+		this.pitch = pitch;
 	}
 
 	public void moveEntityDelta(float deltaX, float deltaY, float deltaZ) {
@@ -141,4 +148,21 @@ public class WatchedEntity {
 	public float getZ() {
 		return this.z;
 	}
+
+	public float getYaw() {
+		return yaw;
+	}
+
+	public void setYaw(float yaw) {
+		this.yaw = yaw;
+	}
+
+	public float getPitch() {
+		return pitch;
+	}
+
+	public void setPitch(float pitch) {
+		this.pitch = pitch;
+	}
+	
 }

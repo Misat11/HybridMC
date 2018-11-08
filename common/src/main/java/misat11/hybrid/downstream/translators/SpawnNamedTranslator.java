@@ -31,7 +31,7 @@ public class SpawnNamedTranslator implements IDownstreamTranslator<ServerSpawnPl
 		app.setUsername(session.getDownstream().getPlayerListEntryCache().get(packet.getUUID()).getProfile().getName());
 		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
 				new WatchedEntity(packet.getEntityId(), EntityType.PLAYER.getType(), (float) packet.getX(),
-						(float) packet.getY(), (float) packet.getZ()));
+						(float) packet.getY(), (float) packet.getZ(), packet.getYaw(), packet.getPitch()));
 		return new BedrockPacket[] { app };
 	}
 
