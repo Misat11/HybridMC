@@ -20,7 +20,6 @@ import com.nukkitx.server.util.NativeCodeFactory;
 import com.voxelwind.server.jni.CryptoUtil;
 
 import misat11.hybrid.Platform;
-import misat11.hybrid.downstream.DownstreamConnection;
 
 import static misat11.hybrid.Platform.log;
 

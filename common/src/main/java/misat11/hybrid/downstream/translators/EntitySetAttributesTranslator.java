@@ -12,7 +12,6 @@ import com.nukkitx.server.network.bedrock.BedrockPacket;
 import com.nukkitx.server.network.bedrock.packet.UpdateAttributesPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
-import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class EntitySetAttributesTranslator implements IDownstreamTranslator<ServerEntityPropertiesPacket> {

@@ -39,6 +39,7 @@
 
     <modules>
         <module>api</module>
+        <module>bedrock-protocol</module>
         <module>bukkit</module>
         <module>common</module>
         <module>plugin</module>
