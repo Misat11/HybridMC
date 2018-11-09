@@ -1,5 +1,8 @@
 package misat11.hybrid.blockitems;
 
+import lombok.Data;
+
+@Data
 public class ItemEntry {
 	
 	private int id;
@@ -11,22 +14,6 @@ public class ItemEntry {
 	
 	public ItemEntry(int id, int data) {
 		this.id = id;
-		this.data = data;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getData() {
-		return data;
-	}
-
-	public void setData(int data) {
 		this.data = data;
 	}
 

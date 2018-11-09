@@ -8,7 +8,6 @@ import com.github.steveice10.mc.protocol.MinecraftConstants;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.nukkitx.network.raknet.RakNetServer;
 import com.nukkitx.server.NukkitServer;
-import com.nukkitx.server.level.NukkitLevel;
 import com.nukkitx.server.level.manager.LevelPaletteManager;
 import com.nukkitx.server.network.bedrock.BedrockPacketCodec;
 
@@ -112,7 +111,7 @@ public class HybridServer {
 	}
 	
 	public LevelPaletteManager getPaletteManager() {
-		return NukkitLevel.getPaletteManager();
+		return NukkitServer.getPaletteManager();
 	}
 	
 	public void setItemTranslator(IItemTranslator<?> translator) {

@@ -19,13 +19,13 @@ public class AnimationPacketTranslator implements IDownstreamTranslator<ServerEn
 		if (packet.getAnimation() == Animation.SWING_ARM) {
 			AnimatePacket animate = new AnimatePacket();
 			animate.setRuntimeEntityId(packet.getEntityId());
-			animate.setAction(com.nukkitx.api.Player.Animation.SWING_ARM);
+			animate.setAction(AnimatePacket.Animation.SWING_ARM);
 			packets.add(animate);
 		}
 		if (packet.getAnimation() == Animation.CRITICAL_HIT) {
 			AnimatePacket animate = new AnimatePacket();
 			animate.setRuntimeEntityId(packet.getEntityId());
-			animate.setAction(com.nukkitx.api.Player.Animation.CRITICAL_HIT);
+			animate.setAction(AnimatePacket.Animation.CRITICAL_HIT);
 			packets.add(animate);
 		}
 		return packets.toArray(new BedrockPacket[packets.size()]);

@@ -2,13 +2,12 @@ package misat11.hybrid.downstream.translators;
 
 import com.github.steveice10.mc.protocol.data.game.entity.EquipmentSlot;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityEquipmentPacket;
-import com.nukkitx.api.item.ItemTypes;
-import com.nukkitx.server.item.NukkitItemInstance;
 import com.nukkitx.server.network.bedrock.BedrockPacket;
 import com.nukkitx.server.network.bedrock.packet.MobArmorEquipmentPacket;
 import com.nukkitx.server.network.bedrock.packet.MobEquipmentPacket;
 
 import misat11.hybrid.blockitems.ItemEntry;
+import misat11.hybrid.blockitems.ItemStack;
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.session.HybridSession;
@@ -58,13 +57,13 @@ public class EntityEquipmentTranslator implements IDownstreamTranslator<ServerEn
 		MobArmorEquipmentPacket maep = new MobArmorEquipmentPacket();
 		maep.setRuntimeEntityId(entityID);
 		if (helmet != null)
-			maep.setHelmet(new NukkitItemInstance(ItemTypes.byId(helmet.getId())));
+			maep.setHelmet(new ItemStack(helmet.getId(), helmet.getData()));
 		if (chestplate != null)
-			maep.setChestplate(new NukkitItemInstance(ItemTypes.byId(chestplate.getId())));
+			maep.setChestplate(new ItemStack(chestplate.getId(), chestplate.getData()));
 		if (leggins != null)
-			maep.setLeggings(new NukkitItemInstance(ItemTypes.byId(leggins.getId())));
+			maep.setLeggings(new ItemStack(leggins.getId(), leggins.getData()));
 		if (boots != null)
-			maep.setBoots(new NukkitItemInstance(ItemTypes.byId(boots.getId())));
+			maep.setBoots(new ItemStack(boots.getId(), boots.getData()));
 		return maep;
 	}
 
@@ -72,7 +71,7 @@ public class EntityEquipmentTranslator implements IDownstreamTranslator<ServerEn
 		MobEquipmentPacket mep = new MobEquipmentPacket();
 		mep.setRuntimeEntityId(entityID);
 		if (hand != null)
-			mep.setItem(new NukkitItemInstance(ItemTypes.byId(hand.getId())));
+			mep.setItem(new ItemStack(hand.getId(), hand.getData()));
 		mep.setHotbarSlot((byte) slot);
 		mep.setInventorySlot((byte) slot);
 		mep.setWindowId((byte) (mainHand ? 119 : 0));

@@ -30,7 +30,7 @@ public class BlockChangeSingleTranslator implements IDownstreamTranslator<Server
 		ubp.setRuntimeId(palette.fromLegacy(entry.getId(), (byte) entry.getData()));
 		ubp.getFlags().addAll(UpdateBlockPacket.FLAG_ALL_PRIORITY);
 		list.add(ubp);
-		if (entry.canBeWaterLogged() || entry.getId() == 0) {
+		if (entry.isCanBeWaterLogged() || entry.getId() == 0) {
 			UpdateBlockPacket water = new UpdateBlockPacket();
 			water.setBlockPosition(position);
 			water.setDataLayer(DataLayer.LIQUID);

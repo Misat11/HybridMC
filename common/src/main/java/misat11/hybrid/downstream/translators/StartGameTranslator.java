@@ -56,7 +56,6 @@ public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGame
 		NukkitLevelData settings = new NukkitLevelData() { // TODO change dimension
 		};
 		settings.setDefaultAbilities(new NukkitAbilities());
-		settings.setName("");
 		settings.setDefaultSpawn(new Vector3f(0, 0, 0));
 		sgp.setLevelSettings(settings);
 		packets.add(sgp);
