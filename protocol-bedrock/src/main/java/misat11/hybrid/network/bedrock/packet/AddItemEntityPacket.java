@@ -27,6 +27,7 @@ public class AddItemEntityPacket implements BedrockPacket {
         writeItemInstance(buffer, itemInstance);
         writeVector3f(buffer, position);
         writeVector3f(buffer, motion);
+        metadata.writeTo(buffer);
         buffer.writeBoolean(fishing);
     }
 

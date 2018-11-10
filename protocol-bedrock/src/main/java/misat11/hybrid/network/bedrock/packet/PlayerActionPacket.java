@@ -29,7 +29,11 @@ public class PlayerActionPacket implements BedrockPacket {
         runtimeEntityId = readRuntimeEntityId(buffer);
         action = Action.values()[readInt(buffer)];
         blockPosition = readVector3i(buffer);
-        face = BlockFace.values()[readInt(buffer)];
+        int f = readInt(buffer);
+        face = BlockFace.BOTTOM; // Fix crash
+        if (f >= 0 && f < BlockFace.values().length) {
+        	face = BlockFace.values()[f];
+        }
     }
 
     @Override
