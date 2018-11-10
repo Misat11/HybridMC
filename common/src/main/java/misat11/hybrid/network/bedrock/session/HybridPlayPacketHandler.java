@@ -15,10 +15,12 @@ import com.github.steveice10.mc.protocol.packet.ingame.client.ClientRequestPacke
 import com.github.steveice10.mc.protocol.packet.ingame.client.ClientSettingsPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerAbilitiesPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerActionPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerChangeHeldItemPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerInteractEntityPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerPlaceBlockPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerPositionRotationPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerStatePacket;
+import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerSwingArmPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientSteerBoatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientSteerVehiclePacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientTeleportConfirmPacket;
@@ -33,6 +35,7 @@ import misat11.hybrid.inventory.transaction.ItemUseOnEntityTransaction;
 import misat11.hybrid.inventory.transaction.ItemUseTransaction;
 import misat11.hybrid.network.bedrock.NetworkPacketHandler;
 import misat11.hybrid.network.bedrock.packet.*;
+import misat11.hybrid.network.bedrock.packet.AnimatePacket.Animation;
 import misat11.hybrid.typeremapper.EntityRemapper;
 import misat11.hybrid.utils.BlockFaceModificator;
 
@@ -54,6 +57,8 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(AnimatePacket packet) {
+		if (packet.getAction() == Animation.SWING_ARM)
+			session.getDownstream().send(new ClientPlayerSwingArmPacket(Hand.MAIN_HAND));
 
 	}
 
@@ -84,6 +89,7 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(ContainerClosePacket packet) {
+		session.getDownstream().getInventoryCache().closeOpened(session, false);
 	}
 
 	@Override
@@ -205,12 +211,18 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 						(int) entityTransaction.getRuntimeEntityId(), InteractAction.ATTACK));
 				break;
 			case INTERACT:
-				session.getDownstream().send(new ClientPlayerInteractEntityPacket(
-						(int) entityTransaction.getRuntimeEntityId(), InteractAction.INTERACT, entityTransaction.getClickPosition().getX(), entityTransaction.getClickPosition().getY(), entityTransaction.getClickPosition().getZ(), Hand.MAIN_HAND));
+				session.getDownstream()
+						.send(new ClientPlayerInteractEntityPacket((int) entityTransaction.getRuntimeEntityId(),
+								InteractAction.INTERACT, entityTransaction.getClickPosition().getX(),
+								entityTransaction.getClickPosition().getY(),
+								entityTransaction.getClickPosition().getZ(), Hand.MAIN_HAND));
 				break;
 			case ITEM_INTERACT:
-				session.getDownstream().send(new ClientPlayerInteractEntityPacket(
-						(int) entityTransaction.getRuntimeEntityId(), InteractAction.INTERACT_AT, entityTransaction.getClickPosition().getX(), entityTransaction.getClickPosition().getY(), entityTransaction.getClickPosition().getZ(), Hand.MAIN_HAND));
+				session.getDownstream()
+						.send(new ClientPlayerInteractEntityPacket((int) entityTransaction.getRuntimeEntityId(),
+								InteractAction.INTERACT_AT, entityTransaction.getClickPosition().getX(),
+								entityTransaction.getClickPosition().getY(),
+								entityTransaction.getClickPosition().getZ(), Hand.MAIN_HAND));
 				break;
 			default:
 				break;
@@ -244,6 +256,12 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 
 	@Override
 	public void handle(MobEquipmentPacket packet) {
+		if(packet.getHotbarSlot() > 8) {
+			return;
+		}
+		if (packet.getWindowId() == 0) {
+			session.getDownstream().send(new ClientPlayerChangeHeldItemPacket(packet.getHotbarSlot()));
+		}
 	}
 
 	@Override
@@ -295,6 +313,7 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 		}
 
 		float yaw = packet.getRotation().getYaw();
+		Vector3f offset = EntityRemapper.makeOffset(EntityType.PLAYER.getType());
 		if (entity.isRiding()) {
 			WatchedEntity vehicle = session.getDownstream().getWatchedEntities().get(entity.getVehicleID());
 			if (vehicle != null) {
@@ -302,12 +321,17 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 					yaw = ((360f / 256f) * entity.getLastRidingYaw()) + yaw + 90;
 				}
 			}
+			session.getDownstream()
+			.send(new ClientVehicleMovePacket(packet.getPosition().getX() - offset.getX(),
+					packet.getPosition().getY() - offset.getY(), packet.getPosition().getZ() - offset.getZ(), yaw,
+					packet.getRotation().getPitch()));
+			
+		} else {
+			session.getDownstream()
+					.send(new ClientPlayerPositionRotationPacket(packet.isOnGround(),
+							packet.getPosition().getX() - offset.getX(), packet.getPosition().getY() - offset.getY(),
+							packet.getPosition().getZ() - offset.getZ(), yaw, packet.getRotation().getPitch()));
 		}
-		Vector3f offset = EntityRemapper.makeOffset(EntityType.PLAYER.getType());
-		session.getDownstream()
-				.send(new ClientPlayerPositionRotationPacket(packet.isOnGround(),
-						packet.getPosition().getX() - offset.getX(), packet.getPosition().getY() - offset.getY(),
-						packet.getPosition().getZ() - offset.getZ(), yaw, packet.getRotation().getPitch()));
 	}
 
 	@Override
@@ -331,7 +355,7 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 			break;
 		case DROP_ITEM:
 			session.getDownstream().send(new ClientPlayerActionPacket(PlayerAction.RELEASE_USE_ITEM,
-					new Position(0, 0, 0), BlockFace.SPECIAL));
+					new Position(0, 0, 0), BlockFace.UP));
 			break;
 		case START_BREAK:
 			session.getDownstream()
@@ -355,6 +379,7 @@ public class HybridPlayPacketHandler implements NetworkPacketHandler {
 									packet.getBlockPosition().getY(), packet.getBlockPosition().getZ()),
 							BlockFace.values()[packet.getFace().ordinal()]));
 			break;
+		case STOP_GLIDE:
 		case START_GLIDE:
 			session.getDownstream().send(new ClientPlayerStatePacket((int) session.getDownstream().playerEntityId,
 					PlayerState.START_ELYTRA_FLYING));

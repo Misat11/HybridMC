@@ -100,13 +100,8 @@ public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGame
 
 	public static misat11.hybrid.util.GameMode transl(GameMode gm) {
 		switch (gm) {
-		case ADVENTURE:
-			return misat11.hybrid.util.GameMode.ADVENTURE;
 		case CREATIVE:
 			return misat11.hybrid.util.GameMode.CREATIVE;
-		case SPECTATOR:
-			return misat11.hybrid.util.GameMode.SPECTATOR;
-		case SURVIVAL:
 		default:
 			return misat11.hybrid.util.GameMode.SURVIVAL;
 		}

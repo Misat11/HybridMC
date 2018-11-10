@@ -15,7 +15,8 @@ public class EntityHeadRotationTranslator implements IDownstreamTranslator<Serve
 		if (entity != null) {
 			entity.setHeadYaw(packet.getHeadYaw());
 		}
-		return null;
+
+		return new BedrockPacket[] {EntityTeleportTranslator.updateGeneral(entity, entity.getPosition(), entity.getRotation(), true, false)};
 	}
 
 }

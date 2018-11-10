@@ -20,7 +20,8 @@ public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEnt
 		if (entity == null) {
 			return null;
 		}
-		entity.moveEntityAbsolute((float) packet.getX(), (float) packet.getY(), (float) packet.getZ(), packet.getYaw(), packet.getPitch());
+		entity.moveEntityAbsolute((float) packet.getX(), (float) packet.getY(), (float) packet.getZ(), packet.getYaw(),
+				packet.getPitch());
 		Vector3f offset = EntityRemapper.makeOffset(entity.getType());
 		Vector3f position = new Vector3f(packet.getX() + offset.getX(), packet.getY() + offset.getY(),
 				packet.getZ() + offset.getZ());
@@ -35,8 +36,13 @@ public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEnt
 					if (relYaw > 128) {
 						relYaw -= 256;
 					}
-					return new BedrockPacket[] { updateGeneral(entity, position,
-							new Rotation(packet.getPitch(), relYaw), packet.isOnGround(), false) };
+					if (entity.shouldMove()) {
+						entity.setShouldMove(false);
+						return new BedrockPacket[] { updateGeneral(entity, position,
+								new Rotation(packet.getPitch(), relYaw), packet.isOnGround(), false) };
+					} else {
+						return null;
+					}
 				}
 			} else {
 				entity.setVehicleID(0);
@@ -45,8 +51,14 @@ public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEnt
 		if (entity.getType() == EntityType.BOAT.getType()) {
 			entity.setHeadYaw(packet.getYaw());
 		}
-		return new BedrockPacket[] { updateGeneral(entity, position,
-				new Rotation(packet.getPitch(), packet.getYaw(), entity.getHeadYaw()), packet.isOnGround(), false) };
+		if (entity.shouldMove()) {
+			entity.setShouldMove(false);
+			return new BedrockPacket[] { updateGeneral(entity, position,
+					new Rotation(packet.getPitch(), packet.getYaw(), entity.getHeadYaw()), packet.isOnGround(),
+					false) };
+		} else {
+			return null;
+		}
 	}
 
 	public static MoveEntityAbsolutePacket create(long eid, Vector3f position, Rotation rotation, boolean onGround,

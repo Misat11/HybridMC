@@ -1,6 +1,9 @@
 package misat11.hybrid.downstream;
 
+import com.flowpowered.math.vector.Vector3f;
+
 import misat11.hybrid.blockitems.ItemEntry;
+import misat11.hybrid.util.Rotation;
 
 public class WatchedEntity {
 
@@ -21,9 +24,11 @@ public class WatchedEntity {
 	private float x;
 	private float y;
 	private float z;
-	
+
 	private float yaw;
 	private float pitch;
+
+	private boolean shouldMove;
 
 	public WatchedEntity(long entityID, int type) {
 		this(entityID, type, 0, 0, 0, 0, 0);
@@ -124,27 +129,44 @@ public class WatchedEntity {
 	}
 
 	public void moveEntityAbsolute(float x, float y, float z, float yaw, float pitch) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.yaw = yaw;
-		this.pitch = pitch;
+		if (x != this.x || y != this.y || z != this.z || yaw != this.yaw || pitch != this.pitch) {
+			this.x = x;
+			this.y = y;
+			this.z = z;
+			this.yaw = yaw;
+			this.pitch = pitch;
+			this.shouldMove = true;
+		}
 	}
 
 	public void moveEntityDelta(float deltaX, float deltaY, float deltaZ) {
-		this.x += deltaX;
-		this.y += deltaY;
-		this.z += deltaZ;
+		if (deltaX != 0 || deltaY != 0 || deltaZ != 0) {
+			this.x += deltaX;
+			this.y += deltaY;
+			this.z += deltaZ;
+			this.shouldMove = true;
+		}
 	}
-	
+
+	public void rotateEntity(float yaw, float pitch) {
+		if (yaw != 0 && yaw != this.yaw) {
+			this.yaw = yaw;
+			this.shouldMove = true;
+		}
+		if (pitch != 0 && pitch != this.pitch) {
+			this.pitch = pitch;
+			this.shouldMove = true;
+		}
+	}
+
 	public float getX() {
 		return this.x;
 	}
-	
+
 	public float getY() {
 		return this.y;
 	}
-	
+
 	public float getZ() {
 		return this.z;
 	}
@@ -164,5 +186,21 @@ public class WatchedEntity {
 	public void setPitch(float pitch) {
 		this.pitch = pitch;
 	}
-	
+
+	public Vector3f getPosition() {
+		return new Vector3f(x, y, z);
+	}
+
+	public Rotation getRotation() {
+		return new Rotation(pitch, yaw, headYaw);
+	}
+
+	public boolean shouldMove() {
+		return shouldMove;
+	}
+
+	public void setShouldMove(boolean shouldMove) {
+		this.shouldMove = shouldMove;
+	}
+
 }

@@ -28,6 +28,12 @@ public class AnimationPacketTranslator implements IDownstreamTranslator<ServerEn
 			animate.setAction(AnimatePacket.Animation.CRITICAL_HIT);
 			packets.add(animate);
 		}
+		if (packet.getAnimation() == Animation.LEAVE_BED) {
+			AnimatePacket animate = new AnimatePacket();
+			animate.setRuntimeEntityId(packet.getEntityId());
+			animate.setAction(AnimatePacket.Animation.WAKE_UP);
+			packets.add(animate);
+		}
 		return packets.toArray(new BedrockPacket[packets.size()]);
 	}
 

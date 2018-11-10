@@ -35,6 +35,10 @@ import com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn.Serve
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn.ServerSpawnObjectPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn.ServerSpawnPaintingPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn.ServerSpawnPlayerPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.window.ServerCloseWindowPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.window.ServerConfirmTransactionPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.window.ServerOpenWindowPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.window.ServerWindowItemsPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerChunkDataPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerExplosionPacket;
@@ -59,6 +63,7 @@ import misat11.hybrid.downstream.translators.ChangeDimensionTranslator;
 import misat11.hybrid.downstream.translators.ChangeGameStateTranslator;
 import misat11.hybrid.downstream.translators.ChatTranslator;
 import misat11.hybrid.downstream.translators.ChunkTranslator;
+import misat11.hybrid.downstream.translators.ClosedWindowTranslator;
 import misat11.hybrid.downstream.translators.CollectEffectTranslator;
 import misat11.hybrid.downstream.translators.CustomPayloadTranslator;
 import misat11.hybrid.downstream.translators.EntityDeltaPositionRotationTranslator;
@@ -75,6 +80,7 @@ import misat11.hybrid.downstream.translators.EntityTeleportTranslator;
 import misat11.hybrid.downstream.translators.EntityVelocityTranslator;
 import misat11.hybrid.downstream.translators.ExplosionTranslator;
 import misat11.hybrid.downstream.translators.MapTranslator;
+import misat11.hybrid.downstream.translators.OpenWindowTranslator;
 import misat11.hybrid.downstream.translators.PlayerAbilitiesTranslator;
 import misat11.hybrid.downstream.translators.PlayerListSetEntryTranslator;
 import misat11.hybrid.downstream.translators.ServerDifficultyTranslator;
@@ -91,8 +97,10 @@ import misat11.hybrid.downstream.translators.SpawnPositionTranslator;
 import misat11.hybrid.downstream.translators.StartGameTranslator;
 import misat11.hybrid.downstream.translators.TimeUpdateTranslator;
 import misat11.hybrid.downstream.translators.TitleTranslator;
+import misat11.hybrid.downstream.translators.TransactionConfirmTranslator;
 import misat11.hybrid.downstream.translators.UnloadChunkTranslator;
 import misat11.hybrid.downstream.translators.VehiclePassengersTranslator;
+import misat11.hybrid.downstream.translators.WindowItemsTranslator;
 import misat11.hybrid.downstream.translators.WorldCustomSoundTranslator;
 import misat11.hybrid.downstream.translators.WorldEventTranslator;
 import misat11.hybrid.downstream.translators.WorldParticleTranslator;
@@ -151,6 +159,11 @@ public class DownstreamTranslatorRegister {
 		translators.put(ServerPlayEffectPacket.class, new WorldEventTranslator());
 		translators.put(ServerSpawnParticlePacket.class, new WorldParticleTranslator());
 		translators.put(ServerPlayBuiltinSoundPacket.class, new WorldSoundTranslator());
+		
+		translators.put(ServerCloseWindowPacket.class, new ClosedWindowTranslator());
+		translators.put(ServerConfirmTransactionPacket.class, new TransactionConfirmTranslator());
+		translators.put(ServerOpenWindowPacket.class, new OpenWindowTranslator());
+		translators.put(ServerWindowItemsPacket.class, new WindowItemsTranslator());
 	}
 
 	public static void translate(HybridSession session, Packet packet) {

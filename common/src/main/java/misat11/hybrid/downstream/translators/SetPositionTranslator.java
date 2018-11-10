@@ -38,7 +38,7 @@ public class SetPositionTranslator implements IDownstreamTranslator<ServerPlayer
 		if (session.getDownstream().getMovementCache().isPEPositionAboveLeniency()) {
 			packets.add(create(session.getDownstream().playerEntityId,
 					new Vector3f(packet.getX(), packet.getY() + 0.01, packet.getZ()),
-					new Rotation(packet.getPitch(), packet.getYaw()), true));
+					new Rotation(packet.getPitch(), packet.getYaw(), packet.getYaw()), true));
 		}
 		return packets.toArray(new BedrockPacket[packets.size()]);
 	}
