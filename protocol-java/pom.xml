@@ -9,19 +9,32 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>HybridMC-legacy</artifactId>
+	<artifactId>HybridMC-protocol-java</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
+		<!-- COMPILE -->
 		<dependency>
-			<groupId>misat11.hybrid</groupId>
-			<artifactId>HybridMC-common</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
+			<groupId>com.github.steveice10</groupId>
+			<artifactId>mcprotocollib</artifactId>
+			<version>1.13.2-1-SNAPSHOT</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>io.netty</groupId>
+					<artifactId>netty-all</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
+		<!-- PROVIDED -->
 		<dependency>
 			<groupId>misat11.hybrid</groupId>
-			<artifactId>HybridMC-protocol-bedrock</artifactId>
+			<artifactId>HybridMC-protocol-common</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

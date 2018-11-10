@@ -15,6 +15,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>misat11.hybrid</groupId>
+			<artifactId>HybridMC-api</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>misat11.hybrid</groupId>
 			<artifactId>HybridMC-bukkit</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
@@ -22,12 +28,6 @@
 		<dependency>
 			<groupId>misat11.hybrid</groupId>
 			<artifactId>HybridMC-common</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>misat11.hybrid</groupId>
-			<artifactId>HybridMC-api</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
@@ -45,7 +45,19 @@
 		</dependency>
 		<dependency>
 			<groupId>misat11.hybrid</groupId>
-			<artifactId>HybridMC-bedrock-protocol</artifactId>
+			<artifactId>HybridMC-protocol-bedrock</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>misat11.hybrid</groupId>
+			<artifactId>HybridMC-protocol-common</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>misat11.hybrid</groupId>
+			<artifactId>HybridMC-protocol-java</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>

@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>HybridMC-bedrock-protocol</artifactId>
+	<artifactId>HybridMC-protocol-bedrock</artifactId>
 	<packaging>jar</packaging>
 	
 	<properties>
@@ -130,6 +130,12 @@
         
         <!-- PROVIDED -->
         
+		<dependency>
+			<groupId>misat11.hybrid</groupId>
+			<artifactId>HybridMC-protocol-common</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>

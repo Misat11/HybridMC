@@ -48,12 +48,14 @@
 
 	<modules>
 		<module>api</module>
-		<module>bedrock-protocol</module>
 		<module>bukkit</module>
 		<module>common</module>
-		<module>plugin</module>
 		<module>flattening</module>
 		<module>legacy</module>
+		<module>plugin</module>
+        <module>protocol-bedrock</module>
+        <module>protocol-common</module>
+        <module>protocol-java</module>
 	</modules>
 
 </project>

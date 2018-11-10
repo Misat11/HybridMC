@@ -14,24 +14,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.github.steveice10</groupId>
-			<artifactId>mcprotocollib</artifactId>
-			<version>1.13.2-1-SNAPSHOT</version>
-			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>io.netty</groupId>
-					<artifactId>netty-all</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.google.code.gson</groupId>
-					<artifactId>gson</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>misat11.hybrid</groupId>
+			<artifactId>HybridMC-protocol-java</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>misat11.hybrid</groupId>
-			<artifactId>HybridMC-bedrock-protocol</artifactId>
+			<artifactId>HybridMC-protocol-bedrock</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
