@@ -4,12 +4,9 @@ package misat11.hybrid.downstream.translators;
 
 import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerPlayerListEntryPacket;
-/*import com.nukkitx.api.util.Skin;*/
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-/*import com.nukkitx.server.network.bedrock.packet.PlayerListPacket;
-import com.nukkitx.server.network.bedrock.packet.PlayerListPacket.Type;*/
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class PlayerListSetEntryTranslator implements IDownstreamTranslator<ServerPlayerListEntryPacket> {

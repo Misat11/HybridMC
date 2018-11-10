@@ -5,21 +5,21 @@ import java.util.List;
 
 import com.flowpowered.math.vector.Vector3f;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerRespawnPacket;
-import com.nukkitx.api.util.Rotation;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.ChangeDimensionPacket;
-import com.nukkitx.server.network.bedrock.packet.FullChunkDataPacket;
-import com.nukkitx.server.network.bedrock.packet.MovePlayerPacket;
-import com.nukkitx.server.network.bedrock.packet.MovePlayerPacket.Mode;
-import com.nukkitx.server.network.bedrock.packet.MovePlayerPacket.TeleportationCause;
-import com.nukkitx.server.network.bedrock.packet.PlayStatusPacket;
-import com.nukkitx.server.network.bedrock.packet.PlayStatusPacket.Status;
-import com.nukkitx.server.network.util.VarInts;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.ChangeDimensionPacket;
+import misat11.hybrid.network.bedrock.packet.FullChunkDataPacket;
+import misat11.hybrid.network.bedrock.packet.MovePlayerPacket;
+import misat11.hybrid.network.bedrock.packet.PlayStatusPacket;
+import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.Mode;
+import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.TeleportationCause;
+import misat11.hybrid.network.bedrock.packet.PlayStatusPacket.Status;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.util.VarInts;
+import misat11.hybrid.util.Rotation;
 
 public class ChangeDimensionTranslator implements IDownstreamTranslator<ServerRespawnPacket> {
 	

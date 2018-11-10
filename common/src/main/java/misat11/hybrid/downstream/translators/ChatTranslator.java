@@ -12,12 +12,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import com.nukkitx.api.message.RawMessage;
-import com.nukkitx.api.message.TipMessage;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.TextPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.message.RawMessage;
+import misat11.hybrid.message.TipMessage;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.TextPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class ChatTranslator implements IDownstreamTranslator<ServerChatPacket>{

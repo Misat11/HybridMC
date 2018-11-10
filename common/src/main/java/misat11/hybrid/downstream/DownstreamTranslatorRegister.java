@@ -50,7 +50,6 @@ import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerUnload
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerUpdateTileEntityPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerUpdateTimePacket;
 import com.github.steveice10.packetlib.packet.Packet;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
 
 import misat11.hybrid.downstream.translators.AnimationPacketTranslator;
 import misat11.hybrid.downstream.translators.BlockChangeMultiTranslator;
@@ -98,6 +97,7 @@ import misat11.hybrid.downstream.translators.WorldCustomSoundTranslator;
 import misat11.hybrid.downstream.translators.WorldEventTranslator;
 import misat11.hybrid.downstream.translators.WorldParticleTranslator;
 import misat11.hybrid.downstream.translators.WorldSoundTranslator;
+import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class DownstreamTranslatorRegister {

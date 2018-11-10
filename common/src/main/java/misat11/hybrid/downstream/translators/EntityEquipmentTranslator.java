@@ -2,14 +2,14 @@ package misat11.hybrid.downstream.translators;
 
 import com.github.steveice10.mc.protocol.data.game.entity.EquipmentSlot;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityEquipmentPacket;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.MobArmorEquipmentPacket;
-import com.nukkitx.server.network.bedrock.packet.MobEquipmentPacket;
 
 import misat11.hybrid.blockitems.ItemEntry;
 import misat11.hybrid.blockitems.ItemStack;
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.MobArmorEquipmentPacket;
+import misat11.hybrid.network.bedrock.packet.MobEquipmentPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class EntityEquipmentTranslator implements IDownstreamTranslator<ServerEntityEquipmentPacket> {

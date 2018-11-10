@@ -195,6 +195,7 @@ public class LegacyItemBlockTranslator implements IBlockTranslator<BlockEntry>, 
 		}
 		int peId = PC_TO_PE_OVERRIDE.get(entry.getId());
 		if (peId < 0) {
+			peId *= -1;
 			peId += MAX_BLOCK_VALUE; // Only block ITEMS can have negative
 		}
 		return new BlockEntry(peId, entry.getData());

@@ -6,7 +6,8 @@ import java.util.Map;
 import com.flowpowered.math.vector.Vector3f;
 import com.github.steveice10.mc.protocol.data.game.entity.type.MobType;
 import com.github.steveice10.mc.protocol.data.game.entity.type.object.ObjectType;
-import com.nukkitx.server.entity.EntityType;
+
+import misat11.hybrid.entity.EntityType;
 
 public class EntityRemapper {
 

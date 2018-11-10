@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityStatusPacket;
-import com.nukkitx.server.entity.EntityEvent;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.EntityEventPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.entity.EntityEvent;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.EntityEventPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class EntityStatusTranslator implements IDownstreamTranslator<ServerEntityStatusPacket>{

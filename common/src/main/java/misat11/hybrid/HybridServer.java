@@ -5,16 +5,18 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.github.steveice10.mc.protocol.MinecraftConstants;
+import com.github.steveice10.mc.protocol.data.game.world.sound.BuiltinSound;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.nukkitx.network.raknet.RakNetServer;
-import com.nukkitx.server.NukkitServer;
-import com.nukkitx.server.level.manager.LevelPaletteManager;
-import com.nukkitx.server.network.bedrock.BedrockPacketCodec;
 
+import misat11.hybrid.NukkitServer;
 import misat11.hybrid.blockitems.IBlockTranslator;
 import misat11.hybrid.blockitems.IItemTranslator;
+import misat11.hybrid.downstream.SoundTranslator;
+import misat11.hybrid.level.manager.LevelPaletteManager;
 import misat11.hybrid.network.HybridRakNetEventListener;
 import misat11.hybrid.network.HybridSessionManager;
+import misat11.hybrid.network.bedrock.BedrockPacketCodec;
 import misat11.hybrid.network.bedrock.packet.HybridWrappedPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
@@ -59,6 +61,7 @@ public class HybridServer {
 				log("§cYour server version is not supported!");
 			}
 			selector.select(this, pcProtocolVersion);
+			SoundTranslator.isTranslatable(BuiltinSound.AMBIENT_CAVE); // Load translates
 			sessionManager = new HybridSessionManager();
 	        int configNetThreads = networkthreads;
 	        int maxThreads = configNetThreads < 1 ? Runtime.getRuntime().availableProcessors() : configNetThreads;

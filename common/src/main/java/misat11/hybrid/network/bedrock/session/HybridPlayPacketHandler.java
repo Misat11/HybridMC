@@ -23,16 +23,16 @@ import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientSteerB
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientSteerVehiclePacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientTeleportConfirmPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.client.world.ClientVehicleMovePacket;
-import com.nukkitx.server.entity.EntityType;
-import com.nukkitx.server.inventory.transaction.ItemReleaseTransaction;
-import com.nukkitx.server.inventory.transaction.ItemUseOnEntityTransaction;
-import com.nukkitx.server.inventory.transaction.ItemUseTransaction;
-import com.nukkitx.server.network.bedrock.NetworkPacketHandler;
-import com.nukkitx.server.network.bedrock.packet.*;
 
 import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.downstream.cache.MovementCache;
 import misat11.hybrid.downstream.translators.StartGameTranslator;
+import misat11.hybrid.entity.EntityType;
+import misat11.hybrid.inventory.transaction.ItemReleaseTransaction;
+import misat11.hybrid.inventory.transaction.ItemUseOnEntityTransaction;
+import misat11.hybrid.inventory.transaction.ItemUseTransaction;
+import misat11.hybrid.network.bedrock.NetworkPacketHandler;
+import misat11.hybrid.network.bedrock.packet.*;
 import misat11.hybrid.typeremapper.EntityRemapper;
 import misat11.hybrid.utils.BlockFaceModificator;
 

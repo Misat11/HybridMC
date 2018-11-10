@@ -5,12 +5,12 @@ import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntit
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPositionPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPositionRotationPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityRotationPacket;
-import com.nukkitx.api.util.Rotation;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
+import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.util.Rotation;
 
 public class EntityDeltaPositionRotationTranslator implements IDownstreamTranslator<ServerEntityMovementPacket> {
 
@@ -28,7 +28,8 @@ public class EntityDeltaPositionRotationTranslator implements IDownstreamTransla
 			entity.setYaw(packet.getYaw());
 			entity.setPitch(packet.getPitch());
 		}
-		return new BedrockPacket[] { EntityTeleportTranslator.updateGeneral(entity, new Vector3f(entity.getX(), entity.getY(), entity.getZ()), new Rotation(entity.getPitch(), entity.getYaw(), entity.getHeadYaw()), packet.isOnGround(), false) };
+		return null;
+		//return new BedrockPacket[] { EntityTeleportTranslator.updateGeneral(entity, new Vector3f(entity.getX(), entity.getY(), entity.getZ()), new Rotation(entity.getPitch(), entity.getYaw(), entity.getHeadYaw()), packet.isOnGround(), false) };
 	}
 
 }

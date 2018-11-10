@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityDestroyPacket;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.RemoveEntityPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.RemoveEntityPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class EntityDestroyTranslator implements IDownstreamTranslator<ServerEntityDestroyPacket> {

@@ -6,20 +6,20 @@ import com.google.common.base.Preconditions;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.crypto.factories.DefaultJWSVerifierFactory;
-import com.nukkitx.server.NukkitServer;
-import com.nukkitx.server.network.bedrock.BedrockPacketCodec;
-import com.nukkitx.server.network.bedrock.NetworkPacketHandler;
-import com.nukkitx.server.network.bedrock.packet.ClientToServerHandshakePacket;
-import com.nukkitx.server.network.bedrock.packet.LoginPacket;
-import com.nukkitx.server.network.bedrock.packet.PlayStatusPacket;
-import com.nukkitx.server.network.bedrock.packet.ResourcePacksInfoPacket;
-import com.nukkitx.server.network.bedrock.session.data.AuthData;
-import com.nukkitx.server.network.bedrock.session.data.ClientData;
-import com.nukkitx.server.network.util.EncryptionUtil;
-import com.nukkitx.server.util.NativeCodeFactory;
 import com.voxelwind.server.jni.CryptoUtil;
 
+import misat11.hybrid.NukkitServer;
 import misat11.hybrid.Platform;
+import misat11.hybrid.network.bedrock.BedrockPacketCodec;
+import misat11.hybrid.network.bedrock.NetworkPacketHandler;
+import misat11.hybrid.network.bedrock.packet.ClientToServerHandshakePacket;
+import misat11.hybrid.network.bedrock.packet.LoginPacket;
+import misat11.hybrid.network.bedrock.packet.PlayStatusPacket;
+import misat11.hybrid.network.bedrock.packet.ResourcePacksInfoPacket;
+import misat11.hybrid.network.bedrock.session.data.AuthData;
+import misat11.hybrid.network.bedrock.session.data.ClientData;
+import misat11.hybrid.network.util.EncryptionUtil;
+import misat11.hybrid.util.NativeCodeFactory;
 
 import static misat11.hybrid.Platform.log;
 

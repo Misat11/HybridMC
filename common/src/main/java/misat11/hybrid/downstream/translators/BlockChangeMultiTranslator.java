@@ -6,10 +6,10 @@ import java.util.List;
 
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockChangeRecord;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerMultiBlockChangePacket;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.UpdateBlockPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class BlockChangeMultiTranslator implements IDownstreamTranslator<ServerMultiBlockChangePacket> {

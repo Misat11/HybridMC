@@ -7,11 +7,11 @@ import java.util.List;
 import com.github.steveice10.mc.protocol.data.game.entity.attribute.AttributeModifier;
 import com.github.steveice10.mc.protocol.data.game.entity.attribute.AttributeType;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPropertiesPacket;
-import com.nukkitx.server.entity.Attribute;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.UpdateAttributesPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.entity.Attribute;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.UpdateAttributesPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class EntitySetAttributesTranslator implements IDownstreamTranslator<ServerEntityPropertiesPacket> {

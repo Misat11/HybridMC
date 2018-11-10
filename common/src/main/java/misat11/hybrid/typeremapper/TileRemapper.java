@@ -6,9 +6,9 @@ import com.nukkitx.nbt.CompoundTagBuilder;
 
 public class TileRemapper {
 	
-	public static com.nukkitx.nbt.tag.CompoundTag remap(UpdatedTileType tileType, CompoundTag tag){
+	public static CompoundTagBuilder remap(UpdatedTileType tileType, CompoundTag tag){
 		CompoundTagBuilder builder = CompoundTagBuilder.builder();
 		// TODO
-		return builder.buildRootTag();
+		return builder;
 	}
 }

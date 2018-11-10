@@ -5,17 +5,17 @@ import java.util.List;
 
 import com.flowpowered.math.vector.Vector3f;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
-import com.nukkitx.api.util.Rotation;
-import com.nukkitx.server.entity.EntityType;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.FullChunkDataPacket;
-import com.nukkitx.server.network.bedrock.packet.MovePlayerPacket;
-import com.nukkitx.server.network.bedrock.packet.MovePlayerPacket.Mode;
-import com.nukkitx.server.network.bedrock.packet.MovePlayerPacket.TeleportationCause;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.entity.EntityType;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.FullChunkDataPacket;
+import misat11.hybrid.network.bedrock.packet.MovePlayerPacket;
+import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.Mode;
+import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.TeleportationCause;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 import misat11.hybrid.typeremapper.EntityRemapper;
+import misat11.hybrid.util.Rotation;
 
 public class SetPositionTranslator implements IDownstreamTranslator<ServerPlayerPositionRotationPacket> {
 

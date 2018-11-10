@@ -3,11 +3,11 @@ package misat11.hybrid.downstream.translators;
 import com.flowpowered.math.vector.Vector3i;
 import com.github.steveice10.mc.protocol.data.game.world.sound.BuiltinSound;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerPlaySoundPacket;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.PlaySoundPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.SoundTranslator;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.PlaySoundPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class WorldCustomSoundTranslator implements IDownstreamTranslator<ServerPlaySoundPacket>{

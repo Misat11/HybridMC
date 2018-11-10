@@ -8,13 +8,13 @@ import com.github.steveice10.mc.protocol.data.game.chunk.Column;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockState;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerChunkDataPacket;
 import com.nukkitx.network.VarInts;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.FullChunkDataPacket;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import misat11.hybrid.blockitems.BlockEntry;
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.FullChunkDataPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class ChunkTranslator implements IDownstreamTranslator<ServerChunkDataPacket> {

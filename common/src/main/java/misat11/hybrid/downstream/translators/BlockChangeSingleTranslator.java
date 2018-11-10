@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
-import com.nukkitx.server.level.manager.LevelPaletteManager;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.UpdateBlockPacket;
-import com.nukkitx.server.network.bedrock.packet.UpdateBlockPacket.DataLayer;
 
 import misat11.hybrid.blockitems.BlockEntry;
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.level.manager.LevelPaletteManager;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket;
+import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket.DataLayer;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
 public class BlockChangeSingleTranslator implements IDownstreamTranslator<ServerBlockChangePacket> {

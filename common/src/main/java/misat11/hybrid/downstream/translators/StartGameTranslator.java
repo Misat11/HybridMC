@@ -6,24 +6,25 @@ import java.util.List;
 import com.flowpowered.math.vector.Vector3f;
 import com.github.steveice10.mc.protocol.data.game.entity.player.GameMode;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
-import com.nukkitx.api.permission.CommandPermission;
-import com.nukkitx.api.permission.PlayerPermission;
-import com.nukkitx.api.util.Rotation;
-import com.nukkitx.server.entity.EntityType;
-import com.nukkitx.server.level.NukkitLevelData;
-import com.nukkitx.server.network.bedrock.BedrockPacket;
-import com.nukkitx.server.network.bedrock.packet.AdventureSettingsPacket;
-import com.nukkitx.server.network.bedrock.packet.ChunkRadiusUpdatePacket;
-import com.nukkitx.server.network.bedrock.packet.PlayStatusPacket;
-import com.nukkitx.server.network.bedrock.packet.PlayStatusPacket.Status;
-import com.nukkitx.server.permission.NukkitAbilities;
-import com.nukkitx.server.network.bedrock.packet.ResourcePackStackPacket;
-import com.nukkitx.server.network.bedrock.packet.StartGamePacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.downstream.cache.MovementCache;
+import misat11.hybrid.entity.EntityType;
+import misat11.hybrid.level.LevelSettings;
+import misat11.hybrid.level.data.Dimension;
+import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.AdventureSettingsPacket;
+import misat11.hybrid.network.bedrock.packet.ChunkRadiusUpdatePacket;
+import misat11.hybrid.network.bedrock.packet.PlayStatusPacket;
+import misat11.hybrid.network.bedrock.packet.ResourcePackStackPacket;
+import misat11.hybrid.network.bedrock.packet.StartGamePacket;
+import misat11.hybrid.network.bedrock.packet.PlayStatusPacket.Status;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.permission.CommandPermission;
+import misat11.hybrid.permission.NukkitAbilities;
+import misat11.hybrid.permission.PlayerPermission;
+import misat11.hybrid.util.Rotation;
 
 public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGamePacket> {
 
@@ -53,8 +54,9 @@ public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGame
 		sgp.setWorldName("");
 		sgp.setPremiumWorldTemplateId("");
 		sgp.setMultiplayerCorrelationId("");
-		NukkitLevelData settings = new NukkitLevelData() { // TODO change dimension
+		LevelSettings settings = new LevelSettings() { // TODO change dimension
 		};
+		settings.setDimension(Dimension.values()[ChangeDimensionTranslator.getPeDimensionId(packet.getDimension())]);
 		settings.setDefaultAbilities(new NukkitAbilities());
 		settings.setDefaultSpawn(new Vector3f(0, 0, 0));
 		sgp.setLevelSettings(settings);
@@ -91,22 +93,22 @@ public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGame
 				session.getDownstream().switchFakePos ? 20 : 30, packet.getEntityId());
 
 		session.getDownstream().switchFakePos = !session.getDownstream().switchFakePos;
-		ChangeDimensionTranslator.create(packet.getDimension(), session.getDownstream().switchFakePos ? 20 : 30,
+		ChangeDimensionTranslator.create(ChangeDimensionTranslator.getPeDimensionId(packet.getDimension()), session.getDownstream().switchFakePos ? 20 : 30,
 				packet.getEntityId());
 		return packets.toArray(new BedrockPacket[packets.size()]);
 	}
 
-	public static com.nukkitx.api.util.GameMode transl(GameMode gm) {
+	public static misat11.hybrid.util.GameMode transl(GameMode gm) {
 		switch (gm) {
 		case ADVENTURE:
-			return com.nukkitx.api.util.GameMode.ADVENTURE;
+			return misat11.hybrid.util.GameMode.ADVENTURE;
 		case CREATIVE:
-			return com.nukkitx.api.util.GameMode.CREATIVE;
+			return misat11.hybrid.util.GameMode.CREATIVE;
 		case SPECTATOR:
-			return com.nukkitx.api.util.GameMode.SPECTATOR;
+			return misat11.hybrid.util.GameMode.SPECTATOR;
 		case SURVIVAL:
 		default:
-			return com.nukkitx.api.util.GameMode.SURVIVAL;
+			return misat11.hybrid.util.GameMode.SURVIVAL;
 		}
 	}
 
