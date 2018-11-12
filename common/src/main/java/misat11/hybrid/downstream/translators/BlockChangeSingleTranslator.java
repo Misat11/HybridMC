@@ -3,13 +3,16 @@ package misat11.hybrid.downstream.translators;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.flowpowered.math.vector.Vector3f;
 import com.flowpowered.math.vector.Vector3i;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
 
 import misat11.hybrid.blockitems.BlockEntry;
 import misat11.hybrid.downstream.IDownstreamTranslator;
+import misat11.hybrid.level.SoundEvent;
 import misat11.hybrid.level.manager.LevelPaletteManager;
 import misat11.hybrid.network.bedrock.BedrockPacket;
+import misat11.hybrid.network.bedrock.packet.LevelSoundEventPacket;
 import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket;
 import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket.DataLayer;
 import misat11.hybrid.network.bedrock.session.HybridSession;
@@ -18,6 +21,7 @@ public class BlockChangeSingleTranslator implements IDownstreamTranslator<Server
 
 	@Override
 	public BedrockPacket[] translate(HybridSession session, ServerBlockChangePacket packet) {
+		// TODO block open
 		return generate(session.getServer().getPaletteManager(), convertPosition(packet.getRecord().getPosition()),
 				session.getServer().getBlockTranslator().blockPcToPe(packet.getRecord().getBlock().getId()));
 	}
@@ -40,5 +44,26 @@ public class BlockChangeSingleTranslator implements IDownstreamTranslator<Server
 		}
 		return list.toArray(new UpdateBlockPacket[list.size()]);
 	}
+
+    public static void build(HybridSession session, Vector3f pos, BlockEntry entry) {
+        LevelSoundEventPacket pk = new LevelSoundEventPacket();
+        pk.setSoundEvent(SoundEvent.PLACE);
+        pk.setPosition(pos);
+        pk.setExtraData(session.getServer().getPaletteManager().fromLegacy(entry.getId(), (byte) entry.getData()));
+        pk.setPitch(1);
+        session.sendImmediatePackage(pk);
+    }
+
+    public static boolean isDoor(int id) {
+        return id == 64 || id == 193 || id == 194 || id == 195 || id == 196 || id == 197 || id == 71;
+    }
+
+    public static boolean isGate(int id) {
+        return id == 107 || id == 183 || id == 184 || id == 185 || id == 186 || id == 187;
+    }
+
+    public static boolean isTrapdoor(int id) {
+        return id == 96 || id == 167 || id == 400 || id == 401 || id == 402 || id == 403 || id == 404;
+    }
 
 }

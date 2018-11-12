@@ -31,10 +31,6 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		<repository>
-			<id>nms-repo</id>
-			<url>https://repo.codemc.org/repository/nms</url>
-		</repository>
 	</repositories>
 
 	<dependencies>

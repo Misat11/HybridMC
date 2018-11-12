@@ -4,6 +4,7 @@ import com.flowpowered.math.vector.Vector3f;
 
 import io.netty.buffer.ByteBuf;
 import lombok.Data;
+import lombok.Getter;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.NetworkPacketHandler;
 
@@ -12,13 +13,13 @@ import static misat11.hybrid.network.util.VarInts.writeInt;
 
 @Data
 public class LevelEventPacket implements BedrockPacket {
-    private Event event;
+    private int event;
     private Vector3f position;
     private int data;
 
     @Override
     public void encode(ByteBuf buffer) {
-        writeInt(buffer, event.id);
+        writeInt(buffer, event);
         writeVector3f(buffer, position);
         writeInt(buffer, data);
     }
@@ -31,6 +32,14 @@ public class LevelEventPacket implements BedrockPacket {
     @Override
     public void handle(NetworkPacketHandler handler) {
         // Only client bound.
+    }
+    
+    public void setEvent(Event event) {
+    	this.event = event.id;
+    }
+    
+    public void setEvent(int id) {
+    	this.event = id;
     }
 
     public enum Event {
@@ -68,6 +77,7 @@ public class LevelEventPacket implements BedrockPacket {
         PARTICLE_SPLASH(2002),
         PARTICLE_EYE_DESPAWN(2003),
         PARTICLE_SPAWN(2004),
+        PARTICLE_BONEMEAL(2005),
         GUARDIAN_CURSE(2006),
         PARTICLE_BLOCK_FORCE_FIELD(2008),
         PARTICLE_PUNCH_BLOCK(2014),
@@ -92,6 +102,7 @@ public class LevelEventPacket implements BedrockPacket {
         PLAYERS_SLEEPING(9800);
 
 
+    	@Getter
         private final int id;
 
         Event(int id) {

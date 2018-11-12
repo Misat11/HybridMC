@@ -16,6 +16,7 @@ import com.github.steveice10.packetlib.tcp.TcpSessionFactory;
 
 import misat11.hybrid.downstream.cache.ChunkSentCache;
 import misat11.hybrid.downstream.cache.InventoryCache;
+import misat11.hybrid.downstream.cache.JukeboxCache;
 import misat11.hybrid.downstream.cache.MovementCache;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 
@@ -36,6 +37,7 @@ public class DownstreamConnection {
 	private ChunkSentCache cache;
 	private MovementCache move;
 	private InventoryCache inventory;
+	private JukeboxCache jukebox;
 	private HashMap<UUID, PlayerListEntry> listEntryCache = new HashMap<>();
 	private HashMap<Long, WatchedEntity> watchedEntities = new HashMap<>();
 	
@@ -65,6 +67,7 @@ public class DownstreamConnection {
 		cache = new ChunkSentCache();
 		move = new MovementCache();
 		inventory = new InventoryCache();
+		jukebox = new JukeboxCache();
 		remoteClient = new Client(ip, port, protocol, new TcpSessionFactory());
 		remoteClient.getSession().setConnectTimeout(5);
 		remoteClient.getSession().setReadTimeout(5);
@@ -147,6 +150,10 @@ public class DownstreamConnection {
 	
 	public InventoryCache getInventoryCache() {
 		return inventory;
+	}
+	
+	public JukeboxCache getJukeboxCache() {
+		return jukebox;
 	}
 	
 	public Map<UUID, PlayerListEntry> getPlayerListEntryCache() {
