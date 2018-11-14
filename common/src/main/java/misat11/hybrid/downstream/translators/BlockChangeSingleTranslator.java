@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.flowpowered.math.vector.Vector3f;
 import com.flowpowered.math.vector.Vector3i;
-import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
 
 import misat11.hybrid.blockitems.BlockEntry;
 import misat11.hybrid.downstream.IDownstreamTranslator;
@@ -16,6 +15,7 @@ import misat11.hybrid.network.bedrock.packet.LevelSoundEventPacket;
 import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket;
 import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket.DataLayer;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerBlockChangePacket;
 
 public class BlockChangeSingleTranslator implements IDownstreamTranslator<ServerBlockChangePacket> {
 

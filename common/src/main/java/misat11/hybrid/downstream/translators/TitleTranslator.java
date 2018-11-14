@@ -1,11 +1,10 @@
 package misat11.hybrid.downstream.translators;
 
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerTitlePacket;
-
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.SetTitlePacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerTitlePacket;
 
 public class TitleTranslator implements IDownstreamTranslator<ServerTitlePacket> {
 

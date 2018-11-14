@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.flowpowered.math.vector.Vector3i;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
-import com.github.steveice10.mc.protocol.data.game.world.block.BlockFace;
+
+import misat11.hybrid.network.java.p404.data.game.entity.metadata.Position;
+import misat11.hybrid.network.java.p404.data.game.world.block.BlockFace;
 
 public enum BlockFaceModificator {
 	SELF(BlockFace.SPECIAL, -1, 0, 0, 0),

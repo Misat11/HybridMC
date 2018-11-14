@@ -1,11 +1,10 @@
 package misat11.hybrid.downstream.cache;
 
-import com.github.steveice10.mc.protocol.packet.ingame.client.window.ClientCloseWindowPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.window.ServerOpenWindowPacket;
-
 import lombok.Data;
 import misat11.hybrid.network.bedrock.packet.ContainerClosePacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.packet.ingame.client.window.ClientCloseWindowPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.window.ServerOpenWindowPacket;
 
 @Data
 public class InventoryCache {

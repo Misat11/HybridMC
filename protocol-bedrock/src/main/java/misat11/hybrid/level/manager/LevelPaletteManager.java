@@ -48,6 +48,10 @@ public class LevelPaletteManager {
             cachedPallete.writeShortLE(entry.data);
         }
     }
+    
+    public int fromLegacy(int id) {
+    	return fromLegacy(id, (byte) 0);
+    }
 
     public int fromLegacy(int id, byte data) {
         int runtimeId;

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.flowpowered.math.vector.Vector3f;
-import com.github.steveice10.mc.protocol.data.game.entity.player.GameMode;
-import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerNotifyClientPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
@@ -14,6 +12,8 @@ import misat11.hybrid.network.bedrock.packet.LevelEventPacket;
 import misat11.hybrid.network.bedrock.packet.SetPlayerGameTypePacket;
 import misat11.hybrid.network.bedrock.packet.LevelEventPacket.Event;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.data.game.entity.player.GameMode;
+import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerNotifyClientPacket;
 import misat11.hybrid.permission.CommandPermission;
 import misat11.hybrid.permission.PlayerPermission;
 

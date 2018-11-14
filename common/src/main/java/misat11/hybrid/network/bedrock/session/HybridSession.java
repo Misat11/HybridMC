@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.github.steveice10.mc.protocol.MinecraftProtocol;
 import com.nukkitx.network.NetworkPacket;
 import com.nukkitx.network.NetworkSession;
 import com.nukkitx.network.raknet.RakNetPacket;
@@ -33,6 +32,7 @@ import misat11.hybrid.network.bedrock.session.data.AuthData;
 import misat11.hybrid.network.bedrock.session.data.ClientData;
 import misat11.hybrid.network.bedrock.wrapper.DefaultWrapperHandler;
 import misat11.hybrid.network.bedrock.wrapper.WrapperHandler;
+import misat11.hybrid.network.java.p404.MinecraftProtocol404;
 import misat11.hybrid.util.NativeCodeFactory;
 import net.md_5.bungee.jni.cipher.BungeeCipher;
 
@@ -409,7 +409,7 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 		if (downstream != null && downstream.isConnected()) {
 			return;
 		}
-		MinecraftProtocol protocol = new MinecraftProtocol(authData.getDisplayName());
+		MinecraftProtocol404 protocol = new MinecraftProtocol404(authData.getDisplayName());
 		downstream = new DownstreamConnection(this, protocol, server.pcIp, server.pcPort);
 		downstream.connect();
 	}

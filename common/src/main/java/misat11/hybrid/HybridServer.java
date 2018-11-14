@@ -4,8 +4,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.github.steveice10.mc.protocol.MinecraftConstants;
-import com.github.steveice10.mc.protocol.data.game.world.sound.BuiltinSound;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.nukkitx.network.raknet.RakNetServer;
 
@@ -19,6 +17,8 @@ import misat11.hybrid.network.HybridSessionManager;
 import misat11.hybrid.network.bedrock.BedrockPacketCodec;
 import misat11.hybrid.network.bedrock.packet.HybridWrappedPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.MinecraftConstants;
+import misat11.hybrid.network.java.p404.data.game.world.sound.BuiltinSound;
 
 import static misat11.hybrid.Platform.log;
 

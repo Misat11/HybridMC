@@ -1,8 +1,6 @@
 package misat11.hybrid.downstream.translators;
 
 import com.flowpowered.math.vector.Vector3i;
-import com.github.steveice10.mc.protocol.data.game.entity.type.PaintingType;
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn.ServerSpawnPaintingPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
@@ -11,6 +9,8 @@ import misat11.hybrid.entity.Painting;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.AddPaintingPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.data.game.entity.type.PaintingType;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.spawn.ServerSpawnPaintingPacket;
 
 public class SpawnPaintingTranslator implements IDownstreamTranslator<ServerSpawnPaintingPacket> {
 

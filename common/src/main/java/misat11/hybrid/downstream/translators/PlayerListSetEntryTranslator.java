@@ -1,13 +1,10 @@
 package misat11.hybrid.downstream.translators;
 
-/*import javax.imageio.ImageIO;*/
-
-import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerPlayerListEntryPacket;
-
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.data.game.PlayerListEntry;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerPlayerListEntryPacket;
 
 public class PlayerListSetEntryTranslator implements IDownstreamTranslator<ServerPlayerListEntryPacket> {
 

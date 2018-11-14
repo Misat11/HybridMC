@@ -3,13 +3,12 @@ package misat11.hybrid.downstream.translators;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.steveice10.mc.protocol.data.game.entity.player.Animation;
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityAnimationPacket;
-
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.AnimatePacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.data.game.entity.player.Animation;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityAnimationPacket;
 
 public class AnimationPacketTranslator implements IDownstreamTranslator<ServerEntityAnimationPacket> {
 

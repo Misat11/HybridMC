@@ -16,14 +16,28 @@
 		<!-- COMPILE -->
 		<dependency>
 			<groupId>com.github.steveice10</groupId>
-			<artifactId>mcprotocollib</artifactId>
-			<version>1.13.2-1-SNAPSHOT</version>
+			<artifactId>opennbt</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.steveice10</groupId>
+			<artifactId>packetlib</artifactId>
+			<version>1.3-SNAPSHOT</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>io.netty</groupId>
 					<artifactId>netty-all</artifactId>
 				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.github.steveice10</groupId>
+			<artifactId>mcauthlib</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<scope>compile</scope>
+			<exclusions>
 				<exclusion>
 					<groupId>com.google.code.gson</groupId>
 					<artifactId>gson</artifactId>
@@ -37,6 +51,20 @@
 			<artifactId>HybridMC-protocol-common</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- TEST -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

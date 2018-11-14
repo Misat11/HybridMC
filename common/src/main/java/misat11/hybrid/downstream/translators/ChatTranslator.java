@@ -3,12 +3,6 @@ package misat11.hybrid.downstream.translators;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.steveice10.mc.protocol.data.game.MessageType;
-import com.github.steveice10.mc.protocol.data.message.ChatColor;
-import com.github.steveice10.mc.protocol.data.message.ChatFormat;
-import com.github.steveice10.mc.protocol.data.message.Message;
-import com.github.steveice10.mc.protocol.data.message.TranslationMessage;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,6 +15,12 @@ import misat11.hybrid.message.TipMessage;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.TextPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.data.game.MessageType;
+import misat11.hybrid.network.java.p404.data.message.ChatColor;
+import misat11.hybrid.network.java.p404.data.message.ChatFormat;
+import misat11.hybrid.network.java.p404.data.message.Message;
+import misat11.hybrid.network.java.p404.data.message.TranslationMessage;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerChatPacket;
 
 public class ChatTranslator implements IDownstreamTranslator<ServerChatPacket> {
 

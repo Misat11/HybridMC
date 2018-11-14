@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.flowpowered.math.vector.Vector3f;
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.entity.EntityType;
@@ -14,6 +13,7 @@ import misat11.hybrid.network.bedrock.packet.MovePlayerPacket;
 import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.Mode;
 import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.TeleportationCause;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
 import misat11.hybrid.typeremapper.EntityRemapper;
 import misat11.hybrid.util.Rotation;
 

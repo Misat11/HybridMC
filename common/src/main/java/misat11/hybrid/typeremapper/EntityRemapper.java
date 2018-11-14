@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.flowpowered.math.vector.Vector3f;
-import com.github.steveice10.mc.protocol.data.game.entity.type.MobType;
-import com.github.steveice10.mc.protocol.data.game.entity.type.object.ObjectType;
 
 import misat11.hybrid.entity.EntityType;
+import misat11.hybrid.network.java.p404.data.game.entity.type.MobType;
+import misat11.hybrid.network.java.p404.data.game.entity.type.object.ObjectType;
 
 public class EntityRemapper {
 

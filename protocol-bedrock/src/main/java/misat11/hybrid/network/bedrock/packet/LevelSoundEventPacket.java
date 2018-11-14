@@ -24,7 +24,7 @@ public class LevelSoundEventPacket implements BedrockPacket {
 
     @Override
     public void encode(ByteBuf buffer) {
-        buffer.writeByte(soundEvent.ordinal());
+        buffer.writeByte(soundEvent.getSoundID());
         writeVector3f(buffer, position);
         writeInt(buffer, extraData);
         writeInt(buffer, pitch);
@@ -34,7 +34,7 @@ public class LevelSoundEventPacket implements BedrockPacket {
 
     @Override
     public void decode(ByteBuf buffer) {
-        soundEvent = SoundEvent.values()[buffer.readByte()];
+        soundEvent = SoundEvent.fromID(buffer.readByte());
         position = readVector3f(buffer);
         extraData = readInt(buffer);
         pitch = readInt(buffer);

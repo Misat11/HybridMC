@@ -1,11 +1,10 @@
 package misat11.hybrid.downstream.translators;
 
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntitySetPassengersPacket;
-
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.SetEntityLinkPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntitySetPassengersPacket;
 
 public class VehiclePassengersTranslator implements IDownstreamTranslator<ServerEntitySetPassengersPacket>{
 

@@ -2,11 +2,6 @@ package misat11.hybrid.downstream.translators;
 
 import java.util.LinkedHashMap;
 
-import com.github.steveice10.mc.protocol.data.game.chunk.BlockStorage;
-import com.github.steveice10.mc.protocol.data.game.chunk.Chunk;
-import com.github.steveice10.mc.protocol.data.game.chunk.Column;
-import com.github.steveice10.mc.protocol.data.game.world.block.BlockState;
-import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerChunkDataPacket;
 import com.nukkitx.network.VarInts;
 
 import io.netty.buffer.ByteBuf;
@@ -16,6 +11,11 @@ import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.FullChunkDataPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.data.game.chunk.BlockStorage;
+import misat11.hybrid.network.java.p404.data.game.chunk.Chunk;
+import misat11.hybrid.network.java.p404.data.game.chunk.Column;
+import misat11.hybrid.network.java.p404.data.game.world.block.BlockState;
+import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerChunkDataPacket;
 
 public class ChunkTranslator implements IDownstreamTranslator<ServerChunkDataPacket> {
 

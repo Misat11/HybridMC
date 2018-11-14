@@ -1,5 +1,9 @@
 package misat11.hybrid.level;
 
+import java.util.Arrays;
+
+import lombok.Getter;
+
 public enum SoundEvent {
     ITEM_USE_ON,
     HIT,
@@ -178,5 +182,23 @@ public enum SoundEvent {
     BOTTLE_DRAGONBREATH,
     PORTAL_TRAVEL,
     DEFAULT,
-    UNDEFINED
+    UNDEFINED,
+    EVENT_SOUND_TNT(1005);
+
+	@Getter
+    private final int soundID;
+
+    SoundEvent() {
+        this.soundID = this.ordinal();
+    }
+
+    SoundEvent(int id) {
+        this.soundID = id;
+    }
+
+    public static SoundEvent fromID(int soundID) {
+        return Arrays.stream(values()).filter(sound -> sound.soundID == soundID).findFirst().orElse(null);
+    }
+
+    
 }

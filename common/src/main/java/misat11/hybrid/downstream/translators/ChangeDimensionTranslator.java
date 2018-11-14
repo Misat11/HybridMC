@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.flowpowered.math.vector.Vector3f;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerRespawnPacket;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -18,6 +17,7 @@ import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.Mode;
 import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.TeleportationCause;
 import misat11.hybrid.network.bedrock.packet.PlayStatusPacket.Status;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerRespawnPacket;
 import misat11.hybrid.network.util.VarInts;
 import misat11.hybrid.util.Rotation;
 

@@ -5,14 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.flowpowered.math.vector.Vector3f;
-import com.github.steveice10.mc.protocol.data.game.world.effect.BreakBlockEffectData;
-import com.github.steveice10.mc.protocol.data.game.world.effect.ParticleEffect;
-import com.github.steveice10.mc.protocol.data.game.world.effect.RecordEffectData;
-import com.github.steveice10.mc.protocol.data.game.world.effect.SoundEffect;
-import com.github.steveice10.mc.protocol.data.game.world.effect.WorldEffect;
-import com.github.steveice10.mc.protocol.data.game.world.effect.WorldEffectData;
-import com.github.steveice10.mc.protocol.data.game.world.sound.BuiltinSound;
-import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerPlayEffectPacket;
 
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.SoundTranslator;
@@ -25,6 +17,14 @@ import misat11.hybrid.network.bedrock.packet.StopSoundPacket;
 import misat11.hybrid.network.bedrock.packet.TextPacket;
 import misat11.hybrid.network.bedrock.packet.LevelEventPacket.Event;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.data.game.world.effect.BreakBlockEffectData;
+import misat11.hybrid.network.java.p404.data.game.world.effect.ParticleEffect;
+import misat11.hybrid.network.java.p404.data.game.world.effect.RecordEffectData;
+import misat11.hybrid.network.java.p404.data.game.world.effect.SoundEffect;
+import misat11.hybrid.network.java.p404.data.game.world.effect.WorldEffect;
+import misat11.hybrid.network.java.p404.data.game.world.effect.WorldEffectData;
+import misat11.hybrid.network.java.p404.data.game.world.sound.BuiltinSound;
+import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerPlayEffectPacket;
 
 public class WorldEventTranslator implements IDownstreamTranslator<ServerPlayEffectPacket> {
 

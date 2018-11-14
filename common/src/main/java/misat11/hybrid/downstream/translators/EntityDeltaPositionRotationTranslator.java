@@ -1,14 +1,13 @@
 package misat11.hybrid.downstream.translators;
 
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityMovementPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPositionPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPositionRotationPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityRotationPacket;
-
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityMovementPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityPositionPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityPositionRotationPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityRotationPacket;
 
 public class EntityDeltaPositionRotationTranslator implements IDownstreamTranslator<ServerEntityMovementPacket> {
 
