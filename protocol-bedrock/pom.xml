@@ -80,21 +80,15 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.fusesource.jansi</groupId>
-            <artifactId>jansi</artifactId>
-            <version>1.17.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline-reader</artifactId>
-            <version>3.7.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.iq80.leveldb</groupId>
             <artifactId>leveldb</artifactId>
             <version>0.10-SNAPSHOT</version>
+            <exclusions>
+            	<exclusion>
+		            <groupId>com.google.guava</groupId>
+		            <artifactId>guava</artifactId>
+            	</exclusion>
+            </exclusions>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -120,6 +114,12 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson.version}</version>
             <scope>compile</scope>
+            <exclusions>
+            	<exclusion>
+				      <groupId>org.yaml</groupId>
+				      <artifactId>snakeyaml</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -148,5 +148,17 @@
 			<version>25.0-jre</version>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>1.16</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jline</groupId>
+            <artifactId>jline-reader</artifactId>
+            <version>3.7.0</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 </project>

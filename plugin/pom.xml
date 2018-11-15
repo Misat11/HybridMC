@@ -78,6 +78,20 @@
 						</goals>
 					</execution>
 				</executions>
+
+				<configuration>
+					<relocations>
+						<!-- RELOCATIONS of some dependencies -->
+						<relocation>
+							<pattern>gnu.trove</pattern>
+							<shadedPattern>misat11.gnu.trove</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.objectweb</pattern>
+							<shadedPattern>misat11.org.objectweb</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
