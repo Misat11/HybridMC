@@ -9,9 +9,9 @@ import misat11.hybrid.entity.Attribute;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.UpdateAttributesPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.data.game.entity.attribute.AttributeModifier;
-import misat11.hybrid.network.java.p404.data.game.entity.attribute.AttributeType;
 import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityPropertiesPacket;
+import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.AttributeModifier;
+import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.AttributeType;
 
 public class EntitySetAttributesTranslator implements IDownstreamTranslator<ServerEntityPropertiesPacket> {
 
@@ -51,7 +51,7 @@ public class EntitySetAttributesTranslator implements IDownstreamTranslator<Serv
 	@Override
 	public BedrockPacket[] translate(HybridSession session, ServerEntityPropertiesPacket packet) {
 		List<Attribute> attributes = new ArrayList<>();
-		for (misat11.hybrid.network.java.p404.data.game.entity.attribute.Attribute attribute : packet
+		for (misat11.hybrid.network.java.pabstract.data.game.entity.attribute.Attribute attribute : packet
 				.getAttributes()) {
 			if (typeToInfo.containsKey(attribute.getType())) {
 				AttributeInfo info = typeToInfo.get(attribute.getType());

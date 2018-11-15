@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.UnlockRecipesAction;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.UnlockRecipesAction;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,7 +88,7 @@ public class ServerUnlockRecipesPacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues.key(UnlockRecipesAction.class, in.readVarInt());
+        this.action = MagicValues404.key(UnlockRecipesAction.class, in.readVarInt());
 
         this.openCraftingBook = in.readBoolean();
         this.activateCraftingFiltering = in.readBoolean();
@@ -112,7 +112,7 @@ public class ServerUnlockRecipesPacket extends MinecraftPacket {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
 
         out.writeBoolean(this.openCraftingBook);
         out.writeBoolean(this.activateCraftingFiltering);

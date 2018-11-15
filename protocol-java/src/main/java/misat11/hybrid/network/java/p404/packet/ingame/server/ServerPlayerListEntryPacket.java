@@ -4,12 +4,12 @@ import com.github.steveice10.mc.auth.data.GameProfile;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.PlayerListEntry;
-import misat11.hybrid.network.java.p404.data.game.PlayerListEntryAction;
-import misat11.hybrid.network.java.p404.data.game.entity.player.GameMode;
-import misat11.hybrid.network.java.p404.data.message.Message;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntry;
+import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntryAction;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
+import misat11.hybrid.network.java.pabstract.data.message.Message;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -37,7 +37,7 @@ public class ServerPlayerListEntryPacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues.key(PlayerListEntryAction.class, in.readVarInt());
+        this.action = MagicValues404.key(PlayerListEntryAction.class, in.readVarInt());
         this.entries = new PlayerListEntry[in.readVarInt()];
         for(int count = 0; count < this.entries.length; count++) {
             UUID uuid = in.readUUID();
@@ -64,7 +64,7 @@ public class ServerPlayerListEntryPacket extends MinecraftPacket {
                     }
 
                     int g = in.readVarInt();
-                    GameMode gameMode = MagicValues.key(GameMode.class, g < 0 ? 0 : g);
+                    GameMode gameMode = MagicValues404.key(GameMode.class, g < 0 ? 0 : g);
                     int ping = in.readVarInt();
                     Message displayName = null;
                     if(in.readBoolean()) {
@@ -75,7 +75,7 @@ public class ServerPlayerListEntryPacket extends MinecraftPacket {
                     break;
                 case UPDATE_GAMEMODE:
                     g = in.readVarInt();
-                    GameMode mode = MagicValues.key(GameMode.class, g < 0 ? 0 : g);
+                    GameMode mode = MagicValues404.key(GameMode.class, g < 0 ? 0 : g);
                     entry = new PlayerListEntry(profile, mode);
                     break;
                 case UPDATE_LATENCY:
@@ -100,7 +100,7 @@ public class ServerPlayerListEntryPacket extends MinecraftPacket {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
         out.writeVarInt(this.entries.length);
         for(PlayerListEntry entry : this.entries) {
             out.writeUUID(entry.getProfile().getId());
@@ -117,7 +117,7 @@ public class ServerPlayerListEntryPacket extends MinecraftPacket {
                         }
                     }
 
-                    out.writeVarInt(MagicValues.value(Integer.class, entry.getGameMode()));
+                    out.writeVarInt(MagicValues404.value(Integer.class, entry.getGameMode()));
                     out.writeVarInt(entry.getPing());
                     out.writeBoolean(entry.getDisplayName() != null);
                     if(entry.getDisplayName() != null) {
@@ -126,7 +126,7 @@ public class ServerPlayerListEntryPacket extends MinecraftPacket {
 
                     break;
                 case UPDATE_GAMEMODE:
-                    out.writeVarInt(MagicValues.value(Integer.class, entry.getGameMode()));
+                    out.writeVarInt(MagicValues404.value(Integer.class, entry.getGameMode()));
                     break;
                 case UPDATE_LATENCY:
                     out.writeVarInt(entry.getPing());

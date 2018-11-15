@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.packet.ingame.client.window;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.ItemStack;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -32,13 +32,13 @@ public class ClientEditBookPacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.book = NetUtil.readItem(in);
+        this.book = NetUtil404.readItem(in);
         this.isSigning = in.readBoolean();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil.writeItem(out, this.book);
+        NetUtil404.writeItem(out, this.book);
         out.writeBoolean(this.isSigning);
     }
 }

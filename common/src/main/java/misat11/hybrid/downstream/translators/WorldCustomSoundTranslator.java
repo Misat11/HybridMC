@@ -7,8 +7,8 @@ import misat11.hybrid.downstream.SoundTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.PlaySoundPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.data.game.world.sound.BuiltinSound;
 import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerPlaySoundPacket;
+import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
 
 public class WorldCustomSoundTranslator implements IDownstreamTranslator<ServerPlaySoundPacket>{
 

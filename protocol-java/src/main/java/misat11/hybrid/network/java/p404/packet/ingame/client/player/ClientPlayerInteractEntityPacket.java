@@ -3,10 +3,10 @@ package misat11.hybrid.network.java.p404.packet.ingame.client.player;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.player.Hand;
-import misat11.hybrid.network.java.p404.data.game.entity.player.InteractAction;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.Hand;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.InteractAction;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -67,7 +67,7 @@ public class ClientPlayerInteractEntityPacket extends MinecraftPacket {
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.action = MagicValues.key(InteractAction.class, in.readVarInt());
+        this.action = MagicValues404.key(InteractAction.class, in.readVarInt());
         if(this.action == InteractAction.INTERACT_AT) {
             this.targetX = in.readFloat();
             this.targetY = in.readFloat();
@@ -75,14 +75,14 @@ public class ClientPlayerInteractEntityPacket extends MinecraftPacket {
         }
 
         if(this.action == InteractAction.INTERACT || this.action == InteractAction.INTERACT_AT) {
-            this.hand = MagicValues.key(Hand.class, in.readVarInt());
+            this.hand = MagicValues404.key(Hand.class, in.readVarInt());
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
         if(this.action == InteractAction.INTERACT_AT) {
             out.writeFloat(this.targetX);
             out.writeFloat(this.targetY);
@@ -90,7 +90,7 @@ public class ClientPlayerInteractEntityPacket extends MinecraftPacket {
         }
 
         if(this.action == InteractAction.INTERACT || this.action == InteractAction.INTERACT_AT) {
-            out.writeVarInt(MagicValues.value(Integer.class, this.hand));
+            out.writeVarInt(MagicValues404.value(Integer.class, this.hand));
         }
     }
 }

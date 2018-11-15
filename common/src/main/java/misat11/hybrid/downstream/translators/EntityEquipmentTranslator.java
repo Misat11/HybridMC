@@ -8,8 +8,8 @@ import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.MobArmorEquipmentPacket;
 import misat11.hybrid.network.bedrock.packet.MobEquipmentPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.data.game.entity.EquipmentSlot;
 import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityEquipmentPacket;
+import misat11.hybrid.network.java.pabstract.data.game.entity.EquipmentSlot;
 
 public class EntityEquipmentTranslator implements IDownstreamTranslator<ServerEntityEquipmentPacket> {
 

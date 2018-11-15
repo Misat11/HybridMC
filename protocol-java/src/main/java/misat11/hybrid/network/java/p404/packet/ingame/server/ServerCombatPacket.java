@@ -3,10 +3,10 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.player.CombatState;
-import misat11.hybrid.network.java.p404.data.message.Message;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.CombatState;
+import misat11.hybrid.network.java.pabstract.data.message.Message;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -56,7 +56,7 @@ public class ServerCombatPacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.state = MagicValues.key(CombatState.class, in.readVarInt());
+        this.state = MagicValues404.key(CombatState.class, in.readVarInt());
         if(this.state == CombatState.END_COMBAT) {
             this.duration = in.readVarInt();
             this.entityId = in.readInt();
@@ -69,7 +69,7 @@ public class ServerCombatPacket extends MinecraftPacket {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.state));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.state));
         if(this.state == CombatState.END_COMBAT) {
             out.writeVarInt(this.duration);
             out.writeInt(this.entityId);

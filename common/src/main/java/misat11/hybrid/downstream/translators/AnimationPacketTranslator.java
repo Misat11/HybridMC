@@ -7,8 +7,8 @@ import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.AnimatePacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.data.game.entity.player.Animation;
 import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityAnimationPacket;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.Animation;
 
 public class AnimationPacketTranslator implements IDownstreamTranslator<ServerEntityAnimationPacket> {
 

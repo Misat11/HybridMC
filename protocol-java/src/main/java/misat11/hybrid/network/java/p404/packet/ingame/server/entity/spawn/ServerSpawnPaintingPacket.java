@@ -3,12 +3,12 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity.spawn;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.Position;
-import misat11.hybrid.network.java.p404.data.game.entity.type.PaintingType;
-import misat11.hybrid.network.java.p404.data.game.entity.type.object.HangingDirection;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
+import misat11.hybrid.network.java.pabstract.data.game.entity.type.PaintingType;
+import misat11.hybrid.network.java.pabstract.data.game.entity.type.object.HangingDirection;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -56,17 +56,17 @@ public class ServerSpawnPaintingPacket extends MinecraftPacket {
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
         this.uuid = in.readUUID();
-        this.paintingType = MagicValues.key(PaintingType.class, in.readVarInt());
-        this.position = NetUtil.readPosition(in);
-        this.direction = MagicValues.key(HangingDirection.class, in.readUnsignedByte());
+        this.paintingType = MagicValues404.key(PaintingType.class, in.readVarInt());
+        this.position = NetUtil404.readPosition(in);
+        this.direction = MagicValues404.key(HangingDirection.class, in.readUnsignedByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
         out.writeUUID(this.uuid);
-        out.writeVarInt(MagicValues.value(Integer.class, this.paintingType));
-        NetUtil.writePosition(out, this.position);
-        out.writeByte(MagicValues.value(Integer.class, this.direction));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.paintingType));
+        NetUtil404.writePosition(out, this.position);
+        out.writeByte(MagicValues404.value(Integer.class, this.direction));
     }
 }

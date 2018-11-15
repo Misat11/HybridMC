@@ -4,7 +4,7 @@ import com.github.steveice10.mc.auth.data.GameProfile;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 

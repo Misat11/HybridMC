@@ -6,8 +6,8 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.io.stream.StreamNetOutput;
 
 import misat11.hybrid.network.java.p404.data.game.chunk.Column;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,17 +36,17 @@ public class ServerChunkDataPacket extends MinecraftPacket {
         byte data[] = in.readBytes(in.readVarInt());
         CompoundTag[] tileEntities = new CompoundTag[in.readVarInt()];
         for(int i = 0; i < tileEntities.length; i++) {
-            tileEntities[i] = NetUtil.readNBT(in);
+            tileEntities[i] = NetUtil404.readNBT(in);
         }
 
-        this.column = NetUtil.readColumn(data, x, z, fullChunk, false, chunkMask, tileEntities);
+        this.column = NetUtil404.readColumn(data, x, z, fullChunk, false, chunkMask, tileEntities);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         NetOutput netOut = new StreamNetOutput(byteOut);
-        int mask = NetUtil.writeColumn(netOut, this.column, this.column.hasBiomeData(), this.column.hasSkylight());
+        int mask = NetUtil404.writeColumn(netOut, this.column, this.column.hasBiomeData(), this.column.hasSkylight());
 
         out.writeInt(this.column.getX());
         out.writeInt(this.column.getZ());
@@ -56,7 +56,7 @@ public class ServerChunkDataPacket extends MinecraftPacket {
         out.writeBytes(byteOut.toByteArray(), byteOut.size());
         out.writeVarInt(this.column.getTileEntities().length);
         for(CompoundTag tag : this.column.getTileEntities()) {
-            NetUtil.writeNBT(out, tag);
+            NetUtil404.writeNBT(out, tag);
         }
     }
 }

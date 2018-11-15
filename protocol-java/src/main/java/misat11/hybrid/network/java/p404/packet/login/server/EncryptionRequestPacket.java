@@ -3,8 +3,8 @@ package misat11.hybrid.network.java.p404.packet.login.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.CryptUtil;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.util.CryptUtil;
 
 import java.io.IOException;
 import java.security.PublicKey;

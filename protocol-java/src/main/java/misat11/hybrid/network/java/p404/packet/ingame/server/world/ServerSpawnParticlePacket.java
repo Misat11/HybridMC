@@ -3,11 +3,11 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.world;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.world.particle.Particle;
-import misat11.hybrid.network.java.p404.data.game.world.particle.ParticleType;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.world.particle.Particle;
+import misat11.hybrid.network.java.pabstract.data.game.world.particle.ParticleType;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -82,7 +82,7 @@ public class ServerSpawnParticlePacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        ParticleType type = MagicValues.key(ParticleType.class, in.readInt());
+        ParticleType type = MagicValues404.key(ParticleType.class, in.readInt());
         this.longDistance = in.readBoolean();
         this.x = in.readFloat();
         this.y = in.readFloat();
@@ -92,12 +92,12 @@ public class ServerSpawnParticlePacket extends MinecraftPacket {
         this.offsetZ = in.readFloat();
         this.velocityOffset = in.readFloat();
         this.amount = in.readInt();
-        this.particle = new Particle(type, NetUtil.readParticleData(in, type));
+        this.particle = new Particle(type, NetUtil404.readParticleData(in, type));
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeInt(MagicValues.value(Integer.class, this.particle.getType()));
+        out.writeInt(MagicValues404.value(Integer.class, this.particle.getType()));
         out.writeBoolean(this.longDistance);
         out.writeFloat(this.x);
         out.writeFloat(this.y);
@@ -107,6 +107,6 @@ public class ServerSpawnParticlePacket extends MinecraftPacket {
         out.writeFloat(this.offsetZ);
         out.writeFloat(this.velocityOffset);
         out.writeInt(this.amount);
-        NetUtil.writeParticleData(out, this.particle.getData(), this.particle.getType());
+        NetUtil404.writeParticleData(out, this.particle.getData(), this.particle.getType());
     }
 }

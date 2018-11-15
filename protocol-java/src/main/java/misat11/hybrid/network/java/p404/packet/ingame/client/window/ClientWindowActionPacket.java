@@ -3,19 +3,19 @@ package misat11.hybrid.network.java.p404.packet.ingame.client.window;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.ItemStack;
-import misat11.hybrid.network.java.p404.data.game.window.ClickItemParam;
-import misat11.hybrid.network.java.p404.data.game.window.CreativeGrabParam;
-import misat11.hybrid.network.java.p404.data.game.window.DropItemParam;
-import misat11.hybrid.network.java.p404.data.game.window.FillStackParam;
-import misat11.hybrid.network.java.p404.data.game.window.MoveToHotbarParam;
-import misat11.hybrid.network.java.p404.data.game.window.ShiftClickItemParam;
-import misat11.hybrid.network.java.p404.data.game.window.SpreadItemParam;
-import misat11.hybrid.network.java.p404.data.game.window.WindowAction;
-import misat11.hybrid.network.java.p404.data.game.window.WindowActionParam;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
+import misat11.hybrid.network.java.pabstract.data.game.window.ClickItemParam;
+import misat11.hybrid.network.java.pabstract.data.game.window.CreativeGrabParam;
+import misat11.hybrid.network.java.pabstract.data.game.window.DropItemParam;
+import misat11.hybrid.network.java.pabstract.data.game.window.FillStackParam;
+import misat11.hybrid.network.java.pabstract.data.game.window.MoveToHotbarParam;
+import misat11.hybrid.network.java.pabstract.data.game.window.ShiftClickItemParam;
+import misat11.hybrid.network.java.pabstract.data.game.window.SpreadItemParam;
+import misat11.hybrid.network.java.pabstract.data.game.window.WindowAction;
+import misat11.hybrid.network.java.pabstract.data.game.window.WindowActionParam;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -74,22 +74,22 @@ public class ClientWindowActionPacket extends MinecraftPacket {
         this.slot = in.readShort();
         byte param = in.readByte();
         this.actionId = in.readShort();
-        this.action = MagicValues.key(WindowAction.class, in.readByte());
-        this.clicked = NetUtil.readItem(in);
+        this.action = MagicValues404.key(WindowAction.class, in.readByte());
+        this.clicked = NetUtil404.readItem(in);
         if(this.action == WindowAction.CLICK_ITEM) {
-            this.param = MagicValues.key(ClickItemParam.class, param);
+            this.param = MagicValues404.key(ClickItemParam.class, param);
         } else if(this.action == WindowAction.SHIFT_CLICK_ITEM) {
-            this.param = MagicValues.key(ShiftClickItemParam.class, param);
+            this.param = MagicValues404.key(ShiftClickItemParam.class, param);
         } else if(this.action == WindowAction.MOVE_TO_HOTBAR_SLOT) {
-            this.param = MagicValues.key(MoveToHotbarParam.class, param);
+            this.param = MagicValues404.key(MoveToHotbarParam.class, param);
         } else if(this.action == WindowAction.CREATIVE_GRAB_MAX_STACK) {
-            this.param = MagicValues.key(CreativeGrabParam.class, param);
+            this.param = MagicValues404.key(CreativeGrabParam.class, param);
         } else if(this.action == WindowAction.DROP_ITEM) {
-            this.param = MagicValues.key(DropItemParam.class, param + (this.slot != -999 ? 2 : 0));
+            this.param = MagicValues404.key(DropItemParam.class, param + (this.slot != -999 ? 2 : 0));
         } else if(this.action == WindowAction.SPREAD_ITEM) {
-            this.param = MagicValues.key(SpreadItemParam.class, param);
+            this.param = MagicValues404.key(SpreadItemParam.class, param);
         } else if(this.action == WindowAction.FILL_STACK) {
-            this.param = MagicValues.key(FillStackParam.class, param);
+            this.param = MagicValues404.key(FillStackParam.class, param);
         }
     }
 
@@ -98,14 +98,14 @@ public class ClientWindowActionPacket extends MinecraftPacket {
         out.writeByte(this.windowId);
         out.writeShort(this.slot);
 
-        int param = MagicValues.value(Integer.class, this.param);
+        int param = MagicValues404.value(Integer.class, this.param);
         if(this.action == WindowAction.DROP_ITEM) {
             param %= 2;
         }
 
         out.writeByte(param);
         out.writeShort(this.actionId);
-        out.writeByte(MagicValues.value(Integer.class, this.action));
-        NetUtil.writeItem(out, this.clicked);
+        out.writeByte(MagicValues404.value(Integer.class, this.action));
+        NetUtil404.writeItem(out, this.clicked);
     }
 }

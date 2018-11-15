@@ -3,10 +3,10 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.TitleAction;
-import misat11.hybrid.network.java.p404.data.message.Message;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.TitleAction;
+import misat11.hybrid.network.java.pabstract.data.message.Message;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -102,7 +102,7 @@ public class ServerTitlePacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues.key(TitleAction.class, in.readVarInt());
+        this.action = MagicValues404.key(TitleAction.class, in.readVarInt());
         switch(this.action) {
             case TITLE:
                 this.title = Message.fromString(in.readString());
@@ -127,7 +127,7 @@ public class ServerTitlePacket extends MinecraftPacket {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
         switch(this.action) {
             case TITLE:
                 out.writeString(this.title.toJsonString());

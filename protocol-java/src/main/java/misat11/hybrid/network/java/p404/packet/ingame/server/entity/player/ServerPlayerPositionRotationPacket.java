@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity.player;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.player.PositionElement;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.PositionElement;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class ServerPlayerPositionRotationPacket extends MinecraftPacket {
         this.relative = new ArrayList<PositionElement>();
         int flags = in.readUnsignedByte();
         for(PositionElement element : PositionElement.values()) {
-            int bit = 1 << MagicValues.value(Integer.class, element);
+            int bit = 1 << MagicValues404.value(Integer.class, element);
             if((flags & bit) == bit) {
                 this.relative.add(element);
             }
@@ -91,7 +91,7 @@ public class ServerPlayerPositionRotationPacket extends MinecraftPacket {
         out.writeFloat(this.pitch);
         int flags = 0;
         for(PositionElement element : this.relative) {
-            flags |= 1 << MagicValues.value(Integer.class, element);
+            flags |= 1 << MagicValues404.value(Integer.class, element);
         }
 
         out.writeByte(flags);

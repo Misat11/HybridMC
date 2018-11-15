@@ -3,11 +3,11 @@ package misat11.hybrid.network.java.p404.packet.ingame.client;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.player.Hand;
-import misat11.hybrid.network.java.p404.data.game.setting.ChatVisibility;
-import misat11.hybrid.network.java.p404.data.game.setting.SkinPart;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.Hand;
+import misat11.hybrid.network.java.pabstract.data.game.setting.ChatVisibility;
+import misat11.hybrid.network.java.pabstract.data.game.setting.SkinPart;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class ClientSettingsPacket extends MinecraftPacket {
     public void read(NetInput in) throws IOException {
         this.locale = in.readString();
         this.renderDistance = in.readByte();
-        this.chatVisibility = MagicValues.key(ChatVisibility.class, in.readVarInt());
+        this.chatVisibility = MagicValues404.key(ChatVisibility.class, in.readVarInt());
         this.chatColors = in.readBoolean();
         this.visibleParts = new ArrayList<SkinPart>();
 
@@ -75,14 +75,14 @@ public class ClientSettingsPacket extends MinecraftPacket {
             }
         }
 
-        this.mainHand = MagicValues.key(Hand.class, in.readVarInt());
+        this.mainHand = MagicValues404.key(Hand.class, in.readVarInt());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeString(this.locale);
         out.writeByte(this.renderDistance);
-        out.writeVarInt(MagicValues.value(Integer.class, this.chatVisibility));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.chatVisibility));
         out.writeBoolean(this.chatColors);
 
         int flags = 0;
@@ -92,6 +92,6 @@ public class ClientSettingsPacket extends MinecraftPacket {
 
         out.writeByte(flags);
 
-        out.writeVarInt(MagicValues.value(Integer.class, this.mainHand));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.mainHand));
     }
 }

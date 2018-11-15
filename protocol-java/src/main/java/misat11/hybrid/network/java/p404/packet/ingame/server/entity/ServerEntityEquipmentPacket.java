@@ -3,11 +3,11 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.EquipmentSlot;
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.ItemStack;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.EquipmentSlot;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -41,14 +41,14 @@ public class ServerEntityEquipmentPacket extends MinecraftPacket {
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.slot = MagicValues.key(EquipmentSlot.class, in.readVarInt());
-        this.item = NetUtil.readItem(in);
+        this.slot = MagicValues404.key(EquipmentSlot.class, in.readVarInt());
+        this.item = NetUtil404.readItem(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeVarInt(MagicValues.value(Integer.class, this.slot));
-        NetUtil.writeItem(out, this.item);
+        out.writeVarInt(MagicValues404.value(Integer.class, this.slot));
+        NetUtil404.writeItem(out, this.item);
     }
 }

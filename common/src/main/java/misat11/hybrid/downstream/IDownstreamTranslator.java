@@ -5,7 +5,7 @@ import com.github.steveice10.packetlib.packet.Packet;
 
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.Position;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 
 public interface IDownstreamTranslator<P extends Packet> {
 	

@@ -3,10 +3,10 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.world;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.world.sound.BuiltinSound;
-import misat11.hybrid.network.java.p404.data.game.world.sound.SoundCategory;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
+import misat11.hybrid.network.java.pabstract.data.game.world.sound.SoundCategory;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -63,8 +63,8 @@ public class ServerPlayBuiltinSoundPacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.sound = MagicValues.key(BuiltinSound.class, in.readVarInt());
-        this.category = MagicValues.key(SoundCategory.class, in.readVarInt());
+        this.sound = MagicValues404.key(BuiltinSound.class, in.readVarInt());
+        this.category = MagicValues404.key(SoundCategory.class, in.readVarInt());
         this.x = in.readInt() / 8D;
         this.y = in.readInt() / 8D;
         this.z = in.readInt() / 8D;
@@ -74,8 +74,8 @@ public class ServerPlayBuiltinSoundPacket extends MinecraftPacket {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.sound));
-        out.writeVarInt(MagicValues.value(Integer.class, this.category));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.sound));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.category));
         out.writeInt((int) (this.x * 8));
         out.writeInt((int) (this.y * 8));
         out.writeInt((int) (this.z * 8));

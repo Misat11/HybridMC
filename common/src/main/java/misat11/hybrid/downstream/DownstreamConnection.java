@@ -16,9 +16,9 @@ import misat11.hybrid.downstream.cache.JukeboxCache;
 import misat11.hybrid.downstream.cache.MovementCache;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 import misat11.hybrid.network.java.p404.MinecraftProtocol404;
-import misat11.hybrid.network.java.p404.data.game.PlayerListEntry;
-import misat11.hybrid.network.java.p404.data.game.entity.player.GameMode;
 import misat11.hybrid.network.java.p404.packet.ingame.client.ClientChatPacket;
+import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntry;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
 
 import static misat11.hybrid.Platform.log;
 

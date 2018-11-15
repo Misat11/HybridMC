@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.player.Animation;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.Animation;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -33,12 +33,12 @@ public class ServerEntityAnimationPacket extends MinecraftPacket {
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.animation = MagicValues.key(Animation.class, in.readUnsignedByte());
+        this.animation = MagicValues404.key(Animation.class, in.readUnsignedByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeByte(MagicValues.value(Integer.class, this.animation));
+        out.writeByte(MagicValues404.value(Integer.class, this.animation));
     }
 }

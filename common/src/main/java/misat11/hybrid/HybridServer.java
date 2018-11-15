@@ -17,8 +17,8 @@ import misat11.hybrid.network.HybridSessionManager;
 import misat11.hybrid.network.bedrock.BedrockPacketCodec;
 import misat11.hybrid.network.bedrock.packet.HybridWrappedPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.MinecraftConstants;
-import misat11.hybrid.network.java.p404.data.game.world.sound.BuiltinSound;
+import misat11.hybrid.network.java.p404.MinecraftConstants404;
+import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
 
 import static misat11.hybrid.Platform.log;
 
@@ -57,7 +57,7 @@ public class HybridServer {
 		log("§aStarting PE server version " + NukkitServer.MINECRAFT_VERSION + " (protocol "
 				+ BedrockPacketCodec.BROADCAST_PROTOCOL_VERSION + ")");
 		try {
-			if (pcProtocolVersion != MinecraftConstants.PROTOCOL_VERSION) {
+			if (pcProtocolVersion != MinecraftConstants404.PROTOCOL_VERSION) {
 				log("§cYour server version is not supported!");
 			}
 			selector.select(this, pcProtocolVersion);

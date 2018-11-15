@@ -3,12 +3,12 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.BossBarAction;
-import misat11.hybrid.network.java.p404.data.game.BossBarColor;
-import misat11.hybrid.network.java.p404.data.game.BossBarDivision;
-import misat11.hybrid.network.java.p404.data.message.Message;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.BossBarAction;
+import misat11.hybrid.network.java.pabstract.data.game.BossBarColor;
+import misat11.hybrid.network.java.pabstract.data.game.BossBarDivision;
+import misat11.hybrid.network.java.pabstract.data.message.Message;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -117,7 +117,7 @@ public class ServerBossBarPacket extends MinecraftPacket {
     @Override
     public void read(NetInput in) throws IOException {
         this.uuid = in.readUUID();
-        this.action = MagicValues.key(BossBarAction.class, in.readVarInt());
+        this.action = MagicValues404.key(BossBarAction.class, in.readVarInt());
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_TITLE) {
             this.title = Message.fromString(in.readString());
@@ -128,8 +128,8 @@ public class ServerBossBarPacket extends MinecraftPacket {
         }
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_STYLE) {
-            this.color = MagicValues.key(BossBarColor.class, in.readVarInt());
-            this.division = MagicValues.key(BossBarDivision.class, in.readVarInt());
+            this.color = MagicValues404.key(BossBarColor.class, in.readVarInt());
+            this.division = MagicValues404.key(BossBarDivision.class, in.readVarInt());
         }
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_FLAGS) {
@@ -143,7 +143,7 @@ public class ServerBossBarPacket extends MinecraftPacket {
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeUUID(this.uuid);
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_TITLE) {
             out.writeString(this.title.toJsonString());
@@ -154,8 +154,8 @@ public class ServerBossBarPacket extends MinecraftPacket {
         }
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_STYLE) {
-            out.writeVarInt(MagicValues.value(Integer.class, this.color));
-            out.writeVarInt(MagicValues.value(Integer.class, this.division));
+            out.writeVarInt(MagicValues404.value(Integer.class, this.color));
+            out.writeVarInt(MagicValues404.value(Integer.class, this.division));
         }
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_FLAGS) {

@@ -3,11 +3,11 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity.spawn;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.EntityMetadata;
-import misat11.hybrid.network.java.p404.data.game.entity.type.MobType;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.EntityMetadata;
+import misat11.hybrid.network.java.pabstract.data.game.entity.type.MobType;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -103,7 +103,7 @@ public class ServerSpawnMobPacket extends MinecraftPacket {
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
         this.uuid = in.readUUID();
-        this.type = MagicValues.key(MobType.class, in.readVarInt());
+        this.type = MagicValues404.key(MobType.class, in.readVarInt());
         this.x = in.readDouble();
         this.y = in.readDouble();
         this.z = in.readDouble();
@@ -113,14 +113,14 @@ public class ServerSpawnMobPacket extends MinecraftPacket {
         this.motX = in.readShort() / 8000D;
         this.motY = in.readShort() / 8000D;
         this.motZ = in.readShort() / 8000D;
-        this.metadata = NetUtil.readEntityMetadata(in);
+        this.metadata = NetUtil404.readEntityMetadata(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
         out.writeUUID(this.uuid);
-        out.writeVarInt(MagicValues.value(Integer.class, this.type));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.type));
         out.writeDouble(this.x);
         out.writeDouble(this.y);
         out.writeDouble(this.z);
@@ -130,6 +130,6 @@ public class ServerSpawnMobPacket extends MinecraftPacket {
         out.writeShort((int) (this.motX * 8000));
         out.writeShort((int) (this.motY * 8000));
         out.writeShort((int) (this.motZ * 8000));
-        NetUtil.writeEntityMetadata(out, this.metadata);
+        NetUtil404.writeEntityMetadata(out, this.metadata);
     }
 }

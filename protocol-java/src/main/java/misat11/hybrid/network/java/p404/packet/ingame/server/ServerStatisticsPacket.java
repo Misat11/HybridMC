@@ -3,20 +3,20 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.statistic.BreakBlockStatistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.BreakItemStatistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.CraftItemStatistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.CustomStatistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.DropItemStatistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.GenericStatistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.KillEntityStatistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.KilledByEntityStatistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.PickupItemStatistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.Statistic;
-import misat11.hybrid.network.java.p404.data.game.statistic.StatisticCategory;
-import misat11.hybrid.network.java.p404.data.game.statistic.UseItemStatistic;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.BreakBlockStatistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.BreakItemStatistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.CraftItemStatistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.CustomStatistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.DropItemStatistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.GenericStatistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.KillEntityStatistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.KilledByEntityStatistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.PickupItemStatistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.Statistic;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.StatisticCategory;
+import misat11.hybrid.network.java.pabstract.data.game.statistic.UseItemStatistic;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class ServerStatisticsPacket extends MinecraftPacket {
             int statisticId = in.readVarInt();
             Statistic statistic;
             try {
-                switch (MagicValues.key(StatisticCategory.class, categoryId)) {
+                switch (MagicValues404.key(StatisticCategory.class, categoryId)) {
                     case BREAK_BLOCK:
                         statistic = new BreakBlockStatistic(statisticId);
                         break;
@@ -71,7 +71,7 @@ public class ServerStatisticsPacket extends MinecraftPacket {
                         statistic = new KilledByEntityStatistic(statisticId);
                         break;
                     case GENERIC:
-                        statistic = MagicValues.key(GenericStatistic.class, statisticId);
+                        statistic = MagicValues404.key(GenericStatistic.class, statisticId);
                         break;
                     default:
                         throw new IllegalArgumentException();
@@ -120,11 +120,11 @@ public class ServerStatisticsPacket extends MinecraftPacket {
                     statisticId = ((PickupItemStatistic) statistic).getId();
                 } else if(statistic instanceof GenericStatistic) {
                     category = StatisticCategory.GENERIC;
-                    statisticId = MagicValues.value(Integer.class, statistic);
+                    statisticId = MagicValues404.value(Integer.class, statistic);
                 } else {
                     throw new IllegalArgumentException(statistic.getClass().getName());
                 }
-                categoryId = MagicValues.value(Integer.class, category);
+                categoryId = MagicValues404.value(Integer.class, category);
             }
             out.writeVarInt(categoryId);
             out.writeVarInt(statisticId);

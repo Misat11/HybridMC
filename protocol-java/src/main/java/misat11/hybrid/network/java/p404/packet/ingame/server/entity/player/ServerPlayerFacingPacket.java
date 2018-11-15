@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity.player;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.FeetOrEyes;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.FeetOrEyes;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -60,26 +60,26 @@ public class ServerPlayerFacingPacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.origin = MagicValues.key(FeetOrEyes.class, in.readVarInt());
+        this.origin = MagicValues404.key(FeetOrEyes.class, in.readVarInt());
         this.x = in.readDouble();
         this.y = in.readDouble();
         this.z = in.readDouble();
         if (in.readBoolean()) {
             this.targetEntityId = in.readVarInt();
-            this.targetEntityFeetOrEyes = MagicValues.key(FeetOrEyes.class, in.readVarInt());
+            this.targetEntityFeetOrEyes = MagicValues404.key(FeetOrEyes.class, in.readVarInt());
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.origin));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.origin));
         out.writeDouble(this.x);
         out.writeDouble(this.y);
         out.writeDouble(this.z);
         if (this.targetEntityId != null) {
             out.writeBoolean(true);
             out.writeVarInt(this.targetEntityId);
-            out.writeVarInt(MagicValues.value(Integer.class, this.targetEntityFeetOrEyes));
+            out.writeVarInt(MagicValues404.value(Integer.class, this.targetEntityFeetOrEyes));
         } else {
             out.writeBoolean(false);
         }

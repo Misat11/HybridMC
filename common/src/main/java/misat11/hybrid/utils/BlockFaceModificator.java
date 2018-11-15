@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.flowpowered.math.vector.Vector3i;
 
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.Position;
-import misat11.hybrid.network.java.p404.data.game.world.block.BlockFace;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
+import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockFace;
 
 public enum BlockFaceModificator {
 	SELF(BlockFace.SPECIAL, -1, 0, 0, 0),

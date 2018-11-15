@@ -3,11 +3,11 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.player.GameMode;
-import misat11.hybrid.network.java.p404.data.game.setting.Difficulty;
-import misat11.hybrid.network.java.p404.data.game.world.WorldType;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
+import misat11.hybrid.network.java.pabstract.data.game.setting.Difficulty;
+import misat11.hybrid.network.java.pabstract.data.game.world.WorldType;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -74,27 +74,27 @@ public class ServerJoinGamePacket extends MinecraftPacket {
         int gamemode = in.readUnsignedByte();
         this.hardcore = (gamemode & 8) == 8;
         gamemode &= -9;
-        this.gamemode = MagicValues.key(GameMode.class, gamemode);
+        this.gamemode = MagicValues404.key(GameMode.class, gamemode);
         this.dimension = in.readInt();
-        this.difficulty = MagicValues.key(Difficulty.class, in.readUnsignedByte());
+        this.difficulty = MagicValues404.key(Difficulty.class, in.readUnsignedByte());
         this.maxPlayers = in.readUnsignedByte();
-        this.worldType = MagicValues.key(WorldType.class, in.readString().toLowerCase());
+        this.worldType = MagicValues404.key(WorldType.class, in.readString().toLowerCase());
         this.reducedDebugInfo = in.readBoolean();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeInt(this.entityId);
-        int gamemode = MagicValues.value(Integer.class, this.gamemode);
+        int gamemode = MagicValues404.value(Integer.class, this.gamemode);
         if(this.hardcore) {
             gamemode |= 8;
         }
 
         out.writeByte(gamemode);
         out.writeInt(this.dimension);
-        out.writeByte(MagicValues.value(Integer.class, this.difficulty));
+        out.writeByte(MagicValues404.value(Integer.class, this.difficulty));
         out.writeByte(this.maxPlayers);
-        out.writeString(MagicValues.value(String.class, this.worldType));
+        out.writeString(MagicValues404.value(String.class, this.worldType));
         out.writeBoolean(this.reducedDebugInfo);
     }
 }

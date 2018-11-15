@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.window;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.ItemStack;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -40,13 +40,13 @@ public class ServerSetSlotPacket extends MinecraftPacket {
     public void read(NetInput in) throws IOException {
         this.windowId = in.readUnsignedByte();
         this.slot = in.readShort();
-        this.item = NetUtil.readItem(in);
+        this.item = NetUtil404.readItem(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeByte(this.windowId);
         out.writeShort(this.slot);
-        NetUtil.writeItem(out, this.item);
+        NetUtil404.writeItem(out, this.item);
     }
 }

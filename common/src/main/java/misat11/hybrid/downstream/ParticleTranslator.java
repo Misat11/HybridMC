@@ -3,7 +3,7 @@ package misat11.hybrid.downstream;
 import java.util.HashMap;
 
 import misat11.hybrid.level.ParticleEffects;
-import misat11.hybrid.network.java.p404.data.game.world.particle.ParticleType;
+import misat11.hybrid.network.java.pabstract.data.game.world.particle.ParticleType;
 
 public class ParticleTranslator {
     private static HashMap<ParticleType, Integer> pctope = new HashMap<ParticleType, Integer>();

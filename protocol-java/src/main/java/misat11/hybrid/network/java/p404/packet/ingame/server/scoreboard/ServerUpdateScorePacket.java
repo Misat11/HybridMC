@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.scoreboard;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.scoreboard.ScoreboardAction;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.scoreboard.ScoreboardAction;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -51,7 +51,7 @@ public class ServerUpdateScorePacket extends MinecraftPacket {
     @Override
     public void read(NetInput in) throws IOException {
         this.entry = in.readString();
-        this.action = MagicValues.key(ScoreboardAction.class, in.readVarInt());
+        this.action = MagicValues404.key(ScoreboardAction.class, in.readVarInt());
         this.objective = in.readString();
         if(this.action == ScoreboardAction.ADD_OR_UPDATE) {
             this.value = in.readVarInt();
@@ -61,7 +61,7 @@ public class ServerUpdateScorePacket extends MinecraftPacket {
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeString(this.entry);
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
         out.writeString(this.objective);
         if(this.action == ScoreboardAction.ADD_OR_UPDATE) {
             out.writeVarInt(this.value);

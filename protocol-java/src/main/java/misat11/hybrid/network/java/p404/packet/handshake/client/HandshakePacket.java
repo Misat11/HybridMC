@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.packet.handshake.client;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.handshake.HandshakeIntent;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.handshake.HandshakeIntent;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -47,7 +47,7 @@ public class HandshakePacket extends MinecraftPacket {
         this.protocolVersion = in.readVarInt();
         this.hostname = in.readString();
         this.port = in.readUnsignedShort();
-        this.intent = MagicValues.key(HandshakeIntent.class, in.readVarInt());
+        this.intent = MagicValues404.key(HandshakeIntent.class, in.readVarInt());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class HandshakePacket extends MinecraftPacket {
         out.writeVarInt(this.protocolVersion);
         out.writeString(this.hostname);
         out.writeShort(this.port);
-        out.writeVarInt(MagicValues.value(Integer.class, this.intent));
+        out.writeVarInt(MagicValues404.value(Integer.class, this.intent));
     }
 
     @Override

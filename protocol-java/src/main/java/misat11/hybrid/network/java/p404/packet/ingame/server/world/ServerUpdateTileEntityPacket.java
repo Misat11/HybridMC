@@ -4,11 +4,11 @@ import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.Position;
-import misat11.hybrid.network.java.p404.data.game.world.block.UpdatedTileType;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
+import misat11.hybrid.network.java.pabstract.data.game.world.block.UpdatedTileType;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -41,15 +41,15 @@ public class ServerUpdateTileEntityPacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil.readPosition(in);
-        this.type = MagicValues.key(UpdatedTileType.class, in.readUnsignedByte());
-        this.nbt = NetUtil.readNBT(in);
+        this.position = NetUtil404.readPosition(in);
+        this.type = MagicValues404.key(UpdatedTileType.class, in.readUnsignedByte());
+        this.nbt = NetUtil404.readNBT(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil.writePosition(out, this.position);
-        out.writeByte(MagicValues.value(Integer.class, this.type));
-        NetUtil.writeNBT(out, this.nbt);
+        NetUtil404.writePosition(out, this.position);
+        out.writeByte(MagicValues404.value(Integer.class, this.type));
+        NetUtil404.writeNBT(out, this.nbt);
     }
 }

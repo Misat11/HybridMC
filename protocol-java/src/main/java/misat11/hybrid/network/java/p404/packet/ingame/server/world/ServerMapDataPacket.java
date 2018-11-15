@@ -3,12 +3,12 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.world;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.world.map.MapData;
-import misat11.hybrid.network.java.p404.data.game.world.map.MapIcon;
-import misat11.hybrid.network.java.p404.data.game.world.map.MapIconType;
-import misat11.hybrid.network.java.p404.data.message.Message;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.world.map.MapData;
+import misat11.hybrid.network.java.pabstract.data.game.world.map.MapIcon;
+import misat11.hybrid.network.java.pabstract.data.game.world.map.MapIconType;
+import misat11.hybrid.network.java.pabstract.data.message.Message;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -71,7 +71,7 @@ public class ServerMapDataPacket extends MinecraftPacket {
             if (in.readBoolean()) {
                 displayName = Message.fromString(in.readString());
             }
-            this.icons[index] = new MapIcon(x, z, MagicValues.key(MapIconType.class, type), rotation, displayName);
+            this.icons[index] = new MapIcon(x, z, MagicValues404.key(MapIconType.class, type), rotation, displayName);
         }
 
         int columns = in.readUnsignedByte();
@@ -92,7 +92,7 @@ public class ServerMapDataPacket extends MinecraftPacket {
         out.writeVarInt(this.icons.length);
         for(int index = 0; index < this.icons.length; index++) {
             MapIcon icon = this.icons[index];
-            int type = MagicValues.value(Integer.class, icon.getIconType());
+            int type = MagicValues404.value(Integer.class, icon.getIconType());
             out.writeVarInt(type);
             out.writeByte(icon.getCenterX());
             out.writeByte(icon.getCenterZ());

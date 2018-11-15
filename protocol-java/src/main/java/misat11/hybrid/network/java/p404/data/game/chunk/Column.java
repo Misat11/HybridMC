@@ -2,7 +2,7 @@ package misat11.hybrid.network.java.p404.data.game.chunk;
 
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 
-import misat11.hybrid.network.java.p404.util.ObjectUtil;
+import misat11.hybrid.network.java.pabstract.util.ObjectUtil;
 
 import java.util.Arrays;
 

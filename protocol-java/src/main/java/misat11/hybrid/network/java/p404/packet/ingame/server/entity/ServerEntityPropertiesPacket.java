@@ -3,12 +3,12 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues;
-import misat11.hybrid.network.java.p404.data.game.entity.attribute.Attribute;
-import misat11.hybrid.network.java.p404.data.game.entity.attribute.AttributeModifier;
-import misat11.hybrid.network.java.p404.data.game.entity.attribute.AttributeType;
-import misat11.hybrid.network.java.p404.data.game.entity.attribute.ModifierOperation;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.p404.data.MagicValues404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.Attribute;
+import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.AttributeModifier;
+import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.AttributeType;
+import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.ModifierOperation;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,10 +46,10 @@ public class ServerEntityPropertiesPacket extends MinecraftPacket {
             List<AttributeModifier> modifiers = new ArrayList<AttributeModifier>();
             int len = in.readVarInt();
             for(int ind = 0; ind < len; ind++) {
-                modifiers.add(new AttributeModifier(in.readUUID(), in.readDouble(), MagicValues.key(ModifierOperation.class, in.readByte())));
+                modifiers.add(new AttributeModifier(in.readUUID(), in.readDouble(), MagicValues404.key(ModifierOperation.class, in.readByte())));
             }
 
-            this.attributes.add(new Attribute(MagicValues.key(AttributeType.class, key), value, modifiers));
+            this.attributes.add(new Attribute(MagicValues404.key(AttributeType.class, key), value, modifiers));
         }
     }
 
@@ -58,13 +58,13 @@ public class ServerEntityPropertiesPacket extends MinecraftPacket {
         out.writeVarInt(this.entityId);
         out.writeInt(this.attributes.size());
         for(Attribute attribute : this.attributes) {
-            out.writeString(MagicValues.value(String.class, attribute.getType()));
+            out.writeString(MagicValues404.value(String.class, attribute.getType()));
             out.writeDouble(attribute.getValue());
             out.writeVarInt(attribute.getModifiers().size());
             for(AttributeModifier modifier : attribute.getModifiers()) {
                 out.writeUUID(modifier.getUUID());
                 out.writeDouble(modifier.getAmount());
-                out.writeByte(MagicValues.value(Integer.class, modifier.getOperation()));
+                out.writeByte(MagicValues404.value(Integer.class, modifier.getOperation()));
             }
         }
     }

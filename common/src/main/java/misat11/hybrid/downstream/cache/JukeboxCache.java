@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.flowpowered.math.vector.Vector3i;
 
-import misat11.hybrid.network.java.p404.data.game.world.sound.BuiltinSound;
+import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
 
 public class JukeboxCache {
 	private final HashMap<Vector3i, BuiltinSound> jukebox = new HashMap<Vector3i, BuiltinSound>();

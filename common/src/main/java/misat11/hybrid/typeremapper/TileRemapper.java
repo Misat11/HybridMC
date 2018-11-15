@@ -3,7 +3,7 @@ package misat11.hybrid.typeremapper;
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import com.nukkitx.nbt.CompoundTagBuilder;
 
-import misat11.hybrid.network.java.p404.data.game.world.block.UpdatedTileType;
+import misat11.hybrid.network.java.pabstract.data.game.world.block.UpdatedTileType;
 
 public class TileRemapper {
 	

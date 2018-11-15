@@ -2,7 +2,7 @@ package misat11.hybrid.network.java.p404.data.game.chunk;
 
 import java.util.Objects;
 
-import misat11.hybrid.network.java.p404.util.ObjectUtil;
+import misat11.hybrid.network.java.pabstract.util.ObjectUtil;
 
 public class Chunk {
     private BlockStorage blocks;

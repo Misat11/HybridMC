@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.data.game.chunk;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.game.world.block.BlockState;
-import misat11.hybrid.network.java.p404.util.NetUtil;
-import misat11.hybrid.network.java.p404.util.ObjectUtil;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockState;
+import misat11.hybrid.network.java.pabstract.util.ObjectUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class BlockStorage {
         this.states = new ArrayList<BlockState>();
         int stateCount = this.bitsPerEntry > 8 ? 0 : in.readVarInt();
         for(int i = 0; i < stateCount; i++) {
-            this.states.add(NetUtil.readBlockState(in));
+            this.states.add(NetUtil404.readBlockState(in));
         }
 
         this.storage = new FlexibleStorage(this.bitsPerEntry, in.readLongs(in.readVarInt()));
@@ -60,7 +60,7 @@ public class BlockStorage {
         if (this.bitsPerEntry <= 8) {
             out.writeVarInt(this.states.size());
             for (BlockState state : this.states) {
-                NetUtil.writeBlockState(out, state);
+                NetUtil404.writeBlockState(out, state);
             }
         }
 

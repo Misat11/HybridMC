@@ -12,8 +12,8 @@ import misat11.hybrid.network.bedrock.packet.LevelEventPacket;
 import misat11.hybrid.network.bedrock.packet.SetPlayerGameTypePacket;
 import misat11.hybrid.network.bedrock.packet.LevelEventPacket.Event;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.data.game.entity.player.GameMode;
 import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerNotifyClientPacket;
+import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
 import misat11.hybrid.permission.CommandPermission;
 import misat11.hybrid.permission.PlayerPermission;
 

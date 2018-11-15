@@ -4,8 +4,8 @@ import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -33,12 +33,12 @@ public class ServerNBTResponsePacket extends MinecraftPacket {
     @Override
     public void read(NetInput in) throws IOException {
         this.transactionId = in.readVarInt();
-        this.nbt = NetUtil.readNBT(in);
+        this.nbt = NetUtil404.readNBT(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.transactionId);
-        NetUtil.writeNBT(out, this.nbt);
+        NetUtil404.writeNBT(out, this.nbt);
     }
 }

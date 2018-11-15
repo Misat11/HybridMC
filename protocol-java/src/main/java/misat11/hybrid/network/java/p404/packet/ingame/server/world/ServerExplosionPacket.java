@@ -3,8 +3,8 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.world;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.game.world.block.ExplodedBlockRecord;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.data.game.world.block.ExplodedBlockRecord;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 import java.util.ArrayList;

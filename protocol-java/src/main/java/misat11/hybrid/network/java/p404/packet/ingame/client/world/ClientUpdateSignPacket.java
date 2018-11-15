@@ -3,9 +3,9 @@ package misat11.hybrid.network.java.p404.packet.ingame.client.world;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.game.entity.metadata.Position;
-import misat11.hybrid.network.java.p404.packet.MinecraftPacket;
-import misat11.hybrid.network.java.p404.util.NetUtil;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
+import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 import java.io.IOException;
 
@@ -36,7 +36,7 @@ public class ClientUpdateSignPacket extends MinecraftPacket {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil.readPosition(in);
+        this.position = NetUtil404.readPosition(in);
         this.lines = new String[4];
         for(int count = 0; count < this.lines.length; count++) {
             this.lines[count] = in.readString();
@@ -45,7 +45,7 @@ public class ClientUpdateSignPacket extends MinecraftPacket {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil.writePosition(out, this.position);
+        NetUtil404.writePosition(out, this.position);
         for(String line : this.lines) {
             out.writeString(line);
         }

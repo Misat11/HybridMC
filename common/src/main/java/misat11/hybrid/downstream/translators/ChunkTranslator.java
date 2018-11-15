@@ -14,8 +14,8 @@ import misat11.hybrid.network.bedrock.session.HybridSession;
 import misat11.hybrid.network.java.p404.data.game.chunk.BlockStorage;
 import misat11.hybrid.network.java.p404.data.game.chunk.Chunk;
 import misat11.hybrid.network.java.p404.data.game.chunk.Column;
-import misat11.hybrid.network.java.p404.data.game.world.block.BlockState;
 import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerChunkDataPacket;
+import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockState;
 
 public class ChunkTranslator implements IDownstreamTranslator<ServerChunkDataPacket> {
 

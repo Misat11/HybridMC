@@ -2,16 +2,9 @@ package misat11.hybrid.network.java.p404;
 
 import com.github.steveice10.mc.auth.data.GameProfile;
 import com.github.steveice10.mc.auth.exception.request.RequestException;
-import com.github.steveice10.mc.auth.service.AuthenticationService;
-import com.github.steveice10.packetlib.Client;
-import com.github.steveice10.packetlib.Server;
 import com.github.steveice10.packetlib.Session;
-import com.github.steveice10.packetlib.crypt.AESEncryption;
-import com.github.steveice10.packetlib.crypt.PacketEncryption;
-import com.github.steveice10.packetlib.packet.DefaultPacketHeader;
-import com.github.steveice10.packetlib.packet.PacketHeader;
+import com.github.steveice10.packetlib.event.session.SessionListener;
 
-import misat11.hybrid.network.java.p404.data.SubProtocol;
 import misat11.hybrid.network.java.p404.packet.handshake.client.HandshakePacket;
 import misat11.hybrid.network.java.p404.packet.ingame.client.ClientChatPacket;
 import misat11.hybrid.network.java.p404.packet.ingame.client.ClientKeepAlivePacket;
@@ -150,191 +143,52 @@ import misat11.hybrid.network.java.p404.packet.login.server.LoginDisconnectPacke
 import misat11.hybrid.network.java.p404.packet.login.server.LoginPluginRequestPacket;
 import misat11.hybrid.network.java.p404.packet.login.server.LoginSetCompressionPacket;
 import misat11.hybrid.network.java.p404.packet.login.server.LoginSuccessPacket;
-import misat11.hybrid.network.java.p404.packet.status.client.StatusPingPacket;
-import misat11.hybrid.network.java.p404.packet.status.client.StatusQueryPacket;
-import misat11.hybrid.network.java.p404.packet.status.server.StatusPongPacket;
-import misat11.hybrid.network.java.p404.packet.status.server.StatusResponsePacket;
+import misat11.hybrid.network.java.p404.packet.status.client.StatusPingPacket404;
+import misat11.hybrid.network.java.p404.packet.status.client.StatusQueryPacket404;
+import misat11.hybrid.network.java.p404.packet.status.server.StatusPongPacket404;
+import misat11.hybrid.network.java.p404.packet.status.server.StatusResponsePacket404;
 import misat11.hybrid.network.java.pabstract.MinecraftProtocolAbstract;
+import misat11.hybrid.network.java.pabstract.data.SubProtocol;
 
 import java.net.Proxy;
-import java.security.GeneralSecurityException;
-import java.security.Key;
-import java.util.UUID;
 
 public class MinecraftProtocol404 extends MinecraftProtocolAbstract {
-    private SubProtocol subProtocol = SubProtocol.HANDSHAKE;
-    private PacketHeader header = new DefaultPacketHeader();
-    private AESEncryption encrypt;
-
-    private GameProfile profile;
-    private String clientToken = "";
-    private String accessToken = "";
-
-    @SuppressWarnings("unused")
-    private MinecraftProtocol404() {
-    }
-
+	
     public MinecraftProtocol404(SubProtocol subProtocol) {
-        if(subProtocol != SubProtocol.LOGIN && subProtocol != SubProtocol.STATUS) {
-            throw new IllegalArgumentException("Only login and status modes are permitted.");
-        }
-
-        this.subProtocol = subProtocol;
-        if(subProtocol == SubProtocol.LOGIN) {
-            this.profile = new GameProfile((UUID) null, "Player");
-        }
+    	super(subProtocol);
     }
 
-    public MinecraftProtocol404(String username) {
-        this(SubProtocol.LOGIN);
-        this.profile = new GameProfile((UUID) null, username);
-    }
+	public MinecraftProtocol404(String username) {
+		super(username);
+	}
 
     public MinecraftProtocol404(String username, String password) throws RequestException {
-        this(username, password, Proxy.NO_PROXY);
+    	super(username, password);
     }
 
     public MinecraftProtocol404(String username, String clientToken, String accessToken) throws RequestException {
-        this(username, clientToken, accessToken, Proxy.NO_PROXY);
+    	super(username, clientToken, accessToken);
     }
 
     public MinecraftProtocol404(String username, String password, Proxy proxy) throws RequestException {
-        this(username, UUID.randomUUID().toString(), password, false, proxy);
+    	super(username, password, proxy);
     }
 
     public MinecraftProtocol404(String username, String clientToken, String accessToken, Proxy proxy) throws RequestException {
-        this(username, clientToken, accessToken, true, proxy);
-    }
-
-    private MinecraftProtocol404(String username, String clientToken, String using, boolean token, Proxy authProxy) throws RequestException {
-        this(SubProtocol.LOGIN);
-
-        AuthenticationService auth = new AuthenticationService(clientToken, authProxy);
-        auth.setUsername(username);
-        if(token) {
-            auth.setAccessToken(using);
-        } else {
-            auth.setPassword(using);
-        }
-
-        auth.login();
-        this.profile = auth.getSelectedProfile();
-        this.clientToken =  auth.getClientToken();
-        this.accessToken = auth.getAccessToken();
+    	super(username, clientToken, accessToken, proxy);
     }
 
     public MinecraftProtocol404(GameProfile profile, String clientToken, String accessToken) {
-        this(SubProtocol.LOGIN);
-        this.profile = profile;
-        this.clientToken = clientToken;
-        this.accessToken = accessToken;
+    	super(profile, clientToken, accessToken);
     }
 
-    public GameProfile getProfile() {
-        return this.profile;
-    }
-
-    public String getClientToken() {
-        return this.clientToken;
-    }
-
-    public String getAccessToken() {
-        return this.accessToken;
-    }
-
-    @Override
-    public String getSRVRecordPrefix() {
-        return "_minecraft";
-    }
-
-    @Override
-    public PacketHeader getPacketHeader() {
-        return this.header;
-    }
-
-    @Override
-    public PacketEncryption getEncryption() {
-        return this.encrypt;
-    }
-
-    @Override
-    public void newClientSession(Client client, Session session) {
-        if(this.profile != null) {
-            session.setFlag(MinecraftConstants.PROFILE_KEY, this.profile);
-            session.setFlag(MinecraftConstants.ACCESS_TOKEN_KEY, this.accessToken);
-        }
-
-        this.setSubProtocol(this.subProtocol, true, session);
-        session.addListener(new ClientListener());
-    }
-
-    @Override
-    public void newServerSession(Server server, Session session) {
-        this.setSubProtocol(SubProtocol.HANDSHAKE, false, session);
-        session.addListener(new ServerListener());
-    }
-
-    protected void enableEncryption(Key key) {
-        try {
-            this.encrypt = new AESEncryption(key);
-        } catch(GeneralSecurityException e) {
-            throw new Error("Failed to enable protocol encryption.", e);
-        }
-    }
-
-    public SubProtocol getSubProtocol() {
-        return this.subProtocol;
-    }
-
-    protected void setSubProtocol(SubProtocol subProtocol, boolean client, Session session) {
-        this.clearPackets();
-        switch(subProtocol) {
-            case HANDSHAKE:
-                if(client) {
-                    this.initClientHandshake(session);
-                } else {
-                    this.initServerHandshake(session);
-                }
-
-                break;
-            case LOGIN:
-                if(client) {
-                    this.initClientLogin(session);
-                } else {
-                    this.initServerLogin(session);
-                }
-
-                break;
-            case GAME:
-                if(client) {
-                    this.initClientGame(session);
-                } else {
-                    this.initServerGame(session);
-                }
-
-                break;
-            case STATUS:
-                if(client) {
-                    this.initClientStatus(session);
-                } else {
-                    this.initServerStatus(session);
-                }
-
-                break;
-        }
-
-        this.subProtocol = subProtocol;
-    }
-
-    private void initClientHandshake(Session session) {
+	@Override
+    protected void initClientHandshake(Session session) {
         this.registerOutgoing(0, HandshakePacket.class);
     }
 
-    private void initServerHandshake(Session session) {
-        this.registerIncoming(0, HandshakePacket.class);
-    }
-
-    private void initClientLogin(Session session) {
+	@Override
+    protected void initClientLogin(Session session) {
         this.registerIncoming(0x00, LoginDisconnectPacket.class);
         this.registerIncoming(0x01, EncryptionRequestPacket.class);
         this.registerIncoming(0x02, LoginSuccessPacket.class);
@@ -346,19 +200,8 @@ public class MinecraftProtocol404 extends MinecraftProtocolAbstract {
         this.registerOutgoing(0x02, LoginPluginResponsePacket.class);
     }
 
-    private void initServerLogin(Session session) {
-        this.registerIncoming(0x00, LoginStartPacket.class);
-        this.registerIncoming(0x01, EncryptionResponsePacket.class);
-        this.registerIncoming(0x02, LoginPluginResponsePacket.class);
-
-        this.registerOutgoing(0x00, LoginDisconnectPacket.class);
-        this.registerOutgoing(0x01, EncryptionRequestPacket.class);
-        this.registerOutgoing(0x02, LoginSuccessPacket.class);
-        this.registerOutgoing(0x03, LoginSetCompressionPacket.class);
-        this.registerOutgoing(0x04, LoginPluginRequestPacket.class);
-    }
-
-    private void initClientGame(Session session) {
+	@Override
+    protected void initClientGame(Session session) {
         this.registerIncoming(0x00, ServerSpawnObjectPacket.class);
         this.registerIncoming(0x01, ServerSpawnExpOrbPacket.class);
         this.registerIncoming(0x02, ServerSpawnGlobalEntityPacket.class);
@@ -491,152 +334,17 @@ public class MinecraftProtocol404 extends MinecraftProtocolAbstract {
         this.registerOutgoing(0x2A, ClientPlayerUseItemPacket.class);
     }
 
-    private void initServerGame(Session session) {
-        this.registerIncoming(0x00, ClientTeleportConfirmPacket.class);
-        this.registerIncoming(0x01, ClientBlockNBTRequestPacket.class);
-        this.registerIncoming(0x02, ClientChatPacket.class);
-        this.registerIncoming(0x03, ClientRequestPacket.class);
-        this.registerIncoming(0x04, ClientSettingsPacket.class);
-        this.registerIncoming(0x05, ClientTabCompletePacket.class);
-        this.registerIncoming(0x06, ClientConfirmTransactionPacket.class);
-        this.registerIncoming(0x07, ClientEnchantItemPacket.class);
-        this.registerIncoming(0x08, ClientWindowActionPacket.class);
-        this.registerIncoming(0x09, ClientCloseWindowPacket.class);
-        this.registerIncoming(0x0A, ClientPluginMessagePacket.class);
-        this.registerIncoming(0x0B, ClientEditBookPacket.class);
-        this.registerIncoming(0x0C, ClientEntityNBTRequestPacket.class);
-        this.registerIncoming(0x0D, ClientPlayerInteractEntityPacket.class);
-        this.registerIncoming(0x0E, ClientKeepAlivePacket.class);
-        this.registerIncoming(0x0F, ClientPlayerMovementPacket.class);
-        this.registerIncoming(0x10, ClientPlayerPositionPacket.class);
-        this.registerIncoming(0x11, ClientPlayerPositionRotationPacket.class);
-        this.registerIncoming(0x12, ClientPlayerRotationPacket.class);
-        this.registerIncoming(0x13, ClientVehicleMovePacket.class);
-        this.registerIncoming(0x14, ClientSteerBoatPacket.class);
-        this.registerIncoming(0x15, ClientMoveItemToHotbarPacket.class);
-        this.registerIncoming(0x16, ClientPrepareCraftingGridPacket.class);
-        this.registerIncoming(0x17, ClientPlayerAbilitiesPacket.class);
-        this.registerIncoming(0x18, ClientPlayerActionPacket.class);
-        this.registerIncoming(0x19, ClientPlayerStatePacket.class);
-        this.registerIncoming(0x1A, ClientSteerVehiclePacket.class);
-        this.registerIncoming(0x1B, ClientCraftingBookDataPacket.class);
-        this.registerIncoming(0x1C, ClientRenameItemPacket.class);
-        this.registerIncoming(0x1D, ClientResourcePackStatusPacket.class);
-        this.registerIncoming(0x1E, ClientAdvancementTabPacket.class);
-        this.registerIncoming(0x1F, ClientSelectTradePacket.class);
-        this.registerIncoming(0x20, ClientSetBeaconEffectPacket.class);
-        this.registerIncoming(0x21, ClientPlayerChangeHeldItemPacket.class);
-        this.registerIncoming(0x22, ClientUpdateCommandBlockPacket.class);
-        this.registerIncoming(0x23, ClientUpdateCommandBlockMinecartPacket.class);
-        this.registerIncoming(0x24, ClientCreativeInventoryActionPacket.class);
-        this.registerIncoming(0x25, ClientUpdateStructureBlockPacket.class);
-        this.registerIncoming(0x26, ClientUpdateSignPacket.class);
-        this.registerIncoming(0x27, ClientPlayerSwingArmPacket.class);
-        this.registerIncoming(0x28, ClientSpectatePacket.class);
-        this.registerIncoming(0x29, ClientPlayerPlaceBlockPacket.class);
-        this.registerIncoming(0x2A, ClientPlayerUseItemPacket.class);
+	@Override
+    protected void initClientStatus(Session session) {
+        this.registerIncoming(0x00, StatusResponsePacket404.class);
+        this.registerIncoming(0x01, StatusPongPacket404.class);
 
-        this.registerOutgoing(0x00, ServerSpawnObjectPacket.class);
-        this.registerOutgoing(0x01, ServerSpawnExpOrbPacket.class);
-        this.registerOutgoing(0x02, ServerSpawnGlobalEntityPacket.class);
-        this.registerOutgoing(0x03, ServerSpawnMobPacket.class);
-        this.registerOutgoing(0x04, ServerSpawnPaintingPacket.class);
-        this.registerOutgoing(0x05, ServerSpawnPlayerPacket.class);
-        this.registerOutgoing(0x06, ServerEntityAnimationPacket.class);
-        this.registerOutgoing(0x07, ServerStatisticsPacket.class);
-        this.registerOutgoing(0x08, ServerBlockBreakAnimPacket.class);
-        this.registerOutgoing(0x09, ServerUpdateTileEntityPacket.class);
-        this.registerOutgoing(0x0A, ServerBlockValuePacket.class);
-        this.registerOutgoing(0x0B, ServerBlockChangePacket.class);
-        this.registerOutgoing(0x0C, ServerBossBarPacket.class);
-        this.registerOutgoing(0x0D, ServerDifficultyPacket.class);
-        this.registerOutgoing(0x0E, ServerChatPacket.class);
-        this.registerOutgoing(0x0F, ServerMultiBlockChangePacket.class);
-        this.registerOutgoing(0x10, ServerTabCompletePacket.class);
-        this.registerOutgoing(0x11, ServerDeclareCommandsPacket.class);
-        this.registerOutgoing(0x12, ServerConfirmTransactionPacket.class);
-        this.registerOutgoing(0x13, ServerCloseWindowPacket.class);
-        this.registerOutgoing(0x14, ServerOpenWindowPacket.class);
-        this.registerOutgoing(0x15, ServerWindowItemsPacket.class);
-        this.registerOutgoing(0x16, ServerWindowPropertyPacket.class);
-        this.registerOutgoing(0x17, ServerSetSlotPacket.class);
-        this.registerOutgoing(0x18, ServerSetCooldownPacket.class);
-        this.registerOutgoing(0x19, ServerPluginMessagePacket.class);
-        this.registerOutgoing(0x1A, ServerPlaySoundPacket.class);
-        this.registerOutgoing(0x1B, ServerDisconnectPacket.class);
-        this.registerOutgoing(0x1C, ServerEntityStatusPacket.class);
-        this.registerOutgoing(0x1D, ServerNBTResponsePacket.class);
-        this.registerOutgoing(0x1E, ServerExplosionPacket.class);
-        this.registerOutgoing(0x1F, ServerUnloadChunkPacket.class);
-        this.registerOutgoing(0x20, ServerNotifyClientPacket.class);
-        this.registerOutgoing(0x21, ServerKeepAlivePacket.class);
-        this.registerOutgoing(0x22, ServerChunkDataPacket.class);
-        this.registerOutgoing(0x23, ServerPlayEffectPacket.class);
-        this.registerOutgoing(0x24, ServerSpawnParticlePacket.class);
-        this.registerOutgoing(0x25, ServerJoinGamePacket.class);
-        this.registerOutgoing(0x26, ServerMapDataPacket.class);
-        this.registerOutgoing(0x27, ServerEntityMovementPacket.class);
-        this.registerOutgoing(0x28, ServerEntityPositionPacket.class);
-        this.registerOutgoing(0x29, ServerEntityPositionRotationPacket.class);
-        this.registerOutgoing(0x2A, ServerEntityRotationPacket.class);
-        this.registerOutgoing(0x2B, ServerVehicleMovePacket.class);
-        this.registerOutgoing(0x2C, ServerOpenTileEntityEditorPacket.class);
-        this.registerOutgoing(0x2D, ServerPreparedCraftingGridPacket.class);
-        this.registerOutgoing(0x2E, ServerPlayerAbilitiesPacket.class);
-        this.registerOutgoing(0x2F, ServerCombatPacket.class);
-        this.registerOutgoing(0x30, ServerPlayerListEntryPacket.class);
-        this.registerOutgoing(0x31, ServerPlayerFacingPacket.class);
-        this.registerOutgoing(0x32, ServerPlayerPositionRotationPacket.class);
-        this.registerOutgoing(0x33, ServerPlayerUseBedPacket.class);
-        this.registerOutgoing(0x34, ServerUnlockRecipesPacket.class);
-        this.registerOutgoing(0x35, ServerEntityDestroyPacket.class);
-        this.registerOutgoing(0x36, ServerEntityRemoveEffectPacket.class);
-        this.registerOutgoing(0x37, ServerResourcePackSendPacket.class);
-        this.registerOutgoing(0x38, ServerRespawnPacket.class);
-        this.registerOutgoing(0x39, ServerEntityHeadLookPacket.class);
-        this.registerOutgoing(0x3A, ServerAdvancementTabPacket.class);
-        this.registerOutgoing(0x3B, ServerWorldBorderPacket.class);
-        this.registerOutgoing(0x3C, ServerSwitchCameraPacket.class);
-        this.registerOutgoing(0x3D, ServerPlayerChangeHeldItemPacket.class);
-        this.registerOutgoing(0x3E, ServerDisplayScoreboardPacket.class);
-        this.registerOutgoing(0x3F, ServerEntityMetadataPacket.class);
-        this.registerOutgoing(0x40, ServerEntityAttachPacket.class);
-        this.registerOutgoing(0x41, ServerEntityVelocityPacket.class);
-        this.registerOutgoing(0x42, ServerEntityEquipmentPacket.class);
-        this.registerOutgoing(0x43, ServerPlayerSetExperiencePacket.class);
-        this.registerOutgoing(0x44, ServerPlayerHealthPacket.class);
-        this.registerOutgoing(0x45, ServerScoreboardObjectivePacket.class);
-        this.registerOutgoing(0x46, ServerEntitySetPassengersPacket.class);
-        this.registerOutgoing(0x47, ServerTeamPacket.class);
-        this.registerOutgoing(0x48, ServerUpdateScorePacket.class);
-        this.registerOutgoing(0x49, ServerSpawnPositionPacket.class);
-        this.registerOutgoing(0x4A, ServerUpdateTimePacket.class);
-        this.registerOutgoing(0x4B, ServerTitlePacket.class);
-        this.registerOutgoing(0x4C, ServerStopSoundPacket.class);
-        this.registerOutgoing(0x4D, ServerPlayBuiltinSoundPacket.class);
-        this.registerOutgoing(0x4E, ServerPlayerListDataPacket.class);
-        this.registerOutgoing(0x4F, ServerEntityCollectItemPacket.class);
-        this.registerOutgoing(0x50, ServerEntityTeleportPacket.class);
-        this.registerOutgoing(0x51, ServerAdvancementsPacket.class);
-        this.registerOutgoing(0x52, ServerEntityPropertiesPacket.class);
-        this.registerOutgoing(0x53, ServerEntityEffectPacket.class);
-        this.registerOutgoing(0x54, ServerDeclareRecipesPacket.class);
-        this.registerOutgoing(0x55, ServerDeclareTagsPacket.class);
+        this.registerOutgoing(0x00, StatusQueryPacket404.class);
+        this.registerOutgoing(0x01, StatusPingPacket404.class);
     }
 
-    private void initClientStatus(Session session) {
-        this.registerIncoming(0x00, StatusResponsePacket.class);
-        this.registerIncoming(0x01, StatusPongPacket.class);
-
-        this.registerOutgoing(0x00, StatusQueryPacket.class);
-        this.registerOutgoing(0x01, StatusPingPacket.class);
-    }
-
-    private void initServerStatus(Session session) {
-        this.registerIncoming(0x00, StatusQueryPacket.class);
-        this.registerIncoming(0x01, StatusPingPacket.class);
-
-        this.registerOutgoing(0x00, StatusResponsePacket.class);
-        this.registerOutgoing(0x01, StatusPongPacket.class);
-    }
+	@Override
+	protected SessionListener createClientSession() {
+		return new ClientListener404();
+	}
 }
