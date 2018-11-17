@@ -16,7 +16,7 @@ import misat11.hybrid.downstream.cache.JukeboxCache;
 import misat11.hybrid.downstream.cache.MovementCache;
 import misat11.hybrid.network.bedrock.session.HybridSession;
 import misat11.hybrid.network.java.p404.MinecraftProtocol404;
-import misat11.hybrid.network.java.p404.packet.ingame.client.ClientChatPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.client.ClientChatPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntry;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
 
@@ -122,7 +122,7 @@ public class DownstreamConnection {
 	}
 
 	public void sendChat(String chat) {
-		remoteClient.getSession().send(new ClientChatPacket(chat));
+		remoteClient.getSession().send(new ClientChatPacket404(chat));
 	}
 
 	public void send(Packet packet) {

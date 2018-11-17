@@ -9,17 +9,17 @@ import com.github.steveice10.packetlib.event.session.ConnectedEvent;
 import com.github.steveice10.packetlib.event.session.PacketReceivedEvent;
 import com.github.steveice10.packetlib.event.session.SessionAdapter;
 
-import misat11.hybrid.network.java.p404.packet.handshake.client.HandshakePacket;
-import misat11.hybrid.network.java.p404.packet.ingame.client.ClientKeepAlivePacket;
+import misat11.hybrid.network.java.p404.packet.handshake.client.HandshakePacket404;
+import misat11.hybrid.network.java.p404.packet.ingame.client.ClientKeepAlivePacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDisconnectPacket;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerKeepAlivePacket;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerSetCompressionPacket;
-import misat11.hybrid.network.java.p404.packet.login.client.EncryptionResponsePacket;
-import misat11.hybrid.network.java.p404.packet.login.client.LoginStartPacket;
-import misat11.hybrid.network.java.p404.packet.login.server.EncryptionRequestPacket;
-import misat11.hybrid.network.java.p404.packet.login.server.LoginDisconnectPacket;
-import misat11.hybrid.network.java.p404.packet.login.server.LoginSetCompressionPacket;
-import misat11.hybrid.network.java.p404.packet.login.server.LoginSuccessPacket;
+import misat11.hybrid.network.java.p404.packet.login.client.EncryptionResponsePacket404;
+import misat11.hybrid.network.java.p404.packet.login.client.LoginStartPacket404;
+import misat11.hybrid.network.java.p404.packet.login.server.EncryptionRequestPacket404;
+import misat11.hybrid.network.java.p404.packet.login.server.LoginDisconnectPacket404;
+import misat11.hybrid.network.java.p404.packet.login.server.LoginSetCompressionPacket404;
+import misat11.hybrid.network.java.p404.packet.login.server.LoginSuccessPacket404;
 import misat11.hybrid.network.java.p404.packet.status.client.StatusPingPacket404;
 import misat11.hybrid.network.java.p404.packet.status.client.StatusQueryPacket404;
 import misat11.hybrid.network.java.p404.packet.status.server.StatusPongPacket404;
@@ -41,8 +41,8 @@ public class ClientListener404 extends SessionAdapter {
     public void packetReceived(PacketReceivedEvent event) {
         MinecraftProtocol404 protocol = (MinecraftProtocol404) event.getSession().getPacketProtocol();
         if(protocol.getSubProtocol() == SubProtocol.LOGIN) {
-            if(event.getPacket() instanceof EncryptionRequestPacket) {
-                EncryptionRequestPacket packet = event.getPacket();
+            if(event.getPacket() instanceof EncryptionRequestPacket404) {
+                EncryptionRequestPacket404 packet = event.getPacket();
                 SecretKey key = CryptUtil.generateSharedKey();
 
                 Proxy proxy = event.getSession().<Proxy>getFlag(MinecraftConstants.AUTH_PROXY_KEY);
@@ -66,17 +66,17 @@ public class ClientListener404 extends SessionAdapter {
                     return;
                 }
 
-                event.getSession().send(new EncryptionResponsePacket(key, packet.getPublicKey(), packet.getVerifyToken()));
+                event.getSession().send(new EncryptionResponsePacket404(key, packet.getPublicKey(), packet.getVerifyToken()));
                 protocol.enableEncryption(key);
-            } else if(event.getPacket() instanceof LoginSuccessPacket) {
-                LoginSuccessPacket packet = event.getPacket();
+            } else if(event.getPacket() instanceof LoginSuccessPacket404) {
+                LoginSuccessPacket404 packet = event.getPacket();
                 event.getSession().setFlag(MinecraftConstants.PROFILE_KEY, packet.getProfile());
                 protocol.setSubProtocol(SubProtocol.GAME, event.getSession());
-            } else if(event.getPacket() instanceof LoginDisconnectPacket) {
-                LoginDisconnectPacket packet = event.getPacket();
+            } else if(event.getPacket() instanceof LoginDisconnectPacket404) {
+                LoginDisconnectPacket404 packet = event.getPacket();
                 event.getSession().disconnect(packet.getReason().getFullText());
-            } else if(event.getPacket() instanceof LoginSetCompressionPacket) {
-                event.getSession().setCompressionThreshold(event.<LoginSetCompressionPacket>getPacket().getThreshold());
+            } else if(event.getPacket() instanceof LoginSetCompressionPacket404) {
+                event.getSession().setCompressionThreshold(event.<LoginSetCompressionPacket404>getPacket().getThreshold());
             }
         } else if(protocol.getSubProtocol() == SubProtocol.STATUS) {
             if(event.getPacket() instanceof StatusResponsePacket404) {
@@ -98,7 +98,7 @@ public class ClientListener404 extends SessionAdapter {
             }
         } else if(protocol.getSubProtocol() == SubProtocol.GAME) {
             if(event.getPacket() instanceof ServerKeepAlivePacket) {
-                event.getSession().send(new ClientKeepAlivePacket(event.<ServerKeepAlivePacket>getPacket().getPingId()));
+                event.getSession().send(new ClientKeepAlivePacket404(event.<ServerKeepAlivePacket>getPacket().getPingId()));
             } else if(event.getPacket() instanceof ServerDisconnectPacket) {
                 event.getSession().disconnect(event.<ServerDisconnectPacket>getPacket().getReason().getFullText());
             } else if(event.getPacket() instanceof ServerSetCompressionPacket) {
@@ -113,12 +113,12 @@ public class ClientListener404 extends SessionAdapter {
         if(protocol.getSubProtocol() == SubProtocol.LOGIN) {
             GameProfile profile = event.getSession().getFlag(MinecraftConstants.PROFILE_KEY);
             protocol.setSubProtocol(SubProtocol.HANDSHAKE, event.getSession());
-            event.getSession().send(new HandshakePacket(MinecraftConstants404.PROTOCOL_VERSION, event.getSession().getHost(), event.getSession().getPort(), HandshakeIntent.LOGIN));
+            event.getSession().send(new HandshakePacket404(MinecraftConstants404.PROTOCOL_VERSION, event.getSession().getHost(), event.getSession().getPort(), HandshakeIntent.LOGIN));
             protocol.setSubProtocol(SubProtocol.LOGIN, event.getSession());
-            event.getSession().send(new LoginStartPacket(profile != null ? profile.getName() : ""));
+            event.getSession().send(new LoginStartPacket404(profile != null ? profile.getName() : ""));
         } else if(protocol.getSubProtocol() == SubProtocol.STATUS) {
             protocol.setSubProtocol(SubProtocol.HANDSHAKE, event.getSession());
-            event.getSession().send(new HandshakePacket(MinecraftConstants404.PROTOCOL_VERSION, event.getSession().getHost(), event.getSession().getPort(), HandshakeIntent.STATUS));
+            event.getSession().send(new HandshakePacket404(MinecraftConstants404.PROTOCOL_VERSION, event.getSession().getHost(), event.getSession().getPort(), HandshakeIntent.STATUS));
             protocol.setSubProtocol(SubProtocol.STATUS, event.getSession());
             event.getSession().send(new StatusQueryPacket404());
         }

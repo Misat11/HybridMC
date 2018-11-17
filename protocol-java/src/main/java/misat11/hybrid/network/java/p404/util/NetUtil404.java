@@ -162,6 +162,8 @@ public class NetUtil404 {
             case ITEM:
                 writeItem(out, ((ItemParticleData) data).getItemStack());
                 break;
+            default:
+            	break;
         }
     }
 
