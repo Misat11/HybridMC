@@ -90,6 +90,10 @@
 							<pattern>org.objectweb</pattern>
 							<shadedPattern>misat11.org.objectweb</shadedPattern>
 						</relocation>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>misat11.org.bstats</shadedPattern>
+						</relocation>
 					</relocations>
 				</configuration>
 			</plugin>

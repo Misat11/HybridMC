@@ -32,7 +32,7 @@ import misat11.hybrid.network.bedrock.session.data.AuthData;
 import misat11.hybrid.network.bedrock.session.data.ClientData;
 import misat11.hybrid.network.bedrock.wrapper.DefaultWrapperHandler;
 import misat11.hybrid.network.bedrock.wrapper.WrapperHandler;
-import misat11.hybrid.network.java.p404.MinecraftProtocol404;
+import misat11.hybrid.network.java.pabstract.MinecraftProtocolAbstract;
 import misat11.hybrid.util.NativeCodeFactory;
 import net.md_5.bungee.jni.cipher.BungeeCipher;
 
@@ -330,7 +330,8 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 		if (authData != null) {
 			log("§f[" + authData.getDisplayName() + "] §cDisconnected from server: §r" + reason);
 		} else {
-			log("§f[" + getRemoteAddress().map(Object::toString).orElse("UNKNOWN") + "] §cDisconnected from server: §r" + reason);
+			log("§f[" + getRemoteAddress().map(Object::toString).orElse("UNKNOWN") + "] §cDisconnected from server: §r"
+					+ reason);
 		}
 
 		close();
@@ -382,19 +383,20 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 	public RakNetSession getConnection() {
 		return connection;
 	}
-	
+
 	public HybridServer getServer() {
 		return server;
 	}
 
 	@Override
 	public void onTimeout() {
-        if (authData != null) {
+		if (authData != null) {
 			log("§f[" + authData.getDisplayName() + "] §cDisconnected from server: §rTimeout!");
-        } else {
-			log("§f[" + getRemoteAddress().map(Object::toString).orElse("UNKNOWN") + "] §cDisconnected from server: §rTimeout!");
-        }
-        close();
+		} else {
+			log("§f[" + getRemoteAddress().map(Object::toString).orElse("UNKNOWN")
+					+ "] §cDisconnected from server: §rTimeout!");
+		}
+		close();
 	}
 
 	// CONNECTION TO PC
@@ -409,9 +411,15 @@ public class HybridSession implements NetworkSession<RakNetSession> {
 		if (downstream != null && downstream.isConnected()) {
 			return;
 		}
-		MinecraftProtocol404 protocol = new MinecraftProtocol404(authData.getDisplayName());
-		downstream = new DownstreamConnection(this, protocol, server.pcIp, server.pcPort);
-		downstream.connect();
+		try {
+			MinecraftProtocolAbstract protocol = server.getMinecraftJavaProtocolInfo()
+					.newInstance(authData.getDisplayName());
+			downstream = new DownstreamConnection(this, protocol, server.pcIp, server.pcPort);
+			downstream.connect();
+		} catch (Exception e) {
+			disconnect("Server error: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public void downstreamDisconnect() {

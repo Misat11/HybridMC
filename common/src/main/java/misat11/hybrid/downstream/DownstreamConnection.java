@@ -15,8 +15,8 @@ import misat11.hybrid.downstream.cache.InventoryCache;
 import misat11.hybrid.downstream.cache.JukeboxCache;
 import misat11.hybrid.downstream.cache.MovementCache;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.MinecraftProtocol404;
 import misat11.hybrid.network.java.p404.packet.ingame.client.ClientChatPacket404;
+import misat11.hybrid.network.java.pabstract.MinecraftProtocolAbstract;
 import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntry;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
 
@@ -28,7 +28,7 @@ import java.util.UUID;
 
 public class DownstreamConnection {
 
-	private final MinecraftProtocol404 protocol;
+	private final MinecraftProtocolAbstract protocol;
 	private final HybridSession session;
 	private final String ip;
 	private final int port;
@@ -45,7 +45,7 @@ public class DownstreamConnection {
 	public long playerEntityId;
 	public GameMode gamemode = GameMode.SURVIVAL;
 
-	public DownstreamConnection(HybridSession session, MinecraftProtocol404 protocol, String ip, int port) {
+	public DownstreamConnection(HybridSession session, MinecraftProtocolAbstract protocol, String ip, int port) {
 		this.session = session;
 		this.protocol = protocol;
 		if (ip.equals("0.0.0.0") || ip.equals("")) {
@@ -136,7 +136,7 @@ public class DownstreamConnection {
 		return session;
 	}
 
-	public MinecraftProtocol404 getMinecraftProtocol() {
+	public MinecraftProtocolAbstract getMinecraftProtocol() {
 		return protocol;
 	}
 	

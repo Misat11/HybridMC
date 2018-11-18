@@ -1,5 +1,6 @@
 package misat11.hybrid;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import misat11.hybrid.utils.NMSUtil;
@@ -9,6 +10,7 @@ import misat11.hybrid.blockitems.flattening.CraftBukkitFlatteningItemData;
 import misat11.hybrid.blockitems.flattening.FlatteningBlockTranslator;
 import misat11.hybrid.blockitems.flattening.FlatteningItemTranslator;
 import misat11.hybrid.blockitems.legacy.LegacyItemBlockTranslator;
+import misat11.hybrid.network.java.JavaProtocolBuilder.VersionType;
 
 public final class HybridPluginBukkit extends JavaPlugin implements IPlatform {
 
@@ -35,6 +37,7 @@ public final class HybridPluginBukkit extends JavaPlugin implements IPlatform {
 			getPluginLoader().disablePlugin(this);
 			return;
 		}
+		Metrics metrics = new Metrics(this);
 		getServer().getScheduler().runTask(this, () -> {
 			try {
 				version = getDescription().getVersion();
@@ -42,8 +45,8 @@ public final class HybridPluginBukkit extends JavaPlugin implements IPlatform {
 				Platform.initPlatform(this);
 				server = new HybridServer(getServer().getIp(), getConfig().getInt("port"), getServer().getIp(),
 						getServer().getPort(), NMSUtil.getServerProtocolVersion(),
-						getConfig().getInt("networkthreads"), (hybridServer, pcProtocolVersion) -> {
-							if (pcProtocolVersion >= HybridServer.FLATTENING_FIRST_VERSION) {
+						getConfig().getInt("networkthreads"), (hybridServer, javaProtocolInfo) -> {
+							if (javaProtocolInfo.getVersionType() == VersionType.FLATTENING) {
 								CraftBukkitFlatteningBlockData blockData = new CraftBukkitFlatteningBlockData();
 								CraftBukkitFlatteningItemData itemData = new CraftBukkitFlatteningItemData();
 								hybridServer.setBlockTranslator(new FlatteningBlockTranslator(blockData));

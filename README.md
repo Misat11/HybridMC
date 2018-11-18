@@ -14,7 +14,7 @@ HybridMC is plugin that allows connection of Bedrock Edition clients on your Jav
 - [ ] Block placing
 - [ ] Inventory support
 - [x] Sounds - Partial support
-- [ ] Effects
+- [x] Effects - Partial support
 - [ ] API for Modal Forms
 - [ ] Skins
 - [ ] Multiversion
@@ -28,6 +28,9 @@ You will need Java JDK 8 and above and Maven. Then run command `mvn package`. Ja
 - Copy `HybridMC.jar` into your `plugins` folder on your Spigot server
 - Start your server for generate `config.yml` in `plugins/HybridMC`
 - Edit `config.yml` and restart your server
+
+## Who uses DragonProxy
+See live stats on BStats[![Bstats](https://bstats.org/signatures/bukkit/HybridMC.svg)](https://bstats.org/plugin/bukkit/HybridMC/)
 
 ## Used libraries
 * [Network by NukkitX team](https://github.com/NukkitX/Network)

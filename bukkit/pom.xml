@@ -13,6 +13,15 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
+		<!-- COMPILE -->
+		<dependency>
+			<groupId>org.bstats</groupId>
+			<artifactId>bstats-bukkit</artifactId>
+			<version>1.4</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- PROVIDED -->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
@@ -22,6 +31,12 @@
 		<dependency>
 			<groupId>misat11.hybrid</groupId>
 			<artifactId>HybridMC-common</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>misat11.hybrid</groupId>
+			<artifactId>HybridMC-protocol-java</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
