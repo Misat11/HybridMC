@@ -52,13 +52,13 @@ import misat11.hybrid.network.java.p404.packet.ingame.client.world.ClientVehicle
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerAdvancementTabPacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerAdvancementsPacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerBossBarPacket404;
-import misat11.hybrid.network.java.p404.packet.ingame.server.ServerChatPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerChatPacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerCombatPacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDeclareCommandsPacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDeclareRecipesPacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDeclareTagsPacket404;
-import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDifficultyPacket;
-import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDisconnectPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDifficultyPacket404;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDisconnectPacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerJoinGamePacket;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerKeepAlivePacket;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerPlayerListDataPacket;
@@ -215,8 +215,8 @@ public class MinecraftProtocol404 extends MinecraftProtocolAbstract {
         this.registerIncoming(0x0A, ServerBlockValuePacket.class);
         this.registerIncoming(0x0B, ServerBlockChangePacket.class);
         this.registerIncoming(0x0C, ServerBossBarPacket404.class);
-        this.registerIncoming(0x0D, ServerDifficultyPacket.class);
-        this.registerIncoming(0x0E, ServerChatPacket.class);
+        this.registerIncoming(0x0D, ServerDifficultyPacket404.class);
+        this.registerIncoming(0x0E, ServerChatPacket404.class);
         this.registerIncoming(0x0F, ServerMultiBlockChangePacket.class);
         this.registerIncoming(0x10, ServerTabCompletePacket.class);
         this.registerIncoming(0x11, ServerDeclareCommandsPacket404.class);
@@ -229,7 +229,7 @@ public class MinecraftProtocol404 extends MinecraftProtocolAbstract {
         this.registerIncoming(0x18, ServerSetCooldownPacket.class);
         this.registerIncoming(0x19, ServerPluginMessagePacket.class);
         this.registerIncoming(0x1A, ServerPlaySoundPacket.class);
-        this.registerIncoming(0x1B, ServerDisconnectPacket.class);
+        this.registerIncoming(0x1B, ServerDisconnectPacket404.class);
         this.registerIncoming(0x1C, ServerEntityStatusPacket.class);
         this.registerIncoming(0x1D, ServerNBTResponsePacket.class);
         this.registerIncoming(0x1E, ServerExplosionPacket.class);

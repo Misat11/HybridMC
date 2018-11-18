@@ -15,17 +15,17 @@ import misat11.hybrid.message.TipMessage;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.TextPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.ServerChatPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerChatPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.MessageType;
 import misat11.hybrid.network.java.pabstract.data.message.ChatColor;
 import misat11.hybrid.network.java.pabstract.data.message.ChatFormat;
 import misat11.hybrid.network.java.pabstract.data.message.Message;
 import misat11.hybrid.network.java.pabstract.data.message.TranslationMessage;
 
-public class ChatTranslator implements IDownstreamTranslator<ServerChatPacket> {
+public class ChatTranslator implements IDownstreamTranslator<ServerChatPacket404> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerChatPacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerChatPacket404 packet) {
 		TextPacket tp = new TextPacket();
 		String message = translate(packet.getMessage());
 		if (packet.getType() == MessageType.NOTIFICATION) {

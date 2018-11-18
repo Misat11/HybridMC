@@ -3,44 +3,39 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.MessageType;
 import misat11.hybrid.network.java.pabstract.data.message.Message;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerChatPacket;
 
 import java.io.IOException;
 
-public class ServerChatPacket extends MinecraftPacket {
+@Getter
+public class ServerChatPacket404 extends MinecraftPacket implements ServerChatPacket {
     private Message message;
     private MessageType type;
 
     @SuppressWarnings("unused")
-    private ServerChatPacket() {
+    private ServerChatPacket404() {
     }
 
-    public ServerChatPacket(String text) {
+    public ServerChatPacket404(String text) {
         this(Message.fromString(text));
     }
 
-    public ServerChatPacket(Message message) {
+    public ServerChatPacket404(Message message) {
         this(message, MessageType.SYSTEM);
     }
 
-    public ServerChatPacket(String text, MessageType type) {
+    public ServerChatPacket404(String text, MessageType type) {
         this(Message.fromString(text), type);
     }
 
-    public ServerChatPacket(Message message, MessageType type) {
+    public ServerChatPacket404(Message message, MessageType type) {
         this.message = message;
         this.type = type;
-    }
-
-    public Message getMessage() {
-        return this.message;
-    }
-
-    public MessageType getType() {
-        return this.type;
     }
 
     @Override

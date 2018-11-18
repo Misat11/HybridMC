@@ -11,7 +11,7 @@ import com.github.steveice10.packetlib.event.session.SessionAdapter;
 
 import misat11.hybrid.network.java.p404.packet.handshake.client.HandshakePacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.client.ClientKeepAlivePacket404;
-import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDisconnectPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerDisconnectPacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerKeepAlivePacket;
 import misat11.hybrid.network.java.p404.packet.ingame.server.ServerSetCompressionPacket;
 import misat11.hybrid.network.java.p404.packet.login.client.EncryptionResponsePacket404;
@@ -99,8 +99,8 @@ public class ClientListener404 extends SessionAdapter {
         } else if(protocol.getSubProtocol() == SubProtocol.GAME) {
             if(event.getPacket() instanceof ServerKeepAlivePacket) {
                 event.getSession().send(new ClientKeepAlivePacket404(event.<ServerKeepAlivePacket>getPacket().getPingId()));
-            } else if(event.getPacket() instanceof ServerDisconnectPacket) {
-                event.getSession().disconnect(event.<ServerDisconnectPacket>getPacket().getReason().getFullText());
+            } else if(event.getPacket() instanceof ServerDisconnectPacket404) {
+                event.getSession().disconnect(event.<ServerDisconnectPacket404>getPacket().getReason().getFullText());
             } else if(event.getPacket() instanceof ServerSetCompressionPacket) {
                 event.getSession().setCompressionThreshold(event.<ServerSetCompressionPacket>getPacket().getThreshold());
             }

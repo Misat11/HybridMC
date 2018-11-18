@@ -3,25 +3,24 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.setting.Difficulty;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerDifficultyPacket;
 
 import java.io.IOException;
 
-public class ServerDifficultyPacket extends MinecraftPacket {
+@Getter
+public class ServerDifficultyPacket404 extends MinecraftPacket implements ServerDifficultyPacket {
     private Difficulty difficulty;
 
     @SuppressWarnings("unused")
-    private ServerDifficultyPacket() {
+    private ServerDifficultyPacket404() {
     }
 
-    public ServerDifficultyPacket(Difficulty difficulty) {
+    public ServerDifficultyPacket404(Difficulty difficulty) {
         this.difficulty = difficulty;
-    }
-
-    public Difficulty getDifficulty() {
-        return this.difficulty;
     }
 
     @Override
