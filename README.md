@@ -29,7 +29,7 @@ You will need Java JDK 8 and above and Maven. Then run command `mvn package`. Ja
 - Start your server for generate `config.yml` in `plugins/HybridMC`
 - Edit `config.yml` and restart your server
 
-## Who uses DragonProxy
+## Who uses HybridMC
 See live stats on BStats[![Bstats](https://bstats.org/signatures/bukkit/HybridMC.svg)](https://bstats.org/plugin/bukkit/HybridMC/)
 
 ## Used libraries
