@@ -4,35 +4,30 @@ import com.github.steveice10.mc.auth.data.GameProfile;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntry;
 import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntryAction;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
 import misat11.hybrid.network.java.pabstract.data.message.Message;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerPlayerListEntryPacket;
 
 import java.io.IOException;
 import java.util.UUID;
 
-public class ServerPlayerListEntryPacket extends MinecraftPacket {
+@Getter
+public class ServerPlayerListEntryPacket404 extends MinecraftPacket implements ServerPlayerListEntryPacket {
     private PlayerListEntryAction action;
     private PlayerListEntry entries[];
 
     @SuppressWarnings("unused")
-    private ServerPlayerListEntryPacket() {
+    private ServerPlayerListEntryPacket404() {
     }
 
-    public ServerPlayerListEntryPacket(PlayerListEntryAction action, PlayerListEntry entries[]) {
+    public ServerPlayerListEntryPacket404(PlayerListEntryAction action, PlayerListEntry entries[]) {
         this.action = action;
         this.entries = entries;
-    }
-
-    public PlayerListEntryAction getAction() {
-        return this.action;
-    }
-
-    public PlayerListEntry[] getEntries() {
-        return this.entries;
     }
 
     @Override

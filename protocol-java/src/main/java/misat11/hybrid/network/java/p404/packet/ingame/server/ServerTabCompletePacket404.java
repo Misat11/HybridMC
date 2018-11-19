@@ -3,13 +3,16 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.data.message.Message;
 import misat11.hybrid.network.java.pabstract.data.message.TextMessage;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerTabCompletePacket;
 
 import java.io.IOException;
 
-public class ServerTabCompletePacket extends MinecraftPacket {
+@Getter
+public class ServerTabCompletePacket404 extends MinecraftPacket implements ServerTabCompletePacket {
     private int transactionId;
     private int start;
     private int length;
@@ -17,10 +20,10 @@ public class ServerTabCompletePacket extends MinecraftPacket {
     private Message tooltips[];
 
     @SuppressWarnings("unused")
-    private ServerTabCompletePacket() {
+    private ServerTabCompletePacket404() {
     }
 
-    public ServerTabCompletePacket(int transactionId, int start, int length, String matches[], Message tooltips[]) {
+    public ServerTabCompletePacket404(int transactionId, int start, int length, String matches[], Message tooltips[]) {
         if (tooltips.length != matches.length) {
             throw new IllegalArgumentException("Length of matches and tooltips must be equal.");
         }
@@ -29,26 +32,6 @@ public class ServerTabCompletePacket extends MinecraftPacket {
         this.length = length;
         this.matches = matches;
         this.tooltips = tooltips;
-    }
-
-    public int getTransactionId() {
-        return this.transactionId;
-    }
-
-    public int getStart() {
-        return this.start;
-    }
-
-    public int getLength() {
-        return this.length;
-    }
-
-    public String[] getMatches() {
-        return this.matches;
-    }
-
-    public Message[] getTooltips() {
-        return this.tooltips;
     }
 
     @Override

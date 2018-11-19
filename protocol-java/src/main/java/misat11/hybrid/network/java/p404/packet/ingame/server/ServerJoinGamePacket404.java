@@ -3,18 +3,21 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
 import misat11.hybrid.network.java.pabstract.data.game.setting.Difficulty;
 import misat11.hybrid.network.java.pabstract.data.game.world.WorldType;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerJoinGamePacket;
 
 import java.io.IOException;
 
-public class ServerJoinGamePacket extends MinecraftPacket {
+@Getter
+public class ServerJoinGamePacket404 extends MinecraftPacket implements ServerJoinGamePacket {
     private int entityId;
     private boolean hardcore;
-    private GameMode gamemode;
+    private GameMode gameMode;
     private int dimension;
     private Difficulty difficulty;
     private int maxPlayers;
@@ -22,50 +25,28 @@ public class ServerJoinGamePacket extends MinecraftPacket {
     private boolean reducedDebugInfo;
 
     @SuppressWarnings("unused")
-    private ServerJoinGamePacket() {
+    private ServerJoinGamePacket404() {
     }
 
-    public ServerJoinGamePacket(int entityId, boolean hardcore, GameMode gamemode, int dimension, Difficulty difficulty, int maxPlayers, WorldType worldType, boolean reducedDebugInfo) {
+    public ServerJoinGamePacket404(int entityId, boolean hardcore, GameMode gameMode, int dimension, Difficulty difficulty, int maxPlayers, WorldType worldType, boolean reducedDebugInfo) {
         this.entityId = entityId;
         this.hardcore = hardcore;
-        this.gamemode = gamemode;
+        this.gameMode = gameMode;
         this.dimension = dimension;
         this.difficulty = difficulty;
         this.maxPlayers = maxPlayers;
         this.worldType = worldType;
         this.reducedDebugInfo = reducedDebugInfo;
     }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public boolean getHardcore() {
-        return this.hardcore;
-    }
-
-    public GameMode getGameMode() {
-        return this.gamemode;
-    }
-
-    public int getDimension() {
-        return this.dimension;
-    }
-
-    public Difficulty getDifficulty() {
-        return this.difficulty;
-    }
-
-    public int getMaxPlayers() {
-        return this.maxPlayers;
-    }
-
-    public WorldType getWorldType() {
-        return this.worldType;
-    }
-
+    
+    @Override
     public boolean getReducedDebugInfo() {
-        return this.reducedDebugInfo;
+    	return this.reducedDebugInfo;
+    }
+    
+    @Override
+    public boolean getHardcore() {
+    	return this.hardcore;
     }
 
     @Override
@@ -74,7 +55,7 @@ public class ServerJoinGamePacket extends MinecraftPacket {
         int gamemode = in.readUnsignedByte();
         this.hardcore = (gamemode & 8) == 8;
         gamemode &= -9;
-        this.gamemode = MagicValues404.key(GameMode.class, gamemode);
+        this.gameMode = MagicValues404.key(GameMode.class, gamemode);
         this.dimension = in.readInt();
         this.difficulty = MagicValues404.key(Difficulty.class, in.readUnsignedByte());
         this.maxPlayers = in.readUnsignedByte();
@@ -85,7 +66,7 @@ public class ServerJoinGamePacket extends MinecraftPacket {
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeInt(this.entityId);
-        int gamemode = MagicValues404.value(Integer.class, this.gamemode);
+        int gamemode = MagicValues404.value(Integer.class, this.gameMode);
         if(this.hardcore) {
             gamemode |= 8;
         }

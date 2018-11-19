@@ -3,34 +3,29 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.CustomSound;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.Sound;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.SoundCategory;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerStopSoundPacket;
 
 import java.io.IOException;
 
-public class ServerStopSoundPacket extends MinecraftPacket {
+@Getter
+public class ServerStopSoundPacket404 extends MinecraftPacket implements ServerStopSoundPacket {
     private SoundCategory category;
     private Sound sound;
 
     @SuppressWarnings("unused")
-    private ServerStopSoundPacket() {
+    private ServerStopSoundPacket404() {
     }
 
-    public ServerStopSoundPacket(SoundCategory category, Sound sound) {
+    public ServerStopSoundPacket404(SoundCategory category, Sound sound) {
         this.category = category;
         this.sound = sound;
-    }
-
-    public SoundCategory getCategory() {
-        return this.category;
-    }
-
-    public Sound getSound() {
-        return sound;
     }
 
     @Override

@@ -3,29 +3,24 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerResourcePackSendPacket;
 
 import java.io.IOException;
 
-public class ServerResourcePackSendPacket extends MinecraftPacket {
+@Getter
+public class ServerResourcePackSendPacket404 extends MinecraftPacket implements ServerResourcePackSendPacket {
     private String url;
     private String hash;
 
     @SuppressWarnings("unused")
-    private ServerResourcePackSendPacket() {
+    private ServerResourcePackSendPacket404() {
     }
 
-    public ServerResourcePackSendPacket(String url, String hash) {
+    public ServerResourcePackSendPacket404(String url, String hash) {
         this.url = url;
         this.hash = hash;
-    }
-
-    public String getUrl() {
-        return this.url;
-    }
-
-    public String getHash() {
-        return this.hash;
     }
 
     @Override

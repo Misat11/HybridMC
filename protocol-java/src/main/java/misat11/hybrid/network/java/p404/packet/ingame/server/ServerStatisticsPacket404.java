@@ -3,6 +3,7 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.statistic.BreakBlockStatistic;
 import misat11.hybrid.network.java.pabstract.data.game.statistic.BreakItemStatistic;
@@ -17,24 +18,22 @@ import misat11.hybrid.network.java.pabstract.data.game.statistic.Statistic;
 import misat11.hybrid.network.java.pabstract.data.game.statistic.StatisticCategory;
 import misat11.hybrid.network.java.pabstract.data.game.statistic.UseItemStatistic;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerStatisticsPacket;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServerStatisticsPacket extends MinecraftPacket {
+@Getter
+public class ServerStatisticsPacket404 extends MinecraftPacket implements ServerStatisticsPacket {
     private Map<Statistic, Integer> statistics = new HashMap<Statistic, Integer>();
 
     @SuppressWarnings("unused")
-    private ServerStatisticsPacket() {
+    private ServerStatisticsPacket404() {
     }
 
-    public ServerStatisticsPacket(Map<Statistic, Integer> statistics) {
+    public ServerStatisticsPacket404(Map<Statistic, Integer> statistics) {
         this.statistics = statistics;
-    }
-
-    public Map<Statistic, Integer> getStatistics() {
-        return this.statistics;
     }
 
     @Override

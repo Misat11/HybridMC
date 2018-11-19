@@ -17,11 +17,11 @@ import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.Mode;
 import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.TeleportationCause;
 import misat11.hybrid.network.bedrock.packet.PlayStatusPacket.Status;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.ServerRespawnPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerRespawnPacket404;
 import misat11.hybrid.network.util.VarInts;
 import misat11.hybrid.util.Rotation;
 
-public class ChangeDimensionTranslator implements IDownstreamTranslator<ServerRespawnPacket> {
+public class ChangeDimensionTranslator implements IDownstreamTranslator<ServerRespawnPacket404> {
 	
 	public static final byte[] emptyChunk;
 	
@@ -45,7 +45,7 @@ public class ChangeDimensionTranslator implements IDownstreamTranslator<ServerRe
 	public static final int OVERWORLD = 0;
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerRespawnPacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerRespawnPacket404 packet) {
 		session.getDownstream().getChunkCache().clear();
 		session.getDownstream().switchFakePos = !session.getDownstream().switchFakePos;
 		return create(getPeDimensionId(packet.getDimension()), session.getDownstream().switchFakePos ? 20 : 30, session.getDownstream().playerEntityId);

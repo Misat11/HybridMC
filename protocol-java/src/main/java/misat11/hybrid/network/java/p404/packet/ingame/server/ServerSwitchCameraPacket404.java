@@ -3,23 +3,22 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerSwitchCameraPacket;
 
 import java.io.IOException;
 
-public class ServerSwitchCameraPacket extends MinecraftPacket {
+@Getter
+public class ServerSwitchCameraPacket404 extends MinecraftPacket implements ServerSwitchCameraPacket {
     private int cameraEntityId;
 
     @SuppressWarnings("unused")
-    private ServerSwitchCameraPacket() {
+    private ServerSwitchCameraPacket404() {
     }
 
-    public ServerSwitchCameraPacket(int cameraEntityId) {
+    public ServerSwitchCameraPacket404(int cameraEntityId) {
         this.cameraEntityId = cameraEntityId;
-    }
-
-    public int getCameraEntityId() {
-        return this.cameraEntityId;
     }
 
     @Override

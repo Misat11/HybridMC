@@ -3,29 +3,24 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerPluginMessagePacket;
 
 import java.io.IOException;
 
-public class ServerPluginMessagePacket extends MinecraftPacket {
+@Getter
+public class ServerPluginMessagePacket404 extends MinecraftPacket implements ServerPluginMessagePacket {
     private String channel;
     private byte data[];
 
     @SuppressWarnings("unused")
-    private ServerPluginMessagePacket() {
+    private ServerPluginMessagePacket404() {
     }
 
-    public ServerPluginMessagePacket(String channel, byte data[]) {
+    public ServerPluginMessagePacket404(String channel, byte data[]) {
         this.channel = channel;
         this.data = data;
-    }
-
-    public String getChannel() {
-        return this.channel;
-    }
-
-    public byte[] getData() {
-        return this.data;
     }
 
     @Override

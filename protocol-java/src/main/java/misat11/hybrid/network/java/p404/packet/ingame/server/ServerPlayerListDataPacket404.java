@@ -3,30 +3,25 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.data.message.Message;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerPlayerListDataPacket;
 
 import java.io.IOException;
 
-public class ServerPlayerListDataPacket extends MinecraftPacket {
+@Getter
+public class ServerPlayerListDataPacket404 extends MinecraftPacket implements ServerPlayerListDataPacket {
     private Message header;
     private Message footer;
 
     @SuppressWarnings("unused")
-    private ServerPlayerListDataPacket() {
+    private ServerPlayerListDataPacket404() {
     }
 
-    public ServerPlayerListDataPacket(Message header, Message footer) {
+    public ServerPlayerListDataPacket404(Message header, Message footer) {
         this.header = header;
         this.footer = footer;
-    }
-
-    public Message getHeader() {
-        return this.header;
-    }
-
-    public Message getFooter() {
-        return this.footer;
     }
 
     @Override

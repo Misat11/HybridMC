@@ -3,29 +3,24 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerSetCooldownPacket;
 
 import java.io.IOException;
 
-public class ServerSetCooldownPacket extends MinecraftPacket {
+@Getter
+public class ServerSetCooldownPacket404 extends MinecraftPacket implements ServerSetCooldownPacket {
     private int itemId;
     private int cooldownTicks;
 
     @SuppressWarnings("unused")
-    private ServerSetCooldownPacket() {
+    private ServerSetCooldownPacket404() {
     }
 
-    public ServerSetCooldownPacket(int itemId, int cooldownTicks) {
+    public ServerSetCooldownPacket404(int itemId, int cooldownTicks) {
         this.itemId = itemId;
         this.cooldownTicks = cooldownTicks;
-    }
-
-    public int getItemId() {
-        return this.itemId;
-    }
-
-    public int getCooldownTicks() {
-        return this.cooldownTicks;
     }
 
     @Override

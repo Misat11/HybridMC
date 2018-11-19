@@ -3,15 +3,18 @@ package misat11.hybrid.network.java.p404.packet.ingame.server;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.UnlockRecipesAction;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerUnlockRecipesPacket;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerUnlockRecipesPacket extends MinecraftPacket {
+@Getter
+public class ServerUnlockRecipesPacket404 extends MinecraftPacket implements ServerUnlockRecipesPacket {
     private UnlockRecipesAction action;
 
     private List<String> recipes;
@@ -23,10 +26,10 @@ public class ServerUnlockRecipesPacket extends MinecraftPacket {
     private boolean activateSmeltingFiltering;
 
     @SuppressWarnings("unused")
-    private ServerUnlockRecipesPacket() {
+    private ServerUnlockRecipesPacket404() {
     }
 
-    private ServerUnlockRecipesPacket(boolean openCraftingBook, boolean activateCraftingFiltering,
+    private ServerUnlockRecipesPacket404(boolean openCraftingBook, boolean activateCraftingFiltering,
                                       boolean openSmeltingBook, boolean activateSmeltingFiltering,
                                       List<String> recipes) {
         this.openCraftingBook = openCraftingBook;
@@ -36,7 +39,7 @@ public class ServerUnlockRecipesPacket extends MinecraftPacket {
         this.recipes = recipes;
     }
 
-    public ServerUnlockRecipesPacket(boolean openCraftingBook, boolean activateCraftingFiltering,
+    public ServerUnlockRecipesPacket404(boolean openCraftingBook, boolean activateCraftingFiltering,
                                      boolean openSmeltingBook, boolean activateSmeltingFiltering,
                                      List<String> recipes, List<String> alreadyKnownRecipes) {
         this(openCraftingBook, activateCraftingFiltering, openSmeltingBook, activateSmeltingFiltering, recipes);
@@ -44,7 +47,7 @@ public class ServerUnlockRecipesPacket extends MinecraftPacket {
         this.alreadyKnownRecipes = alreadyKnownRecipes;
     }
 
-    public ServerUnlockRecipesPacket(boolean openCraftingBook, boolean activateCraftingFiltering,
+    public ServerUnlockRecipesPacket404(boolean openCraftingBook, boolean activateCraftingFiltering,
                                      boolean openSmeltingBook, boolean activateSmeltingFiltering,
                                      List<String> recipes, UnlockRecipesAction action) {
         this(openCraftingBook, activateCraftingFiltering, openSmeltingBook, activateSmeltingFiltering, recipes);
@@ -52,22 +55,6 @@ public class ServerUnlockRecipesPacket extends MinecraftPacket {
             throw new IllegalArgumentException("action must be ADD or REMOVE");
         }
         this.action = action;
-    }
-
-    public UnlockRecipesAction getAction() {
-        return this.action;
-    }
-
-    public List<String> getRecipes() {
-        return this.recipes;
-    }
-
-    public List<String> getAlreadyKnownRecipes() {
-        if(this.action != UnlockRecipesAction.INIT) {
-            throw new IllegalStateException("alreadyKnownRecipes is only set if action is " + UnlockRecipesAction.INIT
-                    + " but it was " + this.action);
-        }
-        return this.alreadyKnownRecipes;
     }
 
     public boolean getOpenCraftingBook() {

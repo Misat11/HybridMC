@@ -3,14 +3,14 @@ package misat11.hybrid.downstream.translators;
 import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.ServerPlayerListEntryPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.ServerPlayerListEntryPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntry;
 
-public class PlayerListSetEntryTranslator implements IDownstreamTranslator<ServerPlayerListEntryPacket> {
+public class PlayerListSetEntryTranslator implements IDownstreamTranslator<ServerPlayerListEntryPacket404> {
 
 	// This translator needs fixes
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerPlayerListEntryPacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerPlayerListEntryPacket404 packet) {
 		/*PlayerListPacket plp = new PlayerListPacket();*/
 		switch (packet.getAction()) {
 		case ADD_PLAYER:
