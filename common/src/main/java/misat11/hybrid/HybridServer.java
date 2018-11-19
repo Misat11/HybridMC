@@ -71,7 +71,7 @@ public class HybridServer {
 			sessionManager = new HybridSessionManager();
 			int configNetThreads = networkthreads;
 			int maxThreads = configNetThreads < 1 ? Runtime.getRuntime().availableProcessors() : configNetThreads;
-			rakNetServer = RakNetServer.<HybridSession>builder().address(peIp, pePort)
+			rakNetServer = RakNetServer.<HybridSession>builder().address(peIp.equals("") ? "0.0.0.0" : peIp, pePort)
 					.eventListener(new HybridRakNetEventListener()).packet(HybridWrappedPacket::new, 0xfe)
 					.executor(sessionManager.getSessionTicker()).scheduler(timerService).maximumThreads(maxThreads)
 					.sessionFactory((connection) -> new HybridSession(this, connection)).sessionManager(sessionManager)

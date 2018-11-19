@@ -19,6 +19,11 @@ public final class HybridPluginBukkit extends JavaPlugin implements IPlatform {
 
 	@Override
 	public void onEnable() {
+		if (Float.parseFloat(System.getProperty("java.class.version")) < 52.0) {
+			log("§c*** ERROR *** Outdated Java detected! HybridMC requires at least Java 8. Disabling plugin!");
+			getPluginLoader().disablePlugin(this);
+			return;
+		}
 		boolean isNMS;
 		try {
 			Class.forName("org.bukkit.craftbukkit.Main");
@@ -38,14 +43,15 @@ public final class HybridPluginBukkit extends JavaPlugin implements IPlatform {
 			return;
 		}
 		Metrics metrics = new Metrics(this);
+		saveDefaultConfig();
 		getServer().getScheduler().runTask(this, () -> {
 			try {
 				version = getDescription().getVersion();
 				log("§aStarting HybridMC version " + version);
 				Platform.initPlatform(this);
 				server = new HybridServer(getServer().getIp(), getConfig().getInt("port"), getServer().getIp(),
-						getServer().getPort(), NMSUtil.getServerProtocolVersion(),
-						getConfig().getInt("networkthreads"), (hybridServer, javaProtocolInfo) -> {
+						getServer().getPort(), NMSUtil.getServerProtocolVersion(), getConfig().getInt("networkthreads"),
+						(hybridServer, javaProtocolInfo) -> {
 							if (javaProtocolInfo.getVersionType() == VersionType.FLATTENING) {
 								CraftBukkitFlatteningBlockData blockData = new CraftBukkitFlatteningBlockData();
 								CraftBukkitFlatteningItemData itemData = new CraftBukkitFlatteningItemData();
