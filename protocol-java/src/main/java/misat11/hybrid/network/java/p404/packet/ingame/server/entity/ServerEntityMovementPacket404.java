@@ -3,64 +3,39 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityMovementPacket;
 
 import java.io.IOException;
 
-public class ServerEntityMovementPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityMovementPacket404 extends MinecraftPacket implements ServerEntityMovementPacket {
     protected int entityId;
-    protected double moveX;
-    protected double moveY;
-    protected double moveZ;
+    protected double movementX;
+    protected double movementY;
+    protected double movementZ;
     protected float yaw;
     protected float pitch;
     protected boolean pos = false;
     protected boolean rot = false;
     private boolean onGround;
 
-    protected ServerEntityMovementPacket() {
+    protected ServerEntityMovementPacket404() {
     }
 
-    public ServerEntityMovementPacket(int entityId, boolean onGround) {
+    public ServerEntityMovementPacket404(int entityId, boolean onGround) {
         this.entityId = entityId;
         this.onGround = onGround;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public double getMovementX() {
-        return this.moveX;
-    }
-
-    public double getMovementY() {
-        return this.moveY;
-    }
-
-    public double getMovementZ() {
-        return this.moveZ;
-    }
-
-    public float getYaw() {
-        return this.yaw;
-    }
-
-    public float getPitch() {
-        return this.pitch;
-    }
-
-    public boolean isOnGround() {
-        return this.onGround;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
         if(this.pos) {
-            this.moveX = in.readShort() / 4096D;
-            this.moveY = in.readShort() / 4096D;
-            this.moveZ = in.readShort() / 4096D;
+            this.movementX = in.readShort() / 4096D;
+            this.movementY = in.readShort() / 4096D;
+            this.movementZ = in.readShort() / 4096D;
         }
 
         if(this.rot) {
@@ -77,9 +52,9 @@ public class ServerEntityMovementPacket extends MinecraftPacket {
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
         if(this.pos) {
-            out.writeShort((int) (this.moveX * 4096));
-            out.writeShort((int) (this.moveY * 4096));
-            out.writeShort((int) (this.moveZ * 4096));
+            out.writeShort((int) (this.movementX * 4096));
+            out.writeShort((int) (this.movementY * 4096));
+            out.writeShort((int) (this.movementZ * 4096));
         }
 
         if(this.rot) {

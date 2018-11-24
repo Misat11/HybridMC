@@ -3,29 +3,24 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityHeadLookPacket;
 
 import java.io.IOException;
 
-public class ServerEntityHeadLookPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityHeadLookPacket404 extends MinecraftPacket implements ServerEntityHeadLookPacket {
     private int entityId;
     private float headYaw;
 
     @SuppressWarnings("unused")
-    private ServerEntityHeadLookPacket() {
+    private ServerEntityHeadLookPacket404() {
     }
 
-    public ServerEntityHeadLookPacket(int entityId, float headYaw) {
+    public ServerEntityHeadLookPacket404(int entityId, float headYaw) {
         this.entityId = entityId;
         this.headYaw = headYaw;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public float getHeadYaw() {
-        return this.headYaw;
     }
 
     @Override

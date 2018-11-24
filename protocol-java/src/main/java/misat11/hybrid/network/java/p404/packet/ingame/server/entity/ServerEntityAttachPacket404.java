@@ -3,29 +3,24 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityAttachPacket;
 
 import java.io.IOException;
 
-public class ServerEntityAttachPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityAttachPacket404 extends MinecraftPacket implements ServerEntityAttachPacket {
     private int entityId;
     private int attachedToId;
 
     @SuppressWarnings("unused")
-    private ServerEntityAttachPacket() {
+    private ServerEntityAttachPacket404() {
     }
 
-    public ServerEntityAttachPacket(int entityId, int attachedToId) {
+    public ServerEntityAttachPacket404(int entityId, int attachedToId) {
         this.entityId = entityId;
         this.attachedToId = attachedToId;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public int getAttachedToId() {
-        return this.attachedToId;
     }
 
     @Override

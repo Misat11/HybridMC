@@ -3,36 +3,31 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.Attribute;
 import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.AttributeModifier;
 import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.AttributeType;
 import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.ModifierOperation;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityPropertiesPacket;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerEntityPropertiesPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityPropertiesPacket404 extends MinecraftPacket implements ServerEntityPropertiesPacket {
     private int entityId;
     private List<Attribute> attributes;
 
     @SuppressWarnings("unused")
-    private ServerEntityPropertiesPacket() {
+    private ServerEntityPropertiesPacket404() {
     }
 
-    public ServerEntityPropertiesPacket(int entityId, List<Attribute> attributes) {
+    public ServerEntityPropertiesPacket404(int entityId, List<Attribute> attributes) {
         this.entityId = entityId;
         this.attributes = attributes;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public List<Attribute> getAttributes() {
-        return this.attributes;
     }
 
     @Override

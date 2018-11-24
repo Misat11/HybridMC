@@ -3,11 +3,14 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityTeleportPacket;
 
 import java.io.IOException;
 
-public class ServerEntityTeleportPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityTeleportPacket404 extends MinecraftPacket implements ServerEntityTeleportPacket {
     private int entityId;
     private double x;
     private double y;
@@ -17,10 +20,10 @@ public class ServerEntityTeleportPacket extends MinecraftPacket {
     private boolean onGround;
 
     @SuppressWarnings("unused")
-    private ServerEntityTeleportPacket() {
+    private ServerEntityTeleportPacket404() {
     }
 
-    public ServerEntityTeleportPacket(int entityId, double x, double y, double z, float yaw, float pitch, boolean onGround) {
+    public ServerEntityTeleportPacket404(int entityId, double x, double y, double z, float yaw, float pitch, boolean onGround) {
         this.entityId = entityId;
         this.x = x;
         this.y = y;
@@ -28,34 +31,6 @@ public class ServerEntityTeleportPacket extends MinecraftPacket {
         this.yaw = yaw;
         this.pitch = pitch;
         this.onGround = onGround;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public double getZ() {
-        return this.z;
-    }
-
-    public float getYaw() {
-        return this.yaw;
-    }
-
-    public float getPitch() {
-        return this.pitch;
-    }
-
-    public boolean isOnGround() {
-        return this.onGround;
     }
 
     @Override

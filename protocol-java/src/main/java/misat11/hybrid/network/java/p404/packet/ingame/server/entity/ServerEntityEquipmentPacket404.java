@@ -3,39 +3,30 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.EquipmentSlot;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityEquipmentPacket;
 
 import java.io.IOException;
 
-public class ServerEntityEquipmentPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityEquipmentPacket404 extends MinecraftPacket implements ServerEntityEquipmentPacket {
     private int entityId;
     private EquipmentSlot slot;
     private ItemStack item;
 
     @SuppressWarnings("unused")
-    private ServerEntityEquipmentPacket() {
+    private ServerEntityEquipmentPacket404() {
     }
 
-    public ServerEntityEquipmentPacket(int entityId, EquipmentSlot slot, ItemStack item) {
+    public ServerEntityEquipmentPacket404(int entityId, EquipmentSlot slot, ItemStack item) {
         this.entityId = entityId;
         this.slot = slot;
         this.item = item;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public EquipmentSlot getSlot() {
-        return this.slot;
-    }
-
-    public ItemStack getItem() {
-        return this.item;
     }
 
     @Override

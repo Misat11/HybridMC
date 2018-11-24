@@ -3,13 +3,16 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.Effect;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityEffectPacket;
 
 import java.io.IOException;
 
-public class ServerEntityEffectPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityEffectPacket404 extends MinecraftPacket implements ServerEntityEffectPacket {
     private int entityId;
     private Effect effect;
     private int amplifier;
@@ -18,32 +21,16 @@ public class ServerEntityEffectPacket extends MinecraftPacket {
     private boolean showParticles;
 
     @SuppressWarnings("unused")
-    private ServerEntityEffectPacket() {
+    private ServerEntityEffectPacket404() {
     }
 
-    public ServerEntityEffectPacket(int entityId, Effect effect, int amplifier, int duration, boolean ambient, boolean showParticles) {
+    public ServerEntityEffectPacket404(int entityId, Effect effect, int amplifier, int duration, boolean ambient, boolean showParticles) {
         this.entityId = entityId;
         this.effect = effect;
         this.amplifier = amplifier;
         this.duration = duration;
         this.ambient = ambient;
         this.showParticles = showParticles;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public Effect getEffect() {
-        return this.effect;
-    }
-
-    public int getAmplifier() {
-        return this.amplifier;
-    }
-
-    public int getDuration() {
-        return this.duration;
     }
 
     public boolean isAmbient() {

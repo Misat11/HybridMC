@@ -6,12 +6,12 @@ import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.SetEntityMotionPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityVelocityPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityVelocityPacket404;
 
-public class EntityVelocityTranslator implements IDownstreamTranslator<ServerEntityVelocityPacket> {
+public class EntityVelocityTranslator implements IDownstreamTranslator<ServerEntityVelocityPacket404> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerEntityVelocityPacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerEntityVelocityPacket404 packet) {
 		SetEntityMotionPacket semp = new SetEntityMotionPacket();
 		semp.setRuntimeEntityId(packet.getEntityId());
 		semp.setMotion(new Vector3f(packet.getMotionX() / 8000.0F, packet.getMotionY() / 8000.0F,

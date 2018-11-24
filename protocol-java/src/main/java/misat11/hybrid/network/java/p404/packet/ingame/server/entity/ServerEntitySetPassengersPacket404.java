@@ -3,29 +3,24 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntitySetPassengersPacket;
 
 import java.io.IOException;
 
-public class ServerEntitySetPassengersPacket extends MinecraftPacket {
+@Getter
+public class ServerEntitySetPassengersPacket404 extends MinecraftPacket implements ServerEntitySetPassengersPacket {
     private int entityId;
     private int passengerIds[];
 
     @SuppressWarnings("unused")
-    private ServerEntitySetPassengersPacket() {
+    private ServerEntitySetPassengersPacket404() {
     }
 
-    public ServerEntitySetPassengersPacket(int entityId, int... passengerIds) {
+    public ServerEntitySetPassengersPacket404(int entityId, int... passengerIds) {
         this.entityId = entityId;
         this.passengerIds = passengerIds;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public int[] getPassengerIds() {
-        return this.passengerIds;
     }
 
     @Override

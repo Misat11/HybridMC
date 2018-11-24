@@ -9,12 +9,12 @@ import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.RemoveEntityPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityDestroyPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityDestroyPacket404;
 
-public class EntityDestroyTranslator implements IDownstreamTranslator<ServerEntityDestroyPacket> {
+public class EntityDestroyTranslator implements IDownstreamTranslator<ServerEntityDestroyPacket404> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerEntityDestroyPacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerEntityDestroyPacket404 packet) {
 		List<RemoveEntityPacket> list = new ArrayList<>();
 		Map<Long, WatchedEntity> watched = session.getDownstream().getWatchedEntities();
 		for (int eid : packet.getEntityIds()) {

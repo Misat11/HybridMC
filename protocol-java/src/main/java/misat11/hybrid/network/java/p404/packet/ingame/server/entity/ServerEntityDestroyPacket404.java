@@ -3,23 +3,22 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityDestroyPacket;
 
 import java.io.IOException;
 
-public class ServerEntityDestroyPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityDestroyPacket404 extends MinecraftPacket implements ServerEntityDestroyPacket {
     private int entityIds[];
 
     @SuppressWarnings("unused")
-    private ServerEntityDestroyPacket() {
+    private ServerEntityDestroyPacket404() {
     }
 
-    public ServerEntityDestroyPacket(int... entityIds) {
+    public ServerEntityDestroyPacket404(int... entityIds) {
         this.entityIds = entityIds;
-    }
-
-    public int[] getEntityIds() {
-        return this.entityIds;
     }
 
     @Override

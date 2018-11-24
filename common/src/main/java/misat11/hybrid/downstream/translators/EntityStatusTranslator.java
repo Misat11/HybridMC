@@ -8,12 +8,12 @@ import misat11.hybrid.entity.EntityEvent;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.EntityEventPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityStatusPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityStatusPacket404;
 
-public class EntityStatusTranslator implements IDownstreamTranslator<ServerEntityStatusPacket>{
+public class EntityStatusTranslator implements IDownstreamTranslator<ServerEntityStatusPacket404>{
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerEntityStatusPacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerEntityStatusPacket404 packet) {
 		// TODO translate other cases
 		List<BedrockPacket> packets = new ArrayList<>();
 		switch (packet.getStatus()) {

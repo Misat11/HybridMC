@@ -3,35 +3,26 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityCollectItemPacket;
 
 import java.io.IOException;
 
-public class ServerEntityCollectItemPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityCollectItemPacket404 extends MinecraftPacket implements ServerEntityCollectItemPacket {
     private int collectedEntityId;
     private int collectorEntityId;
     private int itemCount;
 
     @SuppressWarnings("unused")
-    private ServerEntityCollectItemPacket() {
+    private ServerEntityCollectItemPacket404() {
     }
 
-    public ServerEntityCollectItemPacket(int collectedEntityId, int collectorEntityId, int itemCount) {
+    public ServerEntityCollectItemPacket404(int collectedEntityId, int collectorEntityId, int itemCount) {
         this.collectedEntityId = collectedEntityId;
         this.collectorEntityId = collectorEntityId;
         this.itemCount = itemCount;
-    }
-
-    public int getCollectedEntityId() {
-        return this.collectedEntityId;
-    }
-
-    public int getCollectorEntityId() {
-        return this.collectorEntityId;
-    }
-
-    public int getItemCount() {
-        return this.itemCount;
     }
 
     @Override

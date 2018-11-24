@@ -3,31 +3,26 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.EntityStatus;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityStatusPacket;
 
 import java.io.IOException;
 
-public class ServerEntityStatusPacket extends MinecraftPacket {
+@Getter
+public class ServerEntityStatusPacket404 extends MinecraftPacket implements ServerEntityStatusPacket {
     protected int entityId;
     protected EntityStatus status;
 
     @SuppressWarnings("unused")
-    private ServerEntityStatusPacket() {
+    private ServerEntityStatusPacket404() {
     }
 
-    public ServerEntityStatusPacket(int entityId, EntityStatus status) {
+    public ServerEntityStatusPacket404(int entityId, EntityStatus status) {
         this.entityId = entityId;
         this.status = status;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
-    }
-
-    public EntityStatus getStatus() {
-        return this.status;
     }
 
     @Override

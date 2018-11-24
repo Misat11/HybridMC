@@ -8,14 +8,14 @@ import misat11.hybrid.entity.EntityType;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.MoveEntityAbsolutePacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityTeleportPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityTeleportPacket404;
 import misat11.hybrid.typeremapper.EntityRemapper;
 import misat11.hybrid.util.Rotation;
 
-public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEntityTeleportPacket> {
+public class EntityTeleportTranslator implements IDownstreamTranslator<ServerEntityTeleportPacket404> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerEntityTeleportPacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerEntityTeleportPacket404 packet) {
 		WatchedEntity entity = session.getDownstream().getWatchedEntities().get((long) packet.getEntityId());
 		if (entity == null) {
 			return null;

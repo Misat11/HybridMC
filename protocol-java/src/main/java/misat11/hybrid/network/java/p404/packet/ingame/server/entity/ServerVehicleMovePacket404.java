@@ -3,11 +3,14 @@ package misat11.hybrid.network.java.p404.packet.ingame.server.entity;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
+import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerVehicleMovePacket;
 
 import java.io.IOException;
 
-public class ServerVehicleMovePacket extends MinecraftPacket {
+@Getter
+public class ServerVehicleMovePacket404 extends MinecraftPacket implements ServerVehicleMovePacket {
     private double x;
     private double y;
     private double z;
@@ -15,35 +18,15 @@ public class ServerVehicleMovePacket extends MinecraftPacket {
     private float pitch;
 
     @SuppressWarnings("unused")
-    private ServerVehicleMovePacket() {
+    private ServerVehicleMovePacket404() {
     }
 
-    public ServerVehicleMovePacket(double x, double y, double z, float yaw, float pitch) {
+    public ServerVehicleMovePacket404(double x, double y, double z, float yaw, float pitch) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.yaw = yaw;
         this.pitch = pitch;
-    }
-
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public double getZ() {
-        return this.z;
-    }
-
-    public float getYaw() {
-        return this.yaw;
-    }
-
-    public float getPitch() {
-        return this.pitch;
     }
 
     @Override
