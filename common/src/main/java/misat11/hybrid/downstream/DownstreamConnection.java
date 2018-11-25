@@ -15,10 +15,11 @@ import misat11.hybrid.downstream.cache.InventoryCache;
 import misat11.hybrid.downstream.cache.JukeboxCache;
 import misat11.hybrid.downstream.cache.MovementCache;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.client.ClientChatPacket404;
 import misat11.hybrid.network.java.pabstract.MinecraftProtocolAbstract;
 import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntry;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.ingame.client.ClientChatPacket;
 
 import static misat11.hybrid.Platform.log;
 
@@ -33,14 +34,14 @@ public class DownstreamConnection {
 	private final String ip;
 	private final int port;
 	private Client remoteClient;
-	
+
 	private ChunkSentCache cache;
 	private MovementCache move;
 	private InventoryCache inventory;
 	private JukeboxCache jukebox;
 	private HashMap<UUID, PlayerListEntry> listEntryCache = new HashMap<>();
 	private HashMap<Long, WatchedEntity> watchedEntities = new HashMap<>();
-	
+
 	public boolean switchFakePos;
 	public long playerEntityId;
 	public GameMode gamemode = GameMode.SURVIVAL;
@@ -100,7 +101,9 @@ public class DownstreamConnection {
 
 			@Override
 			public void packetReceived(PacketReceivedEvent event) {
-				DownstreamTranslatorRegister.translate(session, event.getPacket());
+				if (event.getPacket() instanceof IMinecraftPacket) {
+					DownstreamTranslatorRegister.translate(session, event.getPacket());
+				}
 			}
 		});
 		remoteClient.getSession().connect();
@@ -122,7 +125,7 @@ public class DownstreamConnection {
 	}
 
 	public void sendChat(String chat) {
-		remoteClient.getSession().send(new ClientChatPacket404(chat));
+		send(ClientChatPacket.class, String.class, chat);
 	}
 
 	public void send(Packet packet) {
@@ -130,6 +133,14 @@ public class DownstreamConnection {
 			return;
 		}
 		remoteClient.getSession().send(packet);
+	}
+	
+	public void send(Class<? extends IMinecraftPacket> packet, Object...objects) {
+		try {
+			remoteClient.getSession().send(((MinecraftProtocolAbstract)remoteClient.getPacketProtocol()).generatePacket(packet, objects));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public HybridSession getSession() {
@@ -139,28 +150,28 @@ public class DownstreamConnection {
 	public MinecraftProtocolAbstract getMinecraftProtocol() {
 		return protocol;
 	}
-	
+
 	public ChunkSentCache getChunkCache() {
 		return cache;
 	}
-	
+
 	public MovementCache getMovementCache() {
 		return move;
 	}
-	
+
 	public InventoryCache getInventoryCache() {
 		return inventory;
 	}
-	
+
 	public JukeboxCache getJukeboxCache() {
 		return jukebox;
 	}
-	
+
 	public Map<UUID, PlayerListEntry> getPlayerListEntryCache() {
 		return listEntryCache;
 	}
-	
-	public Map<Long, WatchedEntity> getWatchedEntities(){
+
+	public Map<Long, WatchedEntity> getWatchedEntities() {
 		return watchedEntities;
 	}
 }

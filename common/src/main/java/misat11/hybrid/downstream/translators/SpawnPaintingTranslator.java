@@ -9,13 +9,13 @@ import misat11.hybrid.entity.Painting;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.AddPaintingPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.spawn.ServerSpawnPaintingPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.type.PaintingType;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.spawn.ServerSpawnPaintingPacket;
 
-public class SpawnPaintingTranslator implements IDownstreamTranslator<ServerSpawnPaintingPacket404> {
+public class SpawnPaintingTranslator implements IDownstreamTranslator<ServerSpawnPaintingPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerSpawnPaintingPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerSpawnPaintingPacket packet) {
 		AddPaintingPacket app = new AddPaintingPacket();
 		app.setRuntimeEntityId(packet.getEntityId());
 		app.setUniqueEntityId(packet.getEntityId());

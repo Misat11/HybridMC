@@ -1,14 +1,9 @@
 package misat11.hybrid.network.java.pabstract.data.game.entity.attribute;
 
-import java.util.Objects;
-import java.util.UUID;
-
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.util.ObjectUtil;
 
 public class AttributeModifier {
     private ModifierType type;
-    private UUID uuid;
     private double amount;
     private ModifierOperation operation;
 
@@ -18,29 +13,12 @@ public class AttributeModifier {
         }
 
         this.type = type;
-        this.uuid = MagicValues404.value(UUID.class, type);
-        this.amount = amount;
-        this.operation = operation;
-    }
-
-    public AttributeModifier(UUID uuid, double amount, ModifierOperation operation) {
-        try {
-            this.type = MagicValues404.key(ModifierType.class, uuid); // TODO stop using version unique classes in abstract package
-        } catch(IllegalArgumentException e) {
-            this.type = ModifierType.DYNAMIC;
-        }
-
-        this.uuid = uuid;
         this.amount = amount;
         this.operation = operation;
     }
 
     public ModifierType getType() {
         return this.type;
-    }
-
-    public UUID getUUID() {
-        return this.uuid;
     }
 
     public double getAmount() {
@@ -58,14 +36,13 @@ public class AttributeModifier {
 
         AttributeModifier that = (AttributeModifier) o;
         return this.type == that.type &&
-                Objects.equals(this.uuid, that.uuid) &&
                 this.amount == that.amount &&
                 this.operation == that.operation;
     }
 
     @Override
     public int hashCode() {
-        return ObjectUtil.hashCode(this.type, this.uuid, this.amount, this.operation);
+        return ObjectUtil.hashCode(this.type, this.amount, this.operation);
     }
 
     @Override

@@ -8,15 +8,15 @@ import misat11.hybrid.entity.EntityType;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.AddPlayerPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.spawn.ServerSpawnPlayerPacket404;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.spawn.ServerSpawnPlayerPacket;
 import misat11.hybrid.permission.CommandPermission;
 import misat11.hybrid.permission.PlayerPermission;
 import misat11.hybrid.util.Rotation;
 
-public class SpawnNamedTranslator implements IDownstreamTranslator<ServerSpawnPlayerPacket404> {
+public class SpawnNamedTranslator implements IDownstreamTranslator<ServerSpawnPlayerPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerSpawnPlayerPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerSpawnPlayerPacket packet) {
 		AddPlayerPacket app = new AddPlayerPacket();
 		app.setUuid(packet.getUUID());
 		app.setUniqueEntityId(packet.getEntityId());

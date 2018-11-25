@@ -24,8 +24,6 @@ import static misat11.hybrid.Platform.log;
 
 public class HybridServer {
 
-	public static final int FLATTENING_FIRST_VERSION = 393; // 1.13
-
 	public final String peIp;
 	public final int pePort;
 	public final String pcIp;

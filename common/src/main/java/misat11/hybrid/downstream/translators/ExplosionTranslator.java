@@ -13,13 +13,13 @@ import misat11.hybrid.network.bedrock.packet.LevelEventPacket;
 import misat11.hybrid.network.bedrock.packet.SetEntityMotionPacket;
 import misat11.hybrid.network.bedrock.packet.LevelEventPacket.Event;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerExplosionPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.ExplodedBlockRecord;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.world.ServerExplosionPacket;
 
-public class ExplosionTranslator implements IDownstreamTranslator<ServerExplosionPacket404> {
+public class ExplosionTranslator implements IDownstreamTranslator<ServerExplosionPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerExplosionPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerExplosionPacket packet) {
 		List<BedrockPacket> packets = new ArrayList<>();
 		ExplodePacket ep = new ExplodePacket();
 		ep.setPosition(new Vector3f(packet.getX(), packet.getY(), packet.getZ()));

@@ -17,7 +17,6 @@ import misat11.hybrid.network.bedrock.packet.StopSoundPacket;
 import misat11.hybrid.network.bedrock.packet.TextPacket;
 import misat11.hybrid.network.bedrock.packet.LevelEventPacket.Event;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerPlayEffectPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.world.effect.BreakBlockEffectData;
 import misat11.hybrid.network.java.pabstract.data.game.world.effect.ParticleEffect;
 import misat11.hybrid.network.java.pabstract.data.game.world.effect.RecordEffectData;
@@ -25,11 +24,12 @@ import misat11.hybrid.network.java.pabstract.data.game.world.effect.SoundEffect;
 import misat11.hybrid.network.java.pabstract.data.game.world.effect.WorldEffect;
 import misat11.hybrid.network.java.pabstract.data.game.world.effect.WorldEffectData;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.world.ServerPlayEffectPacket;
 
-public class WorldEventTranslator implements IDownstreamTranslator<ServerPlayEffectPacket404> {
+public class WorldEventTranslator implements IDownstreamTranslator<ServerPlayEffectPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerPlayEffectPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerPlayEffectPacket packet) {
 		WorldEffect effect = packet.getEffect();
 		WorldEffectData data = packet.getData();
 		List<BedrockPacket> packets = new ArrayList<>();

@@ -10,12 +10,12 @@ import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.LevelSoundEventPacket;
 import misat11.hybrid.network.bedrock.packet.PlaySoundPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerPlayBuiltinSoundPacket404;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.world.ServerPlayBuiltinSoundPacket;
 
-public class WorldSoundTranslator implements IDownstreamTranslator<ServerPlayBuiltinSoundPacket404> {
+public class WorldSoundTranslator implements IDownstreamTranslator<ServerPlayBuiltinSoundPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerPlayBuiltinSoundPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerPlayBuiltinSoundPacket packet) {
 		LevelSoundEventPacket lsep = new LevelSoundEventPacket();
 		lsep.setPosition(new Vector3f(packet.getX(), packet.getY(), packet.getZ()));
 		lsep.setPitch((int) packet.getPitch());

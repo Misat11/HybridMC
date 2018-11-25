@@ -11,20 +11,20 @@ import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.FullChunkDataPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerChunkDataPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.chunk.BlockStorage;
 import misat11.hybrid.network.java.pabstract.data.game.chunk.Chunk;
 import misat11.hybrid.network.java.pabstract.data.game.chunk.Column;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockState;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.world.ServerChunkDataPacket;
 
-public class ChunkTranslator implements IDownstreamTranslator<ServerChunkDataPacket404> {
+public class ChunkTranslator implements IDownstreamTranslator<ServerChunkDataPacket> {
 
 	public static final int SUBCHUNK_VERSION = 8;
 	public static final int FLAG_RUNTIME = 1;
 	public static final int BLOCKS_IN_SECTION = 4096;
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerChunkDataPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerChunkDataPacket packet) {
 		if (session.getDownstream().getChunkCache().isMarkedAsSent(packet.getColumn().getX(), packet.getColumn().getZ())) {
 			return null; // TODO check this
 		}

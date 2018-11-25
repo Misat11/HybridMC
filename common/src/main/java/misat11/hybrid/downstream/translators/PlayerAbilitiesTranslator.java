@@ -4,14 +4,14 @@ import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.AdventureSettingsPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.player.ServerPlayerAbilitiesPacket404;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.player.ServerPlayerAbilitiesPacket;
 import misat11.hybrid.permission.CommandPermission;
 import misat11.hybrid.permission.PlayerPermission;
 
-public class PlayerAbilitiesTranslator implements IDownstreamTranslator<ServerPlayerAbilitiesPacket404>{
+public class PlayerAbilitiesTranslator implements IDownstreamTranslator<ServerPlayerAbilitiesPacket>{
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerPlayerAbilitiesPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerPlayerAbilitiesPacket packet) {
 		session.getDownstream().getMovementCache().updatePeFlying(packet.getCanFly(), packet.getFlying());
 		AdventureSettingsPacket asp = new AdventureSettingsPacket();
 		asp.setCommandPermission(CommandPermission.NORMAL);

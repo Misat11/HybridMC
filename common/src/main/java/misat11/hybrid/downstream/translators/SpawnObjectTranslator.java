@@ -7,14 +7,14 @@ import misat11.hybrid.downstream.WatchedEntity;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.AddEntityPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.spawn.ServerSpawnObjectPacket404;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.spawn.ServerSpawnObjectPacket;
 import misat11.hybrid.typeremapper.EntityRemapper;
 import misat11.hybrid.util.Rotation;
 
-public class SpawnObjectTranslator implements IDownstreamTranslator<ServerSpawnObjectPacket404> {
+public class SpawnObjectTranslator implements IDownstreamTranslator<ServerSpawnObjectPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerSpawnObjectPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerSpawnObjectPacket packet) {
 		AddEntityPacket aep = new AddEntityPacket();
 		aep.setEntityType(EntityRemapper.transformObjectType(packet.getType()));
 		if (aep.getEntityType() == 0) {

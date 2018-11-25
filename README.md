@@ -11,13 +11,13 @@ HybridMC is plugin that allows connection of Bedrock Edition clients on your Jav
 - [x] Moving - With bugs
 - [x] Spawning entities - With bugs
 - [x] Block breaking - With bugs (breaks invalid block)
-- [ ] Block placing
+- [ ] Block placing - ???
 - [ ] Inventory support
 - [x] Sounds - Partial support
 - [x] Effects - Partial support
 - [ ] API for Modal Forms
 - [ ] Skins
-- [ ] Multiversion
+- [ ] Multiversion - HybridMC can do it, but now there are only one supported version
 - [ ] IP forwarding - is needed !!!! (example for Ip Bans)
 
 ## Building

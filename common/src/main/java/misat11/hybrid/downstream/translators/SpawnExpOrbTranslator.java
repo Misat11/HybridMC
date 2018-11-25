@@ -8,14 +8,14 @@ import misat11.hybrid.entity.EntityType;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.AddEntityPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.spawn.ServerSpawnExpOrbPacket404;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.spawn.ServerSpawnExpOrbPacket;
 import misat11.hybrid.typeremapper.EntityRemapper;
 import misat11.hybrid.util.Rotation;
 
-public class SpawnExpOrbTranslator implements IDownstreamTranslator<ServerSpawnExpOrbPacket404> {
+public class SpawnExpOrbTranslator implements IDownstreamTranslator<ServerSpawnExpOrbPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerSpawnExpOrbPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerSpawnExpOrbPacket packet) {
 
 		AddEntityPacket aep = new AddEntityPacket();
 		aep.setEntityType(EntityType.EXPERIENCE_ORB.getType());

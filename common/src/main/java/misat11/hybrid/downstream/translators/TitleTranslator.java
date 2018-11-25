@@ -4,12 +4,12 @@ import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.SetTitlePacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.ServerTitlePacket404;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerTitlePacket;
 
-public class TitleTranslator implements IDownstreamTranslator<ServerTitlePacket404> {
+public class TitleTranslator implements IDownstreamTranslator<ServerTitlePacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerTitlePacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerTitlePacket packet) {
 		switch (packet.getAction()) {
 		case ACTION_BAR:
 			return new BedrockPacket[] {

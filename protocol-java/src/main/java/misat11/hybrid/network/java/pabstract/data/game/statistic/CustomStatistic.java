@@ -1,6 +1,5 @@
 package misat11.hybrid.network.java.pabstract.data.game.statistic;
 
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.util.ObjectUtil;
 
 public class CustomStatistic implements Statistic {
@@ -8,7 +7,7 @@ public class CustomStatistic implements Statistic {
     private int id;
 
     public CustomStatistic(int id) {
-        this(MagicValues404.value(Integer.class, StatisticCategory.GENERIC), id); // TODO stop using version unique classes in abstract package
+        this(8, id); // TODO stop using hardcoded number 8
     }
 
     public CustomStatistic(int category, int id) {

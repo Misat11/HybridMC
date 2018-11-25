@@ -9,12 +9,14 @@ import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.Attribut
 import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.AttributeModifier;
 import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.AttributeType;
 import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.ModifierOperation;
+import misat11.hybrid.network.java.pabstract.data.game.entity.attribute.ModifierType;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityPropertiesPacket;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class ServerEntityPropertiesPacket404 extends MinecraftPacket implements ServerEntityPropertiesPacket {
@@ -41,7 +43,7 @@ public class ServerEntityPropertiesPacket404 extends MinecraftPacket implements 
             List<AttributeModifier> modifiers = new ArrayList<AttributeModifier>();
             int len = in.readVarInt();
             for(int ind = 0; ind < len; ind++) {
-                modifiers.add(new AttributeModifier(in.readUUID(), in.readDouble(), MagicValues404.key(ModifierOperation.class, in.readByte())));
+                modifiers.add(new AttributeModifier(MagicValues404.key(ModifierType.class, in.readUUID()), in.readDouble(), MagicValues404.key(ModifierOperation.class, in.readByte())));
             }
 
             this.attributes.add(new Attribute(MagicValues404.key(AttributeType.class, key), value, modifiers));
@@ -57,7 +59,7 @@ public class ServerEntityPropertiesPacket404 extends MinecraftPacket implements 
             out.writeDouble(attribute.getValue());
             out.writeVarInt(attribute.getModifiers().size());
             for(AttributeModifier modifier : attribute.getModifiers()) {
-                out.writeUUID(modifier.getUUID());
+                out.writeUUID(MagicValues404.value(UUID.class, modifier.getType()));
                 out.writeDouble(modifier.getAmount());
                 out.writeByte(MagicValues404.value(Integer.class, modifier.getOperation()));
             }

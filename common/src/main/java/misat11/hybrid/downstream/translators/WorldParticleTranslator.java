@@ -12,13 +12,13 @@ import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.LevelEventPacket;
 import misat11.hybrid.network.bedrock.packet.LevelEventPacket.Event;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerSpawnParticlePacket404;
 import misat11.hybrid.network.java.pabstract.data.game.world.particle.ParticleType;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.world.ServerSpawnParticlePacket;
 
-public class WorldParticleTranslator implements IDownstreamTranslator<ServerSpawnParticlePacket404>{
+public class WorldParticleTranslator implements IDownstreamTranslator<ServerSpawnParticlePacket>{
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerSpawnParticlePacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerSpawnParticlePacket packet) {
 		List<BedrockPacket> packets = new ArrayList<>();
         if (packet.getParticle().getType() == ParticleType.BLOCK) {
 	        LevelEventPacket pk = new LevelEventPacket();

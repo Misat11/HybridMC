@@ -13,14 +13,14 @@ import misat11.hybrid.network.bedrock.packet.MovePlayerPacket;
 import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.Mode;
 import misat11.hybrid.network.bedrock.packet.MovePlayerPacket.TeleportationCause;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket404;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
 import misat11.hybrid.typeremapper.EntityRemapper;
 import misat11.hybrid.util.Rotation;
 
-public class SetPositionTranslator implements IDownstreamTranslator<ServerPlayerPositionRotationPacket404> {
+public class SetPositionTranslator implements IDownstreamTranslator<ServerPlayerPositionRotationPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerPlayerPositionRotationPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerPlayerPositionRotationPacket packet) {
 		if (packet.getTeleportId() != 0) {
 			session.getDownstream().getMovementCache().setTeleportLocation(packet.getX(), packet.getY(), packet.getZ(), packet.getTeleportId());
 		}

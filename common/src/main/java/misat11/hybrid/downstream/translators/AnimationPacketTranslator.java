@@ -7,13 +7,13 @@ import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.AnimatePacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityAnimationPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.Animation;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityAnimationPacket;
 
-public class AnimationPacketTranslator implements IDownstreamTranslator<ServerEntityAnimationPacket404> {
+public class AnimationPacketTranslator implements IDownstreamTranslator<ServerEntityAnimationPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerEntityAnimationPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerEntityAnimationPacket packet) {
 		List<BedrockPacket> packets = new ArrayList<BedrockPacket>();
 		if (packet.getAnimation() == Animation.SWING_ARM) {
 			AnimatePacket animate = new AnimatePacket();

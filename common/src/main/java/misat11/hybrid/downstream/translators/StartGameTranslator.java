@@ -19,14 +19,14 @@ import misat11.hybrid.network.bedrock.packet.ResourcePackStackPacket;
 import misat11.hybrid.network.bedrock.packet.StartGamePacket;
 import misat11.hybrid.network.bedrock.packet.PlayStatusPacket.Status;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.ServerJoinGamePacket404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerJoinGamePacket;
 import misat11.hybrid.permission.CommandPermission;
 import misat11.hybrid.permission.NukkitAbilities;
 import misat11.hybrid.permission.PlayerPermission;
 import misat11.hybrid.util.Rotation;
 
-public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGamePacket404> {
+public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGamePacket> {
 
 	public static final int ADVENTURE_MODE_ENABLED = 0x1;
 	public static final int PVP_DISABLED = 0x2;
@@ -37,7 +37,7 @@ public class StartGameTranslator implements IDownstreamTranslator<ServerJoinGame
 	public static final int FLYING = 0x200;
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerJoinGamePacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerJoinGamePacket packet) {
 		session.getDownstream().playerEntityId = packet.getEntityId();
 		session.getDownstream().getWatchedEntities().put((long) packet.getEntityId(),
 				new WatchedEntity(packet.getEntityId(), EntityType.PLAYER.getType()));

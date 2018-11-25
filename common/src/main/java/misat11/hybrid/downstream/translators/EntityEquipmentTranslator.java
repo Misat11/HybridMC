@@ -8,13 +8,13 @@ import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.MobArmorEquipmentPacket;
 import misat11.hybrid.network.bedrock.packet.MobEquipmentPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.ServerEntityEquipmentPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.EquipmentSlot;
+import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityEquipmentPacket;
 
-public class EntityEquipmentTranslator implements IDownstreamTranslator<ServerEntityEquipmentPacket404> {
+public class EntityEquipmentTranslator implements IDownstreamTranslator<ServerEntityEquipmentPacket> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerEntityEquipmentPacket404 packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerEntityEquipmentPacket packet) {
 		WatchedEntity entity = session.getDownstream().getWatchedEntities().get((long) packet.getEntityId());
 		if (entity == null) {
 			return null;
