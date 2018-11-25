@@ -1,6 +1,8 @@
 package misat11.hybrid.network.java.pabstract.packet.ingame.server.entity;
 
-public interface ServerEntityMovementPacket {
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+
+public interface ServerEntityMovementPacket extends IMinecraftPacket {
 	public int getEntityId();
 
 	public double getMovementX();

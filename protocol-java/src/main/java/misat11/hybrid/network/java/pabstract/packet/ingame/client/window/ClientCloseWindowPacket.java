@@ -1,5 +1,7 @@
 package misat11.hybrid.network.java.pabstract.packet.ingame.client.window;
 
-public interface ClientCloseWindowPacket {
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+
+public interface ClientCloseWindowPacket extends IMinecraftPacket {
 	public int getWindowId();
 }

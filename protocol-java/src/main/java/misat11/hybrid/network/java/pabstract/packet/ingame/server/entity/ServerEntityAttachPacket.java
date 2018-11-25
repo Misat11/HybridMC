@@ -1,6 +1,8 @@
 package misat11.hybrid.network.java.pabstract.packet.ingame.server.entity;
 
-public interface ServerEntityAttachPacket {
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+
+public interface ServerEntityAttachPacket extends IMinecraftPacket {
 
 	public int getEntityId();
 

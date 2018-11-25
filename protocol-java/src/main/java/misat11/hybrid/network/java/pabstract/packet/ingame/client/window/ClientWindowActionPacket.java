@@ -3,8 +3,9 @@ package misat11.hybrid.network.java.pabstract.packet.ingame.client.window;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
 import misat11.hybrid.network.java.pabstract.data.game.window.WindowAction;
 import misat11.hybrid.network.java.pabstract.data.game.window.WindowActionParam;
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
 
-public interface ClientWindowActionPacket {
+public interface ClientWindowActionPacket extends IMinecraftPacket {
 
 	public int getWindowId();
 

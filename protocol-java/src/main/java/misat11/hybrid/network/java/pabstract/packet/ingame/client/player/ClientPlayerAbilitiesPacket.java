@@ -1,6 +1,8 @@
 package misat11.hybrid.network.java.pabstract.packet.ingame.client.player;
 
-public interface ClientPlayerAbilitiesPacket {
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+
+public interface ClientPlayerAbilitiesPacket extends IMinecraftPacket {
 
 	public boolean getInvincible();
 

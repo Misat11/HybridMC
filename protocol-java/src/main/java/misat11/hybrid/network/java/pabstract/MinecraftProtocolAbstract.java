@@ -3,6 +3,10 @@ package misat11.hybrid.network.java.pabstract;
 import java.net.Proxy;
 import java.security.GeneralSecurityException;
 import java.security.Key;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.github.steveice10.mc.auth.data.GameProfile;
@@ -19,6 +23,8 @@ import com.github.steveice10.packetlib.packet.PacketProtocol;
 
 import lombok.Getter;
 import misat11.hybrid.network.java.pabstract.data.SubProtocol;
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 
 @Getter
 public abstract class MinecraftProtocolAbstract extends PacketProtocol {
@@ -29,6 +35,8 @@ public abstract class MinecraftProtocolAbstract extends PacketProtocol {
 	protected GameProfile profile;
 	protected String clientToken = "";
 	protected String accessToken = "";
+
+	protected Map<Class<? extends IMinecraftPacket>, Class<? extends MinecraftPacket>> inheritances = new HashMap<>();
 
 	/* CONSTRUCTORS */
 	public MinecraftProtocolAbstract(SubProtocol subProtocol) {
@@ -95,16 +103,16 @@ public abstract class MinecraftProtocolAbstract extends PacketProtocol {
 		return "_minecraft";
 	}
 
-    @Override
-    public void newClientSession(Client client, Session session) {
-        if(this.profile != null) {
-            session.setFlag(MinecraftConstants.PROFILE_KEY, this.profile);
-            session.setFlag(MinecraftConstants.ACCESS_TOKEN_KEY, this.accessToken);
-        }
+	@Override
+	public void newClientSession(Client client, Session session) {
+		if (this.profile != null) {
+			session.setFlag(MinecraftConstants.PROFILE_KEY, this.profile);
+			session.setFlag(MinecraftConstants.ACCESS_TOKEN_KEY, this.accessToken);
+		}
 
-        this.setSubProtocol(this.subProtocol, session);
-        session.addListener(this.createClientSession());
-    }
+		this.setSubProtocol(this.subProtocol, session);
+		session.addListener(this.createClientSession());
+	}
 
 	@Override
 	public void newServerSession(Server server, Session session) {
@@ -138,9 +146,57 @@ public abstract class MinecraftProtocolAbstract extends PacketProtocol {
 
 		this.subProtocol = subProtocol;
 	}
+
+	protected void registerIn(int id, Class<? extends MinecraftPacket> packet) {
+		registerIncoming(id, packet);
+		Class<?>[] interFaces = packet.getInterfaces();
+		for (Class<?> face : interFaces) {
+			if (IMinecraftPacket.class.isAssignableFrom(face)) {
+				inheritances.put((Class<? extends IMinecraftPacket>) face, (Class<? extends MinecraftPacket>) packet);
+				break;
+			}
+		}
+	}
+
+	protected void registerOut(int id, Class<? extends MinecraftPacket> packet) {
+		registerOutgoing(id, packet);
+		Class<?>[] interFaces = packet.getInterfaces();
+		for (Class<?> face : interFaces) {
+			if (IMinecraftPacket.class.isAssignableFrom(face)) {
+				inheritances.put((Class<? extends IMinecraftPacket>) face, (Class<? extends MinecraftPacket>) packet);
+				break;
+			}
+		}
+	}
 	
+	public MinecraftPacket generatePacket(Class<? extends IMinecraftPacket> packet, Object...objects) throws Exception {
+		if (!inheritances.containsKey(packet)) {
+			return null;
+		}
+		Class<? extends MinecraftPacket> mp = inheritances.get(packet);
+		if (objects.length % 2 != 0) {
+			throw new IllegalArgumentException();
+		}
+		List<Class<?>> classess = new ArrayList<>();
+		List<Object> arguments = new ArrayList<>();
+		for (Object object : objects) {
+			if (object instanceof Class) {
+				classess.add((Class<?>) object);
+			} else {
+				arguments.add(object);
+			}
+		}
+		Class<?>[] parameters = classess.toArray(new Class<?>[classess.size()]);
+		Object[] args = arguments.toArray(new Object[arguments.size()]);
+		if (parameters.length != args.length) {
+			throw new IllegalArgumentException();
+		}
+		MinecraftPacket genPacket = mp.getDeclaredConstructor(parameters).newInstance(args);
+		return genPacket;
+	}
+
 	/* ABSTRACT METHODS */
-	
+
 	protected abstract SessionListener createClientSession();
 
 	protected abstract void initClientHandshake(Session session);

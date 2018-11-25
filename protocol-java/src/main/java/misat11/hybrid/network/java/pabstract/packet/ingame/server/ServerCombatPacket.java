@@ -2,8 +2,9 @@ package misat11.hybrid.network.java.pabstract.packet.ingame.server;
 
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.CombatState;
 import misat11.hybrid.network.java.pabstract.data.message.Message;
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
 
-public interface ServerCombatPacket {
+public interface ServerCombatPacket extends IMinecraftPacket {
 
 	public CombatState getCombatState();
 

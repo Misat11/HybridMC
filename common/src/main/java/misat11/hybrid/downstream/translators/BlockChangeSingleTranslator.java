@@ -15,12 +15,12 @@ import misat11.hybrid.network.bedrock.packet.LevelSoundEventPacket;
 import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket;
 import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket.DataLayer;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerBlockChangePacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerBlockChangePacket404;
 
-public class BlockChangeSingleTranslator implements IDownstreamTranslator<ServerBlockChangePacket> {
+public class BlockChangeSingleTranslator implements IDownstreamTranslator<ServerBlockChangePacket404> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerBlockChangePacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerBlockChangePacket404 packet) {
 		// TODO block open
 		return generate(session.getServer().getPaletteManager(), convertPosition(packet.getRecord().getPosition()),
 				session.getServer().getBlockTranslator().blockPcToPe(packet.getRecord().getBlock().getId()));

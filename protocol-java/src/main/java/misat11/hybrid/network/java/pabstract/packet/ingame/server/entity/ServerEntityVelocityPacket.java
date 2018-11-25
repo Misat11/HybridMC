@@ -1,6 +1,8 @@
 package misat11.hybrid.network.java.pabstract.packet.ingame.server.entity;
 
-public interface ServerEntityVelocityPacket {
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+
+public interface ServerEntityVelocityPacket extends IMinecraftPacket {
 
 	public int getEntityId();
 

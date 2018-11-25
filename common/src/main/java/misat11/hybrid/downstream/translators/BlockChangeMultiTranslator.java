@@ -8,13 +8,13 @@ import misat11.hybrid.downstream.IDownstreamTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.UpdateBlockPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerMultiBlockChangePacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerMultiBlockChangePacket404;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockChangeRecord;
 
-public class BlockChangeMultiTranslator implements IDownstreamTranslator<ServerMultiBlockChangePacket> {
+public class BlockChangeMultiTranslator implements IDownstreamTranslator<ServerMultiBlockChangePacket404> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerMultiBlockChangePacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerMultiBlockChangePacket404 packet) {
 		List<UpdateBlockPacket> list = new ArrayList<>();
 		for (BlockChangeRecord record : packet.getRecords()) {
 			list.addAll(Arrays.asList(

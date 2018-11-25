@@ -7,13 +7,13 @@ import misat11.hybrid.downstream.SoundTranslator;
 import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.PlaySoundPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerPlaySoundPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.world.ServerPlaySoundPacket404;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
 
-public class WorldCustomSoundTranslator implements IDownstreamTranslator<ServerPlaySoundPacket>{
+public class WorldCustomSoundTranslator implements IDownstreamTranslator<ServerPlaySoundPacket404>{
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerPlaySoundPacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerPlaySoundPacket404 packet) {
 		PlaySoundPacket psp = new PlaySoundPacket();
 		psp.setBlockPosition(new Vector3i(packet.getX(), packet.getY(), packet.getZ()));
 		psp.setPitch(packet.getPitch());

@@ -2,7 +2,9 @@ package misat11.hybrid.network.java.pabstract.packet.login.server;
 
 import java.security.PublicKey;
 
-public interface EncryptionRequestPacket {
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+
+public interface EncryptionRequestPacket extends IMinecraftPacket {
 	public String getServerId();
 	
 	public PublicKey getPublicKey();

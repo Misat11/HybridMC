@@ -1,6 +1,8 @@
 package misat11.hybrid.network.java.pabstract.packet.ingame.client.window;
 
-public interface ClientUpdateCommandBlockMinecartPacket {
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+
+public interface ClientUpdateCommandBlockMinecartPacket extends IMinecraftPacket {
 
 	public int getEntityId();
 

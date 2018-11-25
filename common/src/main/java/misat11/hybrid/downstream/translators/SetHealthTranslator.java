@@ -11,12 +11,12 @@ import misat11.hybrid.network.bedrock.BedrockPacket;
 import misat11.hybrid.network.bedrock.packet.RespawnPacket;
 import misat11.hybrid.network.bedrock.packet.UpdateAttributesPacket;
 import misat11.hybrid.network.bedrock.session.HybridSession;
-import misat11.hybrid.network.java.p404.packet.ingame.server.entity.player.ServerPlayerHealthPacket;
+import misat11.hybrid.network.java.p404.packet.ingame.server.entity.player.ServerPlayerHealthPacket404;
 
-public class SetHealthTranslator implements IDownstreamTranslator<ServerPlayerHealthPacket> {
+public class SetHealthTranslator implements IDownstreamTranslator<ServerPlayerHealthPacket404> {
 
 	@Override
-	public BedrockPacket[] translate(HybridSession session, ServerPlayerHealthPacket packet) {
+	public BedrockPacket[] translate(HybridSession session, ServerPlayerHealthPacket404 packet) {
 		List<BedrockPacket> packets = new ArrayList<>();
 		UpdateAttributesPacket uap = new UpdateAttributesPacket();
 		uap.setRuntimeEntityId(session.getDownstream().playerEntityId);

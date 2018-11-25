@@ -1,5 +1,7 @@
 package misat11.hybrid.network.java.pabstract.packet.login.server;
 
-public interface LoginSetCompressionPacket {
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+
+public interface LoginSetCompressionPacket extends IMinecraftPacket {
 	public int getThreshold();
 }

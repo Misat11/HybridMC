@@ -5,8 +5,9 @@ import misat11.hybrid.network.java.pabstract.data.game.window.UpdateStructureBlo
 import misat11.hybrid.network.java.pabstract.data.game.window.UpdateStructureBlockMode;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.StructureMirror;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.StructureRotation;
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
 
-public interface ClientUpdateStructureBlockPacket {
+public interface ClientUpdateStructureBlockPacket extends IMinecraftPacket {
 
 	public Position getPosition();
 

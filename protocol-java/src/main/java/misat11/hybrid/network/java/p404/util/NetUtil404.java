@@ -7,10 +7,10 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.io.stream.StreamNetInput;
 
 import misat11.hybrid.network.java.p404.data.MagicValues404;
-import misat11.hybrid.network.java.p404.data.game.chunk.BlockStorage;
-import misat11.hybrid.network.java.p404.data.game.chunk.Chunk;
-import misat11.hybrid.network.java.p404.data.game.chunk.Column;
-import misat11.hybrid.network.java.p404.data.game.chunk.NibbleArray3d;
+import misat11.hybrid.network.java.p404.data.chunk.BlockStorage404;
+import misat11.hybrid.network.java.pabstract.data.game.chunk.Chunk;
+import misat11.hybrid.network.java.pabstract.data.game.chunk.Column;
+import misat11.hybrid.network.java.pabstract.data.game.chunk.NibbleArray3d;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.EntityMetadata;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.MetadataType;
@@ -324,7 +324,7 @@ public class NetUtil404 {
             Chunk[] chunks = new Chunk[16];
             for(int index = 0; index < chunks.length; index++) {
                 if((mask & (1 << index)) != 0) {
-                    BlockStorage blocks = new BlockStorage(in);
+                    BlockStorage404 blocks = new BlockStorage404(in);
                     NibbleArray3d blocklight = new NibbleArray3d(in, 2048);
                     NibbleArray3d skylight = hasSkylight ? new NibbleArray3d(in, 2048) : null;
                     chunks[index] = new Chunk(blocks, blocklight, skylight);

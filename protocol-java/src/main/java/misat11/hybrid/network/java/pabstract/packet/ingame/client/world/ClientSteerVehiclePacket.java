@@ -1,6 +1,8 @@
 package misat11.hybrid.network.java.pabstract.packet.ingame.client.world;
 
-public interface ClientSteerVehiclePacket {
+import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
+
+public interface ClientSteerVehiclePacket extends IMinecraftPacket {
 
 	public float getSideways();
 
