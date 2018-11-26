@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.CustomSound;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.Sound;
@@ -32,14 +31,14 @@ public class ServerStopSoundPacket404 extends MinecraftPacket implements ServerS
     public void read(NetInput in) throws IOException {
         int flags = in.readByte();
         if((flags & 0x1) != 0) {
-            this.category = MagicValues404.key(SoundCategory.class, in.readVarInt());
+            this.category = getMagic().key(SoundCategory.class, in.readVarInt());
         } else {
             this.category = null;
         }
         if((flags & 0x2) != 0) {
             String value = in.readString();
             try {
-                this.sound = MagicValues404.key(BuiltinSound.class, value);
+                this.sound = getMagic().key(BuiltinSound.class, value);
             } catch(IllegalArgumentException e) {
                 this.sound = new CustomSound(value);
             }
@@ -52,14 +51,14 @@ public class ServerStopSoundPacket404 extends MinecraftPacket implements ServerS
     public void write(NetOutput out) throws IOException {
         out.writeByte((this.category != null ? 0x1 : 0) | (this.sound != null ? 0x2 : 0));
         if (this.category != null) {
-            out.writeByte(MagicValues404.value(Integer.class, this.category));
+            out.writeByte(getMagic().value(Integer.class, this.category));
         }
         if (this.sound != null) {
             String value = "";
             if (this.sound instanceof CustomSound) {
                 value = ((CustomSound) this.sound).getName();
             } else if (this.sound instanceof BuiltinSound) {
-                value = MagicValues404.value(String.class, this.sound);
+                value = getMagic().value(String.class, this.sound);
             }
             out.writeString(value);
         }

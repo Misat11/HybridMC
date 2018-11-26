@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.CombatState;
 import misat11.hybrid.network.java.pabstract.data.message.Message;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
@@ -39,7 +38,7 @@ public class ServerCombatPacket404 extends MinecraftPacket implements ServerComb
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.combatState = MagicValues404.key(CombatState.class, in.readVarInt());
+        this.combatState = getMagic().key(CombatState.class, in.readVarInt());
         if(this.combatState == CombatState.END_COMBAT) {
             this.duration = in.readVarInt();
             this.entityId = in.readInt();
@@ -52,7 +51,7 @@ public class ServerCombatPacket404 extends MinecraftPacket implements ServerComb
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues404.value(Integer.class, this.combatState));
+        out.writeVarInt(getMagic().value(Integer.class, this.combatState));
         if(this.combatState == CombatState.END_COMBAT) {
             out.writeVarInt(this.duration);
             out.writeInt(this.entityId);

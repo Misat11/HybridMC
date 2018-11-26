@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.world.map.MapData;
 import misat11.hybrid.network.java.pabstract.data.game.world.map.MapIcon;
 import misat11.hybrid.network.java.pabstract.data.game.world.map.MapIconType;
@@ -58,7 +57,7 @@ public class ServerMapDataPacket404 extends MinecraftPacket implements ServerMap
             if (in.readBoolean()) {
                 displayName = Message.fromString(in.readString());
             }
-            this.icons[index] = new MapIcon(x, z, MagicValues404.key(MapIconType.class, type), rotation, displayName);
+            this.icons[index] = new MapIcon(x, z, getMagic().key(MapIconType.class, type), rotation, displayName);
         }
 
         int columns = in.readUnsignedByte();
@@ -79,7 +78,7 @@ public class ServerMapDataPacket404 extends MinecraftPacket implements ServerMap
         out.writeVarInt(this.icons.length);
         for(int index = 0; index < this.icons.length; index++) {
             MapIcon icon = this.icons[index];
-            int type = MagicValues404.value(Integer.class, icon.getIconType());
+            int type = getMagic().value(Integer.class, icon.getIconType());
             out.writeVarInt(type);
             out.writeByte(icon.getCenterX());
             out.writeByte(icon.getCenterZ());

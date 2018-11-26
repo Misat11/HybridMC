@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.SoundCategory;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
@@ -28,8 +27,8 @@ public class ServerPlayBuiltinSoundPacket404 extends MinecraftPacket implements 
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.sound = MagicValues404.key(BuiltinSound.class, in.readVarInt());
-        this.category = MagicValues404.key(SoundCategory.class, in.readVarInt());
+        this.sound = getMagic().key(BuiltinSound.class, in.readVarInt());
+        this.category = getMagic().key(SoundCategory.class, in.readVarInt());
         this.x = in.readInt() / 8D;
         this.y = in.readInt() / 8D;
         this.z = in.readInt() / 8D;
@@ -39,8 +38,8 @@ public class ServerPlayBuiltinSoundPacket404 extends MinecraftPacket implements 
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues404.value(Integer.class, this.sound));
-        out.writeVarInt(MagicValues404.value(Integer.class, this.category));
+        out.writeVarInt(getMagic().value(Integer.class, this.sound));
+        out.writeVarInt(getMagic().value(Integer.class, this.category));
         out.writeInt((int) (this.x * 8));
         out.writeInt((int) (this.y * 8));
         out.writeInt((int) (this.z * 8));

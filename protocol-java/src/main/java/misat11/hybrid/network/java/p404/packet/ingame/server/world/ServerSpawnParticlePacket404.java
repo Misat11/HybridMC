@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.world.particle.Particle;
 import misat11.hybrid.network.java.pabstract.data.game.world.particle.ParticleType;
@@ -32,7 +31,7 @@ public class ServerSpawnParticlePacket404 extends MinecraftPacket implements Ser
 
     @Override
     public void read(NetInput in) throws IOException {
-        ParticleType type = MagicValues404.key(ParticleType.class, in.readInt());
+        ParticleType type = getMagic().key(ParticleType.class, in.readInt());
         this.longDistance = in.readBoolean();
         this.x = in.readFloat();
         this.y = in.readFloat();
@@ -47,7 +46,7 @@ public class ServerSpawnParticlePacket404 extends MinecraftPacket implements Ser
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeInt(MagicValues404.value(Integer.class, this.particle.getType()));
+        out.writeInt(getMagic().value(Integer.class, this.particle.getType()));
         out.writeBoolean(this.longDistance);
         out.writeFloat(this.x);
         out.writeFloat(this.y);

@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.EquipmentSlot;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
@@ -32,14 +31,14 @@ public class ServerEntityEquipmentPacket404 extends MinecraftPacket implements S
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.slot = MagicValues404.key(EquipmentSlot.class, in.readVarInt());
+        this.slot = getMagic().key(EquipmentSlot.class, in.readVarInt());
         this.item = NetUtil404.readItem(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.slot));
+        out.writeVarInt(getMagic().value(Integer.class, this.slot));
         NetUtil404.writeItem(out, this.item);
     }
 }

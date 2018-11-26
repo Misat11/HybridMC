@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.advancement.Advancement;
 import misat11.hybrid.network.java.pabstract.data.game.advancement.Advancement.DisplayData;
@@ -64,7 +63,7 @@ public class ServerAdvancementsPacket404 extends MinecraftPacket implements Serv
                 Message title = Message.fromString(in.readString());
                 Message description = Message.fromString(in.readString());
                 ItemStack icon = NetUtil404.readItem(in);
-                FrameType frameType = MagicValues404.key(FrameType.class, in.readVarInt());
+                FrameType frameType = getMagic().key(FrameType.class, in.readVarInt());
 
                 int flags = in.readInt();
                 boolean hasBackgroundTexture = (flags & 0x1) != 0;
@@ -142,7 +141,7 @@ public class ServerAdvancementsPacket404 extends MinecraftPacket implements Serv
                 out.writeString(displayData.getTitle().toJsonString());
                 out.writeString(displayData.getDescription().toJsonString());
                 NetUtil404.writeItem(out, displayData.getIcon());
-                out.writeVarInt(MagicValues404.value(Integer.class, displayData.getFrameType()));
+                out.writeVarInt(getMagic().value(Integer.class, displayData.getFrameType()));
                 String backgroundTexture = displayData.getBackgroundTexture();
 
                 int flags = 0;

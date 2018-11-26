@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.value.*;
@@ -44,26 +43,26 @@ public class ServerBlockValuePacket404 extends MinecraftPacket implements Server
         this.blockId = in.readVarInt() & 0xFFF;
 
         if(this.blockId == NOTE_BLOCK) {
-            this.type = MagicValues404.key(NoteBlockValueType.class, type);
+            this.type = getMagic().key(NoteBlockValueType.class, type);
             this.value = new NoteBlockValue(value);
         } else if(this.blockId == STICKY_PISTON || this.blockId == PISTON) {
-            this.type = MagicValues404.key(PistonValueType.class, type);
-            this.value = MagicValues404.key(PistonValue.class, value);
+            this.type = getMagic().key(PistonValueType.class, type);
+            this.value = getMagic().key(PistonValue.class, value);
         } else if(this.blockId == MOB_SPAWNER) {
-            this.type = MagicValues404.key(MobSpawnerValueType.class, type);
+            this.type = getMagic().key(MobSpawnerValueType.class, type);
             this.value = new MobSpawnerValue();
         } else if(this.blockId == CHEST || this.blockId == ENDER_CHEST || this.blockId == TRAPPED_CHEST
                 || (this.blockId >= SHULKER_BOX_LOWER && this.blockId <= SHULKER_BOX_HIGHER)) {
-            this.type = MagicValues404.key(ChestValueType.class, type);
+            this.type = getMagic().key(ChestValueType.class, type);
             this.value = new ChestValue(value);
         } else if(this.blockId == BEACON) {
-            this.type = MagicValues404.key(BeaconValueType.class, type);
+            this.type = getMagic().key(BeaconValueType.class, type);
             this.value = new BeaconValue();
         } else if(this.blockId == END_GATEWAY) {
-            this.type = MagicValues404.key(EndGatewayValueType.class, type);
+            this.type = getMagic().key(EndGatewayValueType.class, type);
             this.value = new EndGatewayValue();
         } else {
-            this.type = MagicValues404.key(GenericBlockValueType.class, type);
+            this.type = getMagic().key(GenericBlockValueType.class, type);
             this.value = new GenericBlockValue(value);
         }
     }
@@ -74,7 +73,7 @@ public class ServerBlockValuePacket404 extends MinecraftPacket implements Server
         if(this.type instanceof NoteBlockValueType) {
             val = ((NoteBlockValue) this.value).getPitch();
         } else if(this.type instanceof PistonValueType) {
-            val = MagicValues404.value(Integer.class, this.value);
+            val = getMagic().value(Integer.class, this.value);
         } else if(this.type instanceof ChestValueType) {
             val = ((ChestValue) this.value).getViewers();
         } else if(this.type instanceof GenericBlockValueType) {
@@ -82,7 +81,7 @@ public class ServerBlockValuePacket404 extends MinecraftPacket implements Server
         }
 
         NetUtil404.writePosition(out, this.position);
-        out.writeByte(MagicValues404.value(Integer.class, this.type));
+        out.writeByte(getMagic().value(Integer.class, this.type));
         out.writeByte(val);
         out.writeVarInt(this.blockId & 4095);
     }

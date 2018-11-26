@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.BuiltinSound;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.CustomSound;
 import misat11.hybrid.network.java.pabstract.data.game.world.sound.Sound;
@@ -32,12 +31,12 @@ public class ServerPlaySoundPacket404 extends MinecraftPacket implements ServerP
     public void read(NetInput in) throws IOException {
         String value = in.readString();
         try {
-            this.sound = MagicValues404.key(BuiltinSound.class, value);
+            this.sound = getMagic().key(BuiltinSound.class, value);
         } catch(IllegalArgumentException e) {
             this.sound = new CustomSound(value);
         }
 
-        this.category = MagicValues404.key(SoundCategory.class, in.readVarInt());
+        this.category = getMagic().key(SoundCategory.class, in.readVarInt());
         this.x = in.readInt() / 8D;
         this.y = in.readInt() / 8D;
         this.z = in.readInt() / 8D;
@@ -51,11 +50,11 @@ public class ServerPlaySoundPacket404 extends MinecraftPacket implements ServerP
         if(this.sound instanceof CustomSound) {
             value = ((CustomSound) this.sound).getName();
         } else if(this.sound instanceof BuiltinSound) {
-            value = MagicValues404.value(String.class, this.sound);
+            value = getMagic().value(String.class, this.sound);
         }
 
         out.writeString(value);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.category));
+        out.writeVarInt(getMagic().value(Integer.class, this.category));
         out.writeInt((int) (this.x * 8));
         out.writeInt((int) (this.y * 8));
         out.writeInt((int) (this.z * 8));

@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
 import misat11.hybrid.network.java.pabstract.data.game.world.notify.ClientNotification;
 import misat11.hybrid.network.java.pabstract.data.game.world.notify.ClientNotificationValue;
@@ -28,14 +27,14 @@ public class ServerNotifyClientPacket404 extends MinecraftPacket implements Serv
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.notification = MagicValues404.key(ClientNotification.class, in.readUnsignedByte());
+        this.notification = getMagic().key(ClientNotification.class, in.readUnsignedByte());
         float value = in.readFloat();
         if(this.notification == ClientNotification.CHANGE_GAMEMODE) {
-            this.value = MagicValues404.key(GameMode.class, (int) value);
+            this.value = getMagic().key(GameMode.class, (int) value);
         } else if(this.notification == ClientNotification.DEMO_MESSAGE) {
-            this.value = MagicValues404.key(DemoMessageValue.class, (int) value);
+            this.value = getMagic().key(DemoMessageValue.class, (int) value);
         } else if(this.notification == ClientNotification.ENTER_CREDITS) {
-            this.value = MagicValues404.key(EnterCreditsValue.class, (int) value);
+            this.value = getMagic().key(EnterCreditsValue.class, (int) value);
         } else if(this.notification == ClientNotification.RAIN_STRENGTH) {
             this.value = new RainStrengthValue(value);
         } else if(this.notification == ClientNotification.THUNDER_STRENGTH) {
@@ -45,10 +44,10 @@ public class ServerNotifyClientPacket404 extends MinecraftPacket implements Serv
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(MagicValues404.value(Integer.class, this.notification));
+        out.writeByte(getMagic().value(Integer.class, this.notification));
         float value = 0;
         if(this.value instanceof Enum<?>) {
-            value = MagicValues404.value(Integer.class, (Enum<?>) this.value);
+            value = getMagic().value(Integer.class, (Enum<?>) this.value);
         } else if(this.value instanceof RainStrengthValue) {
             value = ((RainStrengthValue) this.value).getStrength();
         } else if(this.value instanceof ThunderStrengthValue) {

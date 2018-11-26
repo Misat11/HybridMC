@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.Effect;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityEffectPacket;
@@ -44,7 +43,7 @@ public class ServerEntityEffectPacket404 extends MinecraftPacket implements Serv
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.effect = MagicValues404.key(Effect.class, in.readByte());
+        this.effect = getMagic().key(Effect.class, in.readByte());
         this.amplifier = in.readByte();
         this.duration = in.readVarInt();
 
@@ -56,7 +55,7 @@ public class ServerEntityEffectPacket404 extends MinecraftPacket implements Serv
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeByte(MagicValues404.value(Integer.class, this.effect));
+        out.writeByte(getMagic().value(Integer.class, this.effect));
         out.writeByte(this.amplifier);
         out.writeVarInt(this.duration);
 

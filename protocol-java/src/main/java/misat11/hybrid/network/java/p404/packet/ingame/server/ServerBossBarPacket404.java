@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.BossBarAction;
 import misat11.hybrid.network.java.pabstract.data.game.BossBarColor;
 import misat11.hybrid.network.java.pabstract.data.game.BossBarDivision;
@@ -96,7 +95,7 @@ public class ServerBossBarPacket404 extends MinecraftPacket implements ServerBos
     @Override
     public void read(NetInput in) throws IOException {
         this.UUID = in.readUUID();
-        this.action = MagicValues404.key(BossBarAction.class, in.readVarInt());
+        this.action = getMagic().key(BossBarAction.class, in.readVarInt());
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_TITLE) {
             this.title = Message.fromString(in.readString());
@@ -107,8 +106,8 @@ public class ServerBossBarPacket404 extends MinecraftPacket implements ServerBos
         }
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_STYLE) {
-            this.color = MagicValues404.key(BossBarColor.class, in.readVarInt());
-            this.division = MagicValues404.key(BossBarDivision.class, in.readVarInt());
+            this.color = getMagic().key(BossBarColor.class, in.readVarInt());
+            this.division = getMagic().key(BossBarDivision.class, in.readVarInt());
         }
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_FLAGS) {
@@ -122,7 +121,7 @@ public class ServerBossBarPacket404 extends MinecraftPacket implements ServerBos
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeUUID(this.UUID);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
+        out.writeVarInt(getMagic().value(Integer.class, this.action));
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_TITLE) {
             out.writeString(this.title.toJsonString());
@@ -133,8 +132,8 @@ public class ServerBossBarPacket404 extends MinecraftPacket implements ServerBos
         }
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_STYLE) {
-            out.writeVarInt(MagicValues404.value(Integer.class, this.color));
-            out.writeVarInt(MagicValues404.value(Integer.class, this.division));
+            out.writeVarInt(getMagic().value(Integer.class, this.color));
+            out.writeVarInt(getMagic().value(Integer.class, this.division));
         }
 
         if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_FLAGS) {

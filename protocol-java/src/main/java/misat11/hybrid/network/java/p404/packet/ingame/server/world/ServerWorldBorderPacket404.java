@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.world.WorldBorderAction;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.world.ServerWorldBorderPacket;
@@ -76,7 +75,7 @@ public class ServerWorldBorderPacket404 extends MinecraftPacket implements Serve
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues404.key(WorldBorderAction.class, in.readVarInt());
+        this.action = getMagic().key(WorldBorderAction.class, in.readVarInt());
         if(this.action == WorldBorderAction.SET_SIZE) {
             this.radius = in.readDouble();
         } else if(this.action == WorldBorderAction.LERP_SIZE) {
@@ -104,7 +103,7 @@ public class ServerWorldBorderPacket404 extends MinecraftPacket implements Serve
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
+        out.writeVarInt(getMagic().value(Integer.class, this.action));
         if(this.action == WorldBorderAction.SET_SIZE) {
             out.writeDouble(this.radius);
         } else if(this.action == WorldBorderAction.LERP_SIZE) {

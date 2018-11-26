@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.EntityStatus;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityStatusPacket;
@@ -28,12 +27,12 @@ public class ServerEntityStatusPacket404 extends MinecraftPacket implements Serv
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readInt();
-        this.status = MagicValues404.key(EntityStatus.class, in.readByte());
+        this.status = getMagic().key(EntityStatus.class, in.readByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeInt(this.entityId);
-        out.writeByte(MagicValues404.value(Integer.class, this.status));
+        out.writeByte(getMagic().value(Integer.class, this.status));
     }
 }

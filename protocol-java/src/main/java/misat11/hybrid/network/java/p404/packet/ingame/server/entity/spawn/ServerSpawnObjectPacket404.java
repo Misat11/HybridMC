@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.type.object.*;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.spawn.ServerSpawnObjectPacket;
@@ -63,7 +62,7 @@ public class ServerSpawnObjectPacket404 extends MinecraftPacket implements Serve
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
         this.UUID = in.readUUID();
-        this.type = MagicValues404.key(ObjectType.class, in.readByte());
+        this.type = getMagic().key(ObjectType.class, in.readByte());
         this.x = in.readDouble();
         this.y = in.readDouble();
         this.z = in.readDouble();
@@ -72,9 +71,9 @@ public class ServerSpawnObjectPacket404 extends MinecraftPacket implements Serve
 
         int data = in.readInt();
         if(this.type == ObjectType.MINECART) {
-            this.data = MagicValues404.key(MinecartType.class, data);
+            this.data = getMagic().key(MinecartType.class, data);
         } else if(this.type == ObjectType.ITEM_FRAME) {
-            this.data = MagicValues404.key(HangingDirection.class, data);
+            this.data = getMagic().key(HangingDirection.class, data);
         } else if(this.type == ObjectType.FALLING_BLOCK) {
             this.data = new FallingBlockData(data & 65535, data >> 16);
         } else if(this.type == ObjectType.POTION) {
@@ -94,7 +93,7 @@ public class ServerSpawnObjectPacket404 extends MinecraftPacket implements Serve
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
         out.writeUUID(this.UUID);
-        out.writeByte(MagicValues404.value(Integer.class, this.type));
+        out.writeByte(getMagic().value(Integer.class, this.type));
         out.writeDouble(this.x);
         out.writeDouble(this.y);
         out.writeDouble(this.z);
@@ -103,9 +102,9 @@ public class ServerSpawnObjectPacket404 extends MinecraftPacket implements Serve
 
         int data = 0;
         if(this.data instanceof MinecartType) {
-            data = MagicValues404.value(Integer.class, (Enum<?>) this.data);
+            data = getMagic().value(Integer.class, (Enum<?>) this.data);
         } else if(this.data instanceof HangingDirection) {
-            data = MagicValues404.value(Integer.class, (Enum<?>) this.data);
+            data = getMagic().value(Integer.class, (Enum<?>) this.data);
         } else if(this.data instanceof FallingBlockData) {
             data = ((FallingBlockData) this.data).getId() | ((FallingBlockData) this.data).getMetadata() << 16;
         } else if(this.data instanceof SplashPotionData) {

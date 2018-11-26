@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.TitleAction;
 import misat11.hybrid.network.java.pabstract.data.message.Message;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
@@ -77,7 +76,7 @@ public class ServerTitlePacket404 extends MinecraftPacket implements ServerTitle
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues404.key(TitleAction.class, in.readVarInt());
+        this.action = getMagic().key(TitleAction.class, in.readVarInt());
         switch(this.action) {
             case TITLE:
                 this.title = Message.fromString(in.readString());
@@ -102,7 +101,7 @@ public class ServerTitlePacket404 extends MinecraftPacket implements ServerTitle
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
+        out.writeVarInt(getMagic().value(Integer.class, this.action));
         switch(this.action) {
             case TITLE:
                 out.writeString(this.title.toJsonString());

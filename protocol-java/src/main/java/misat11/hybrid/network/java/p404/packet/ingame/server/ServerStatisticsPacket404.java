@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.statistic.BreakBlockStatistic;
 import misat11.hybrid.network.java.pabstract.data.game.statistic.BreakItemStatistic;
 import misat11.hybrid.network.java.pabstract.data.game.statistic.CraftItemStatistic;
@@ -44,7 +43,7 @@ public class ServerStatisticsPacket404 extends MinecraftPacket implements Server
             int statisticId = in.readVarInt();
             Statistic statistic;
             try {
-                switch (MagicValues404.key(StatisticCategory.class, categoryId)) {
+                switch (getMagic().key(StatisticCategory.class, categoryId)) {
                     case BREAK_BLOCK:
                         statistic = new BreakBlockStatistic(statisticId);
                         break;
@@ -70,7 +69,7 @@ public class ServerStatisticsPacket404 extends MinecraftPacket implements Server
                         statistic = new KilledByEntityStatistic(statisticId);
                         break;
                     case GENERIC:
-                        statistic = MagicValues404.key(GenericStatistic.class, statisticId);
+                        statistic = getMagic().key(GenericStatistic.class, statisticId);
                         break;
                     default:
                         throw new IllegalArgumentException();
@@ -119,11 +118,11 @@ public class ServerStatisticsPacket404 extends MinecraftPacket implements Server
                     statisticId = ((PickupItemStatistic) statistic).getId();
                 } else if(statistic instanceof GenericStatistic) {
                     category = StatisticCategory.GENERIC;
-                    statisticId = MagicValues404.value(Integer.class, statistic);
+                    statisticId = getMagic().value(Integer.class, statistic);
                 } else {
                     throw new IllegalArgumentException(statistic.getClass().getName());
                 }
-                categoryId = MagicValues404.value(Integer.class, category);
+                categoryId = getMagic().value(Integer.class, category);
             }
             out.writeVarInt(categoryId);
             out.writeVarInt(statisticId);

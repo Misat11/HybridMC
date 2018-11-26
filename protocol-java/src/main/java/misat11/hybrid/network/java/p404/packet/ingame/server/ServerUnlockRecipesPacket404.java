@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.UnlockRecipesAction;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerUnlockRecipesPacket;
@@ -75,7 +74,7 @@ public class ServerUnlockRecipesPacket404 extends MinecraftPacket implements Ser
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues404.key(UnlockRecipesAction.class, in.readVarInt());
+        this.action = getMagic().key(UnlockRecipesAction.class, in.readVarInt());
 
         this.openCraftingBook = in.readBoolean();
         this.activateCraftingFiltering = in.readBoolean();
@@ -99,7 +98,7 @@ public class ServerUnlockRecipesPacket404 extends MinecraftPacket implements Ser
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
+        out.writeVarInt(getMagic().value(Integer.class, this.action));
 
         out.writeBoolean(this.openCraftingBook);
         out.writeBoolean(this.activateCraftingFiltering);

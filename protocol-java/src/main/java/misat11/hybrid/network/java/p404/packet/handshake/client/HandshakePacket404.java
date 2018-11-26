@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.handshake.HandshakeIntent;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.handshake.client.HandshakePacket;
@@ -34,7 +33,7 @@ public class HandshakePacket404 extends MinecraftPacket implements HandshakePack
         this.protocolVersion = in.readVarInt();
         this.hostName = in.readString();
         this.port = in.readUnsignedShort();
-        this.intent = MagicValues404.key(HandshakeIntent.class, in.readVarInt());
+        this.intent = getMagic().key(HandshakeIntent.class, in.readVarInt());
     }
 
     @Override
@@ -42,7 +41,7 @@ public class HandshakePacket404 extends MinecraftPacket implements HandshakePack
         out.writeVarInt(this.protocolVersion);
         out.writeString(this.hostName);
         out.writeShort(this.port);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.intent));
+        out.writeVarInt(getMagic().value(Integer.class, this.intent));
     }
 
     @Override

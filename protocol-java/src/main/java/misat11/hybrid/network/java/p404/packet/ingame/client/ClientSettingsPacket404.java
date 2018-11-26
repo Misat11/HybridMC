@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.Hand;
 import misat11.hybrid.network.java.pabstract.data.game.setting.ChatVisibility;
 import misat11.hybrid.network.java.pabstract.data.game.setting.SkinPart;
@@ -41,7 +40,7 @@ public class ClientSettingsPacket404 extends MinecraftPacket implements ClientSe
     public void read(NetInput in) throws IOException {
         this.locale = in.readString();
         this.renderDistance = in.readByte();
-        this.chatVisibility = MagicValues404.key(ChatVisibility.class, in.readVarInt());
+        this.chatVisibility = getMagic().key(ChatVisibility.class, in.readVarInt());
         this.usedChatColors = in.readBoolean();
         this.visibleParts = new ArrayList<SkinPart>();
 
@@ -53,14 +52,14 @@ public class ClientSettingsPacket404 extends MinecraftPacket implements ClientSe
             }
         }
 
-        this.mainHand = MagicValues404.key(Hand.class, in.readVarInt());
+        this.mainHand = getMagic().key(Hand.class, in.readVarInt());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeString(this.locale);
         out.writeByte(this.renderDistance);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.chatVisibility));
+        out.writeVarInt(getMagic().value(Integer.class, this.chatVisibility));
         out.writeBoolean(this.usedChatColors);
 
         int flags = 0;
@@ -70,6 +69,6 @@ public class ClientSettingsPacket404 extends MinecraftPacket implements ClientSe
 
         out.writeByte(flags);
 
-        out.writeVarInt(MagicValues404.value(Integer.class, this.mainHand));
+        out.writeVarInt(getMagic().value(Integer.class, this.mainHand));
     }
 }

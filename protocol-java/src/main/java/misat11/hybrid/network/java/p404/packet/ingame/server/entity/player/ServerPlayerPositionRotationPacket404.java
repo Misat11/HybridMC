@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.PositionElement;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
@@ -48,7 +47,7 @@ public class ServerPlayerPositionRotationPacket404 extends MinecraftPacket imple
         this.relativeElements = new ArrayList<PositionElement>();
         int flags = in.readUnsignedByte();
         for(PositionElement element : PositionElement.values()) {
-            int bit = 1 << MagicValues404.value(Integer.class, element);
+            int bit = 1 << getMagic().value(Integer.class, element);
             if((flags & bit) == bit) {
                 this.relativeElements.add(element);
             }
@@ -66,7 +65,7 @@ public class ServerPlayerPositionRotationPacket404 extends MinecraftPacket imple
         out.writeFloat(this.pitch);
         int flags = 0;
         for(PositionElement element : this.relativeElements) {
-            flags |= 1 << MagicValues404.value(Integer.class, element);
+            flags |= 1 << getMagic().value(Integer.class, element);
         }
 
         out.writeByte(flags);

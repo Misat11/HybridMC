@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.window.WindowType;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.window.ServerOpenWindowPacket;
@@ -38,7 +37,7 @@ public class ServerOpenWindowPacket404 extends MinecraftPacket implements Server
     @Override
     public void read(NetInput in) throws IOException {
         this.windowId = in.readUnsignedByte();
-        this.type = MagicValues404.key(WindowType.class, in.readString());
+        this.type = getMagic().key(WindowType.class, in.readString());
         this.name = in.readString();
         this.slots = in.readUnsignedByte();
         if(this.type == WindowType.HORSE) {
@@ -49,7 +48,7 @@ public class ServerOpenWindowPacket404 extends MinecraftPacket implements Server
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeByte(this.windowId);
-        out.writeString(MagicValues404.value(String.class, this.type));
+        out.writeString(getMagic().value(String.class, this.type));
         out.writeString(this.name);
         out.writeByte(this.slots);
         if(this.type == WindowType.HORSE) {

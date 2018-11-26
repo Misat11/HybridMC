@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.data.game.entity.type.PaintingType;
@@ -39,17 +38,17 @@ public class ServerSpawnPaintingPacket404 extends MinecraftPacket implements Ser
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
         this.UUID = in.readUUID();
-        this.paintingType = MagicValues404.key(PaintingType.class, in.readVarInt());
+        this.paintingType = getMagic().key(PaintingType.class, in.readVarInt());
         this.position = NetUtil404.readPosition(in);
-        this.direction = MagicValues404.key(HangingDirection.class, in.readUnsignedByte());
+        this.direction = getMagic().key(HangingDirection.class, in.readUnsignedByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
         out.writeUUID(this.UUID);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.paintingType));
+        out.writeVarInt(getMagic().value(Integer.class, this.paintingType));
         NetUtil404.writePosition(out, this.position);
-        out.writeByte(MagicValues404.value(Integer.class, this.direction));
+        out.writeByte(getMagic().value(Integer.class, this.direction));
     }
 }

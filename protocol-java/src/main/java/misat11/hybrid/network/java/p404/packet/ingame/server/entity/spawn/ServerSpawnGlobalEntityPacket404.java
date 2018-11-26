@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.type.GlobalEntityType;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.spawn.ServerSpawnGlobalEntityPacket;
@@ -34,7 +33,7 @@ public class ServerSpawnGlobalEntityPacket404 extends MinecraftPacket implements
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.type = MagicValues404.key(GlobalEntityType.class, in.readByte());
+        this.type = getMagic().key(GlobalEntityType.class, in.readByte());
         this.x = in.readDouble();
         this.y = in.readDouble();
         this.z = in.readDouble();
@@ -43,7 +42,7 @@ public class ServerSpawnGlobalEntityPacket404 extends MinecraftPacket implements
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeByte(MagicValues404.value(Integer.class, this.type));
+        out.writeByte(getMagic().value(Integer.class, this.type));
         out.writeDouble(this.x);
         out.writeDouble(this.y);
         out.writeDouble(this.z);

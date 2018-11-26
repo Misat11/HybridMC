@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import misat11.hybrid.network.java.pabstract.data.MagicValues;
 import misat11.hybrid.network.java.pabstract.data.game.BossBarAction;
 import misat11.hybrid.network.java.pabstract.data.game.BossBarColor;
 import misat11.hybrid.network.java.pabstract.data.game.BossBarDivision;
@@ -90,6 +91,20 @@ import misat11.hybrid.network.java.pabstract.data.game.world.sound.SoundCategory
 import misat11.hybrid.network.java.pabstract.data.handshake.HandshakeIntent;
 
 public class MagicValues404 {
+	
+	public static final MagicValues INSTANCE = new MagicValues() {
+		@Override
+		public <T> T key(Class<T> keyType, Object value) {
+			return MagicValues404.key(keyType, value);
+		}
+
+		@Override
+		public <T> T value(Class<T> valueType, Object key) {
+			return MagicValues404.value(valueType, key);
+		}
+	};
+	
+	
     private static final Map<Object, List<Object>> values = new HashMap<Object, List<Object>>();
 
     static {

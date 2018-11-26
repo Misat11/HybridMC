@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockState;
@@ -50,13 +49,13 @@ public class ServerPlayEffectPacket404 extends MinecraftPacket implements Server
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.effect = MagicValues404.key(WorldEffect.class, in.readInt());
+        this.effect = getMagic().key(WorldEffect.class, in.readInt());
         this.position = NetUtil404.readPosition(in);
         int value = in.readInt();
         if(this.effect == SoundEffect.RECORD) {
             this.data = new RecordEffectData(value);
         } else if(this.effect == ParticleEffect.SMOKE) {
-            this.data = MagicValues404.key(SmokeEffectData.class, value % 9);
+            this.data = getMagic().key(SmokeEffectData.class, value % 9);
         } else if(this.effect == ParticleEffect.BREAK_BLOCK) {
             this.data = new BreakBlockEffectData(new BlockState(value));
         } else if(this.effect == ParticleEffect.BREAK_SPLASH_POTION) {
@@ -70,13 +69,13 @@ public class ServerPlayEffectPacket404 extends MinecraftPacket implements Server
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeInt(MagicValues404.value(Integer.class, this.effect));
+        out.writeInt(getMagic().value(Integer.class, this.effect));
         NetUtil404.writePosition(out, this.position);
         int value = 0;
         if(this.data instanceof RecordEffectData) {
             value = ((RecordEffectData) this.data).getRecordId();
         } else if(this.data instanceof SmokeEffectData) {
-            value = MagicValues404.value(Integer.class, (SmokeEffectData) this.data);
+            value = getMagic().value(Integer.class, (SmokeEffectData) this.data);
         } else if(this.data instanceof BreakBlockEffectData) {
             value = ((BreakBlockEffectData) this.data).getBlockState().getId();
         } else if(this.data instanceof BreakPotionEffectData) {

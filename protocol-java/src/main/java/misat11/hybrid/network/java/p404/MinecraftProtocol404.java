@@ -3,8 +3,8 @@ package misat11.hybrid.network.java.p404;
 import com.github.steveice10.mc.auth.data.GameProfile;
 import com.github.steveice10.mc.auth.exception.request.RequestException;
 import com.github.steveice10.packetlib.Session;
-import com.github.steveice10.packetlib.event.session.SessionListener;
 
+import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.p404.packet.handshake.client.HandshakePacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.client.ClientChatPacket404;
 import misat11.hybrid.network.java.p404.packet.ingame.client.ClientKeepAlivePacket404;
@@ -148,6 +148,7 @@ import misat11.hybrid.network.java.p404.packet.status.client.StatusQueryPacket40
 import misat11.hybrid.network.java.p404.packet.status.server.StatusPongPacket404;
 import misat11.hybrid.network.java.p404.packet.status.server.StatusResponsePacket404;
 import misat11.hybrid.network.java.pabstract.MinecraftProtocolAbstract;
+import misat11.hybrid.network.java.pabstract.data.MagicValues;
 import misat11.hybrid.network.java.pabstract.data.SubProtocol;
 
 import java.net.Proxy;
@@ -344,7 +345,12 @@ public class MinecraftProtocol404 extends MinecraftProtocolAbstract {
     }
 
 	@Override
-	protected SessionListener createClientSession() {
-		return new ClientListener404();
+	public int getProtocolVersion() {
+		return MinecraftConstants404.PROTOCOL_VERSION;
+	}
+
+	@Override
+	public MagicValues getMagic() {
+		return MagicValues404.INSTANCE;
 	}
 }

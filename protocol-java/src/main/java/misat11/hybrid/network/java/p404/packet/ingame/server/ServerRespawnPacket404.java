@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
 import misat11.hybrid.network.java.pabstract.data.game.setting.Difficulty;
 import misat11.hybrid.network.java.pabstract.data.game.world.WorldType;
@@ -34,16 +33,16 @@ public class ServerRespawnPacket404 extends MinecraftPacket implements ServerRes
     @Override
     public void read(NetInput in) throws IOException {
         this.dimension = in.readInt();
-        this.difficulty = MagicValues404.key(Difficulty.class, in.readUnsignedByte());
-        this.gameMode = MagicValues404.key(GameMode.class, in.readUnsignedByte());
-        this.worldType = MagicValues404.key(WorldType.class, in.readString().toLowerCase());
+        this.difficulty = getMagic().key(Difficulty.class, in.readUnsignedByte());
+        this.gameMode = getMagic().key(GameMode.class, in.readUnsignedByte());
+        this.worldType = getMagic().key(WorldType.class, in.readString().toLowerCase());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeInt(this.dimension);
-        out.writeByte(MagicValues404.value(Integer.class, this.difficulty));
-        out.writeByte(MagicValues404.value(Integer.class, this.gameMode));
-        out.writeString(MagicValues404.value(String.class, this.worldType));
+        out.writeByte(getMagic().value(Integer.class, this.difficulty));
+        out.writeByte(getMagic().value(Integer.class, this.gameMode));
+        out.writeString(getMagic().value(String.class, this.worldType));
     }
 }

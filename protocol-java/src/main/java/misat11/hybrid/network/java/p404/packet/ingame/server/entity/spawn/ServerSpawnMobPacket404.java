@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.EntityMetadata;
 import misat11.hybrid.network.java.pabstract.data.game.entity.type.MobType;
@@ -54,7 +53,7 @@ public class ServerSpawnMobPacket404 extends MinecraftPacket implements ServerSp
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
         this.UUID = in.readUUID();
-        this.type = MagicValues404.key(MobType.class, in.readVarInt());
+        this.type = getMagic().key(MobType.class, in.readVarInt());
         this.x = in.readDouble();
         this.y = in.readDouble();
         this.z = in.readDouble();
@@ -71,7 +70,7 @@ public class ServerSpawnMobPacket404 extends MinecraftPacket implements ServerSp
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
         out.writeUUID(this.UUID);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.type));
+        out.writeVarInt(getMagic().value(Integer.class, this.type));
         out.writeDouble(this.x);
         out.writeDouble(this.y);
         out.writeDouble(this.z);

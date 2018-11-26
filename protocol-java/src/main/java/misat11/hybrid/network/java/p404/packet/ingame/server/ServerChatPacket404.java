@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.MessageType;
 import misat11.hybrid.network.java.pabstract.data.message.Message;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
@@ -41,12 +40,12 @@ public class ServerChatPacket404 extends MinecraftPacket implements ServerChatPa
     @Override
     public void read(NetInput in) throws IOException {
         this.message = Message.fromString(in.readString());
-        this.type = MagicValues404.key(MessageType.class, in.readByte());
+        this.type = getMagic().key(MessageType.class, in.readByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeString(this.message.toJsonString());
-        out.writeByte(MagicValues404.value(Integer.class, this.type));
+        out.writeByte(getMagic().value(Integer.class, this.type));
     }
 }
