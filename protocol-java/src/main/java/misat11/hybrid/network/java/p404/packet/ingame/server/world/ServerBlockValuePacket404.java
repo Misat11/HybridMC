@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.value.*;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
@@ -37,7 +36,7 @@ public class ServerBlockValuePacket404 extends MinecraftPacket implements Server
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil404.readPosition(in);
+        this.position = getUtil().readPosition(in);
         int type = in.readUnsignedByte();
         int value = in.readUnsignedByte();
         this.blockId = in.readVarInt() & 0xFFF;
@@ -80,7 +79,7 @@ public class ServerBlockValuePacket404 extends MinecraftPacket implements Server
             val = ((GenericBlockValue) this.value).getValue();
         }
 
-        NetUtil404.writePosition(out, this.position);
+        getUtil().writePosition(out, this.position);
         out.writeByte(getMagic().value(Integer.class, this.type));
         out.writeByte(val);
         out.writeVarInt(this.blockId & 4095);

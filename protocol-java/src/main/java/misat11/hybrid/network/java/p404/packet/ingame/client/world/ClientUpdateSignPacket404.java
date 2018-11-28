@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.client.world.ClientUpdateSignPacket;
@@ -31,7 +30,7 @@ public class ClientUpdateSignPacket404 extends MinecraftPacket implements Client
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil404.readPosition(in);
+        this.position = getUtil().readPosition(in);
         this.lines = new String[4];
         for(int count = 0; count < this.lines.length; count++) {
             this.lines[count] = in.readString();
@@ -40,7 +39,7 @@ public class ClientUpdateSignPacket404 extends MinecraftPacket implements Client
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil404.writePosition(out, this.position);
+    	getUtil().writePosition(out, this.position);
         for(String line : this.lines) {
             out.writeString(line);
         }

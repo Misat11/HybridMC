@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.scoreboard.ScoreboardPosition;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.scoreboard.ServerDisplayScoreboardPacket;
@@ -27,13 +26,13 @@ public class ServerDisplayScoreboardPacket404 extends MinecraftPacket implements
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = MagicValues404.key(ScoreboardPosition.class, in.readByte());
+        this.position = getMagic().key(ScoreboardPosition.class, in.readByte());
         this.scoreboardName = in.readString();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(MagicValues404.value(Integer.class, this.position));
+        out.writeByte(getMagic().value(Integer.class, this.position));
         out.writeString(this.scoreboardName);
     }
 }

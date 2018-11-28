@@ -5,7 +5,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntry;
 import misat11.hybrid.network.java.pabstract.data.game.PlayerListEntryAction;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.GameMode;
@@ -32,7 +31,7 @@ public class ServerPlayerListEntryPacket404 extends MinecraftPacket implements S
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues404.key(PlayerListEntryAction.class, in.readVarInt());
+        this.action = getMagic().key(PlayerListEntryAction.class, in.readVarInt());
         this.entries = new PlayerListEntry[in.readVarInt()];
         for(int count = 0; count < this.entries.length; count++) {
             UUID uuid = in.readUUID();
@@ -59,7 +58,7 @@ public class ServerPlayerListEntryPacket404 extends MinecraftPacket implements S
                     }
 
                     int g = in.readVarInt();
-                    GameMode gameMode = MagicValues404.key(GameMode.class, g < 0 ? 0 : g);
+                    GameMode gameMode = getMagic().key(GameMode.class, g < 0 ? 0 : g);
                     int ping = in.readVarInt();
                     Message displayName = null;
                     if(in.readBoolean()) {
@@ -70,7 +69,7 @@ public class ServerPlayerListEntryPacket404 extends MinecraftPacket implements S
                     break;
                 case UPDATE_GAMEMODE:
                     g = in.readVarInt();
-                    GameMode mode = MagicValues404.key(GameMode.class, g < 0 ? 0 : g);
+                    GameMode mode = getMagic().key(GameMode.class, g < 0 ? 0 : g);
                     entry = new PlayerListEntry(profile, mode);
                     break;
                 case UPDATE_LATENCY:
@@ -95,7 +94,7 @@ public class ServerPlayerListEntryPacket404 extends MinecraftPacket implements S
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
+        out.writeVarInt(getMagic().value(Integer.class, this.action));
         out.writeVarInt(this.entries.length);
         for(PlayerListEntry entry : this.entries) {
             out.writeUUID(entry.getProfile().getId());
@@ -112,7 +111,7 @@ public class ServerPlayerListEntryPacket404 extends MinecraftPacket implements S
                         }
                     }
 
-                    out.writeVarInt(MagicValues404.value(Integer.class, entry.getGameMode()));
+                    out.writeVarInt(getMagic().value(Integer.class, entry.getGameMode()));
                     out.writeVarInt(entry.getPing());
                     out.writeBoolean(entry.getDisplayName() != null);
                     if(entry.getDisplayName() != null) {
@@ -121,7 +120,7 @@ public class ServerPlayerListEntryPacket404 extends MinecraftPacket implements S
 
                     break;
                 case UPDATE_GAMEMODE:
-                    out.writeVarInt(MagicValues404.value(Integer.class, entry.getGameMode()));
+                    out.writeVarInt(getMagic().value(Integer.class, entry.getGameMode()));
                     break;
                 case UPDATE_LATENCY:
                     out.writeVarInt(entry.getPing());

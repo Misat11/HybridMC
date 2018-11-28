@@ -3,7 +3,6 @@ package misat11.hybrid.network.java.p404.packet.ingame.client.window;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.window.AdvancementTabAction;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.client.window.ClientAdvancementTabPacket;
@@ -33,7 +32,7 @@ public class ClientAdvancementTabPacket404 extends MinecraftPacket implements Cl
 
     @Override
     public void read(NetInput in) throws IOException {
-        switch(this.action = MagicValues404.key(AdvancementTabAction.class, in.readVarInt())) {
+        switch(this.action = getMagic().key(AdvancementTabAction.class, in.readVarInt())) {
             case CLOSED_SCREEN:
                 break;
             case OPENED_TAB:
@@ -46,7 +45,7 @@ public class ClientAdvancementTabPacket404 extends MinecraftPacket implements Cl
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
+        out.writeVarInt(getMagic().value(Integer.class, this.action));
         switch(this.action) {
             case CLOSED_SCREEN:
                 break;

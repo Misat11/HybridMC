@@ -4,8 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.data.game.window.UpdateStructureBlockAction;
 import misat11.hybrid.network.java.pabstract.data.game.window.UpdateStructureBlockMode;
@@ -61,14 +59,14 @@ public class ClientUpdateStructureBlockPacket404 extends MinecraftPacket impleme
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil404.readPosition(in);
-        this.action = MagicValues404.key(UpdateStructureBlockAction.class, in.readVarInt());
-        this.mode = MagicValues404.key(UpdateStructureBlockMode.class, in.readVarInt());
+        this.position = getUtil().readPosition(in);
+        this.action = getMagic().key(UpdateStructureBlockAction.class, in.readVarInt());
+        this.mode = getMagic().key(UpdateStructureBlockMode.class, in.readVarInt());
         this.name = in.readString();
         this.offset = new Position(in.readByte(), in.readByte(), in.readByte());
         this.size = new Position(in.readUnsignedByte(), in.readUnsignedByte(), in.readUnsignedByte());
-        this.mirror = MagicValues404.key(StructureMirror.class, in.readVarInt());
-        this.rotation = MagicValues404.key(StructureRotation.class, in.readVarInt());
+        this.mirror = getMagic().key(StructureMirror.class, in.readVarInt());
+        this.rotation = getMagic().key(StructureRotation.class, in.readVarInt());
         this.metadata = in.readString();
         this.integrity = in.readFloat();
         this.seed = in.readVarLong();
@@ -80,9 +78,9 @@ public class ClientUpdateStructureBlockPacket404 extends MinecraftPacket impleme
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil404.writePosition(out, this.position);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.action));
-        out.writeVarInt(MagicValues404.value(Integer.class, this.mode));
+    	getUtil().writePosition(out, this.position);
+        out.writeVarInt(getMagic().value(Integer.class, this.action));
+        out.writeVarInt(getMagic().value(Integer.class, this.mode));
         out.writeString(this.name);
         out.writeByte(this.offset.getX());
         out.writeByte(this.offset.getY());
@@ -90,8 +88,8 @@ public class ClientUpdateStructureBlockPacket404 extends MinecraftPacket impleme
         out.writeByte(this.size.getX());
         out.writeByte(this.size.getY());
         out.writeByte(this.size.getZ());
-        out.writeVarInt(MagicValues404.value(Integer.class, this.mirror));
-        out.writeVarInt(MagicValues404.value(Integer.class, this.rotation));
+        out.writeVarInt(getMagic().value(Integer.class, this.mirror));
+        out.writeVarInt(getMagic().value(Integer.class, this.rotation));
         out.writeString(this.metadata);
         out.writeFloat(this.integrity);
         out.writeVarLong(this.seed);

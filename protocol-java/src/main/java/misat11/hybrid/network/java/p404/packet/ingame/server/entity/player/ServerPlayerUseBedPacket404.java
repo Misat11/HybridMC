@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.player.ServerPlayerUseBedPacket;
@@ -28,12 +27,12 @@ public class ServerPlayerUseBedPacket404 extends MinecraftPacket implements Serv
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.position = NetUtil404.readPosition(in);
+        this.position = getUtil().readPosition(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        NetUtil404.writePosition(out, this.position);
+        getUtil().writePosition(out, this.position);
     }
 }

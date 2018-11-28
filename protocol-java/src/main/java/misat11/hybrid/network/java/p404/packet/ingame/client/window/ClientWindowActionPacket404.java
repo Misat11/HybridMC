@@ -4,8 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
 import misat11.hybrid.network.java.pabstract.data.game.window.ClickItemParam;
 import misat11.hybrid.network.java.pabstract.data.game.window.CreativeGrabParam;
@@ -53,22 +51,22 @@ public class ClientWindowActionPacket404 extends MinecraftPacket implements Clie
         this.slot = in.readShort();
         byte param = in.readByte();
         this.actionId = in.readShort();
-        this.action = MagicValues404.key(WindowAction.class, in.readByte());
-        this.clickedItem = NetUtil404.readItem(in);
+        this.action = getMagic().key(WindowAction.class, in.readByte());
+        this.clickedItem = getUtil().readItem(in);
         if(this.action == WindowAction.CLICK_ITEM) {
-            this.param = MagicValues404.key(ClickItemParam.class, param);
+            this.param = getMagic().key(ClickItemParam.class, param);
         } else if(this.action == WindowAction.SHIFT_CLICK_ITEM) {
-            this.param = MagicValues404.key(ShiftClickItemParam.class, param);
+            this.param = getMagic().key(ShiftClickItemParam.class, param);
         } else if(this.action == WindowAction.MOVE_TO_HOTBAR_SLOT) {
-            this.param = MagicValues404.key(MoveToHotbarParam.class, param);
+            this.param = getMagic().key(MoveToHotbarParam.class, param);
         } else if(this.action == WindowAction.CREATIVE_GRAB_MAX_STACK) {
-            this.param = MagicValues404.key(CreativeGrabParam.class, param);
+            this.param = getMagic().key(CreativeGrabParam.class, param);
         } else if(this.action == WindowAction.DROP_ITEM) {
-            this.param = MagicValues404.key(DropItemParam.class, param + (this.slot != -999 ? 2 : 0));
+            this.param = getMagic().key(DropItemParam.class, param + (this.slot != -999 ? 2 : 0));
         } else if(this.action == WindowAction.SPREAD_ITEM) {
-            this.param = MagicValues404.key(SpreadItemParam.class, param);
+            this.param = getMagic().key(SpreadItemParam.class, param);
         } else if(this.action == WindowAction.FILL_STACK) {
-            this.param = MagicValues404.key(FillStackParam.class, param);
+            this.param = getMagic().key(FillStackParam.class, param);
         }
     }
 
@@ -77,14 +75,14 @@ public class ClientWindowActionPacket404 extends MinecraftPacket implements Clie
         out.writeByte(this.windowId);
         out.writeShort(this.slot);
 
-        int param = MagicValues404.value(Integer.class, this.param);
+        int param = getMagic().value(Integer.class, this.param);
         if(this.action == WindowAction.DROP_ITEM) {
             param %= 2;
         }
 
         out.writeByte(param);
         out.writeShort(this.actionId);
-        out.writeByte(MagicValues404.value(Integer.class, this.action));
-        NetUtil404.writeItem(out, this.clickedItem);
+        out.writeByte(getMagic().value(Integer.class, this.action));
+        getUtil().writeItem(out, this.clickedItem);
     }
 }

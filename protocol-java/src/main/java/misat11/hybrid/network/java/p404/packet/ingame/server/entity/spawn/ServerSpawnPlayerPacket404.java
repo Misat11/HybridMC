@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.EntityMetadata;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.spawn.ServerSpawnPlayerPacket;
@@ -47,7 +46,7 @@ public class ServerSpawnPlayerPacket404 extends MinecraftPacket implements Serve
         this.z = in.readDouble();
         this.yaw = in.readByte() * 360 / 256f;
         this.pitch = in.readByte() * 360 / 256f;
-        this.metadata = NetUtil404.readEntityMetadata(in);
+        this.metadata = getUtil().readEntityMetadata(in, getMagic());
     }
 
     @Override
@@ -59,6 +58,6 @@ public class ServerSpawnPlayerPacket404 extends MinecraftPacket implements Serve
         out.writeDouble(this.z);
         out.writeByte((byte) (this.yaw * 256 / 360));
         out.writeByte((byte) (this.pitch * 256 / 360));
-        NetUtil404.writeEntityMetadata(out, this.metadata);
+        getUtil().writeEntityMetadata(out, this.metadata, getMagic());
     }
 }

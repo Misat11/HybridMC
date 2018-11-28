@@ -10,6 +10,7 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockState;
+import misat11.hybrid.network.java.pabstract.util.NetUtil;
 import misat11.hybrid.network.java.pabstract.util.ObjectUtil;
 
 public abstract class BlockStorage {
@@ -30,8 +31,8 @@ public abstract class BlockStorage {
         this.storage = new FlexibleStorage(this.bitsPerEntry, 4096);
     }
     
-    public BlockStorage(NetInput in) throws IOException{
-    	this.read(in);
+    public BlockStorage(NetInput in, NetUtil util) throws IOException{
+    	this.read(in, util);
     }
 
     private static int index(int x, int y, int z) {
@@ -122,7 +123,7 @@ public abstract class BlockStorage {
         return ObjectUtil.toString(this);
     }
     
-    public abstract void write(NetOutput out) throws IOException;
+    public abstract void write(NetOutput out, NetUtil util) throws IOException;
     
-    public abstract void read(NetInput in) throws IOException;
+    public abstract void read(NetInput in, NetUtil util) throws IOException;
 }

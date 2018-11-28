@@ -7,7 +7,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.world.ServerNBTResponsePacket;
 
@@ -23,12 +22,12 @@ public class ServerNBTResponsePacket404 extends MinecraftPacket implements Serve
     @Override
     public void read(NetInput in) throws IOException {
         this.transactionId = in.readVarInt();
-        this.NBT = NetUtil404.readNBT(in);
+        this.NBT = getUtil().readNBT(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.transactionId);
-        NetUtil404.writeNBT(out, this.NBT);
+        getUtil().writeNBT(out, this.NBT);
     }
 }

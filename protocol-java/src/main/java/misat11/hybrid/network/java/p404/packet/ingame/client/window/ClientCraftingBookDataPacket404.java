@@ -3,7 +3,6 @@ package misat11.hybrid.network.java.p404.packet.ingame.client.window;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.window.CraftingBookDataType;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.client.window.ClientCraftingBookDataPacket;
@@ -71,7 +70,7 @@ public class ClientCraftingBookDataPacket404 extends MinecraftPacket implements 
 
     @Override
     public void read(NetInput in) throws IOException {
-        switch(this.type = MagicValues404.key(CraftingBookDataType.class, in.readVarInt())) {
+        switch(this.type = getMagic().key(CraftingBookDataType.class, in.readVarInt())) {
             case DISPLAYED_RECIPE:
                 this.recipeId = in.readString();
                 break;
@@ -88,7 +87,7 @@ public class ClientCraftingBookDataPacket404 extends MinecraftPacket implements 
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues404.value(Integer.class, this.type));
+        out.writeVarInt(getMagic().value(Integer.class, this.type));
         switch(this.type) {
             case DISPLAYED_RECIPE:
                 out.writeString(this.recipeId);

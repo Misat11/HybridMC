@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockChangeRecord;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.world.ServerBlockChangePacket;
@@ -21,12 +20,12 @@ public class ServerBlockChangePacket404 extends MinecraftPacket implements Serve
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.record = new BlockChangeRecord(NetUtil404.readPosition(in), NetUtil404.readBlockState(in));
+        this.record = new BlockChangeRecord(getUtil().readPosition(in), getUtil().readBlockState(in));
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil404.writePosition(out, this.record.getPosition());
-        NetUtil404.writeBlockState(out, this.record.getBlock());
+    	getUtil().writePosition(out, this.record.getPosition());
+    	getUtil().writeBlockState(out, this.record.getBlock());
     }
 }

@@ -4,8 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.Hand;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockFace;
@@ -38,9 +36,9 @@ public class ClientPlayerPlaceBlockPacket404 extends MinecraftPacket implements 
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil404.readPosition(in);
-        this.face = MagicValues404.key(BlockFace.class, in.readVarInt());
-        this.hand = MagicValues404.key(Hand.class, in.readVarInt());
+        this.position = getUtil().readPosition(in);
+        this.face = getMagic().key(BlockFace.class, in.readVarInt());
+        this.hand = getMagic().key(Hand.class, in.readVarInt());
         this.cursorX = in.readFloat();
         this.cursorY = in.readFloat();
         this.cursorZ = in.readFloat();
@@ -48,9 +46,9 @@ public class ClientPlayerPlaceBlockPacket404 extends MinecraftPacket implements 
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil404.writePosition(out, this.position);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.face));
-        out.writeVarInt(MagicValues404.value(Integer.class, this.hand));
+    	getUtil().writePosition(out, this.position);
+        out.writeVarInt(getMagic().value(Integer.class, this.face));
+        out.writeVarInt(getMagic().value(Integer.class, this.hand));
         out.writeFloat(this.cursorX);
         out.writeFloat(this.cursorY);
         out.writeFloat(this.cursorZ);

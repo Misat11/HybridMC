@@ -10,8 +10,11 @@ import com.github.steveice10.packetlib.tcp.io.ByteBufNetOutput;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageCodec;
+
+// HybridMC start
 import misat11.hybrid.network.java.pabstract.MinecraftProtocolAbstract;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+// HybridMC end
 
 import java.util.List;
 
@@ -27,8 +30,9 @@ public class TcpPacketCodec extends ByteToMessageCodec<Packet> {
         NetOutput out = new ByteBufNetOutput(buf);
         this.session.getPacketProtocol().getPacketHeader().writePacketId(out, this.session.getPacketProtocol().getOutgoingId(packet.getClass()));
         // HybridMC start
-        if (packet instanceof MinecraftPacket) {
+        if (packet instanceof MinecraftPacket && session.getPacketProtocol() instanceof MinecraftProtocolAbstract) {
         	((MinecraftPacket) packet).setMagic(((MinecraftProtocolAbstract)session.getPacketProtocol()).getMagic());
+        	((MinecraftPacket) packet).setUtil(((MinecraftProtocolAbstract)session.getPacketProtocol()).getNetUtil());
         }
         // HybridMC end
         packet.write(out);
@@ -46,8 +50,9 @@ public class TcpPacketCodec extends ByteToMessageCodec<Packet> {
 
         Packet packet = this.session.getPacketProtocol().createIncomingPacket(id);
         // HybridMC start
-        if (packet instanceof MinecraftPacket) {
+        if (packet instanceof MinecraftPacket && session.getPacketProtocol() instanceof MinecraftProtocolAbstract) {
         	((MinecraftPacket) packet).setMagic(((MinecraftProtocolAbstract)session.getPacketProtocol()).getMagic());
+        	((MinecraftPacket) packet).setUtil(((MinecraftProtocolAbstract)session.getPacketProtocol()).getNetUtil());
         }
         // HybridMC end
         packet.read(in);

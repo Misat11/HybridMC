@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.window.ServerWindowItemsPacket;
@@ -25,7 +24,7 @@ public class ServerWindowItemsPacket404 extends MinecraftPacket implements Serve
         this.windowId = in.readUnsignedByte();
         this.items = new ItemStack[in.readShort()];
         for(int index = 0; index < this.items.length; index++) {
-            this.items[index] = NetUtil404.readItem(in);
+            this.items[index] = getUtil().readItem(in);
         }
     }
 
@@ -34,7 +33,7 @@ public class ServerWindowItemsPacket404 extends MinecraftPacket implements Serve
         out.writeByte(this.windowId);
         out.writeShort(this.items.length);
         for(ItemStack item : this.items) {
-            NetUtil404.writeItem(out, item);
+        	getUtil().writeItem(out, item);
         }
     }
 }

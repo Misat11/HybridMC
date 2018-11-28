@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.window.ServerSetSlotPacket;
@@ -25,13 +24,13 @@ public class ServerSetSlotPacket404 extends MinecraftPacket implements ServerSet
     public void read(NetInput in) throws IOException {
         this.windowId = in.readUnsignedByte();
         this.slot = in.readShort();
-        this.item = NetUtil404.readItem(in);
+        this.item = getUtil().readItem(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeByte(this.windowId);
         out.writeShort(this.slot);
-        NetUtil404.writeItem(out, this.item);
+        getUtil().writeItem(out, this.item);
     }
 }

@@ -1,4 +1,5 @@
 # HybridMC
+[![Build Status](https://jenkins.mtorus.cz/job/HybridMC/badge/icon)](https://jenkins.mtorus.cz/job/HybridMC/)
 HybridMC is plugin that allows connection of Bedrock Edition clients on your Java Edition Spigot or Craftbukkit server!
 
 #### This project is in early development. We don't recommend use it on production server.

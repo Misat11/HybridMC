@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.EntityMetadata;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.entity.ServerEntityMetadataPacket;
@@ -28,12 +27,12 @@ public class ServerEntityMetadataPacket404 extends MinecraftPacket implements Se
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.metadata = NetUtil404.readEntityMetadata(in);
+        this.metadata = getUtil().readEntityMetadata(in, getMagic());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        NetUtil404.writeEntityMetadata(out, this.metadata);
+        getUtil().writeEntityMetadata(out, this.metadata, getMagic());
     }
 }

@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.BlockState;
 import misat11.hybrid.network.java.pabstract.data.game.world.effect.BonemealGrowEffectData;
@@ -50,7 +49,7 @@ public class ServerPlayEffectPacket404 extends MinecraftPacket implements Server
     @Override
     public void read(NetInput in) throws IOException {
         this.effect = getMagic().key(WorldEffect.class, in.readInt());
-        this.position = NetUtil404.readPosition(in);
+        this.position = getUtil().readPosition(in);
         int value = in.readInt();
         if(this.effect == SoundEffect.RECORD) {
             this.data = new RecordEffectData(value);
@@ -70,7 +69,7 @@ public class ServerPlayEffectPacket404 extends MinecraftPacket implements Server
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeInt(getMagic().value(Integer.class, this.effect));
-        NetUtil404.writePosition(out, this.position);
+        getUtil().writePosition(out, this.position);
         int value = 0;
         if(this.data instanceof RecordEffectData) {
             value = ((RecordEffectData) this.data).getRecordId();

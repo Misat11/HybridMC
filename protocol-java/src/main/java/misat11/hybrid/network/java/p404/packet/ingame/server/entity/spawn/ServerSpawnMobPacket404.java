@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.EntityMetadata;
 import misat11.hybrid.network.java.pabstract.data.game.entity.type.MobType;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
@@ -63,7 +62,7 @@ public class ServerSpawnMobPacket404 extends MinecraftPacket implements ServerSp
         this.motionX = in.readShort() / 8000D;
         this.motionY = in.readShort() / 8000D;
         this.motionZ = in.readShort() / 8000D;
-        this.metadata = NetUtil404.readEntityMetadata(in);
+        this.metadata = getUtil().readEntityMetadata(in, getMagic());
     }
 
     @Override
@@ -80,6 +79,6 @@ public class ServerSpawnMobPacket404 extends MinecraftPacket implements ServerSp
         out.writeShort((int) (this.motionX * 8000));
         out.writeShort((int) (this.motionY * 8000));
         out.writeShort((int) (this.motionZ * 8000));
-        NetUtil404.writeEntityMetadata(out, this.metadata);
+        getUtil().writeEntityMetadata(out, this.metadata, getMagic());
     }
 }

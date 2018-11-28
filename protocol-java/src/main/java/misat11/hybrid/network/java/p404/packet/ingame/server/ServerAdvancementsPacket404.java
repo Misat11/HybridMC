@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.advancement.Advancement;
 import misat11.hybrid.network.java.pabstract.data.game.advancement.Advancement.DisplayData;
 import misat11.hybrid.network.java.pabstract.data.game.advancement.Advancement.DisplayData.FrameType;
@@ -62,7 +61,7 @@ public class ServerAdvancementsPacket404 extends MinecraftPacket implements Serv
             if(in.readBoolean()) {
                 Message title = Message.fromString(in.readString());
                 Message description = Message.fromString(in.readString());
-                ItemStack icon = NetUtil404.readItem(in);
+                ItemStack icon = getUtil().readItem(in);
                 FrameType frameType = getMagic().key(FrameType.class, in.readVarInt());
 
                 int flags = in.readInt();
@@ -140,7 +139,7 @@ public class ServerAdvancementsPacket404 extends MinecraftPacket implements Serv
                 out.writeBoolean(true);
                 out.writeString(displayData.getTitle().toJsonString());
                 out.writeString(displayData.getDescription().toJsonString());
-                NetUtil404.writeItem(out, displayData.getIcon());
+                getUtil().writeItem(out, displayData.getIcon());
                 out.writeVarInt(getMagic().value(Integer.class, displayData.getFrameType()));
                 String backgroundTexture = displayData.getBackgroundTexture();
 

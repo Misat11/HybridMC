@@ -7,7 +7,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.UpdatedTileType;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
@@ -25,15 +24,15 @@ public class ServerUpdateTileEntityPacket404 extends MinecraftPacket implements 
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil404.readPosition(in);
+        this.position = getUtil().readPosition(in);
         this.type = getMagic().key(UpdatedTileType.class, in.readUnsignedByte());
-        this.NBT = NetUtil404.readNBT(in);
+        this.NBT = getUtil().readNBT(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil404.writePosition(out, this.position);
+    	getUtil().writePosition(out, this.position);
         out.writeByte(getMagic().value(Integer.class, this.type));
-        NetUtil404.writeNBT(out, this.NBT);
+        getUtil().writeNBT(out, this.NBT);
     }
 }

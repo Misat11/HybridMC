@@ -17,7 +17,6 @@ import com.github.steveice10.packetlib.Server;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.crypt.AESEncryption;
 import com.github.steveice10.packetlib.packet.DefaultPacketHeader;
-import com.github.steveice10.packetlib.packet.Packet;
 import com.github.steveice10.packetlib.packet.PacketHeader;
 import com.github.steveice10.packetlib.packet.PacketProtocol;
 
@@ -26,6 +25,7 @@ import misat11.hybrid.network.java.pabstract.data.MagicValues;
 import misat11.hybrid.network.java.pabstract.data.SubProtocol;
 import misat11.hybrid.network.java.pabstract.packet.IMinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
+import misat11.hybrid.network.java.pabstract.util.NetUtil;
 
 @Getter
 public abstract class MinecraftProtocolAbstract extends PacketProtocol {
@@ -209,5 +209,7 @@ public abstract class MinecraftProtocolAbstract extends PacketProtocol {
 	public abstract int getProtocolVersion();
 	
 	public abstract MagicValues getMagic();
+	
+	public abstract NetUtil getNetUtil();
 
 }

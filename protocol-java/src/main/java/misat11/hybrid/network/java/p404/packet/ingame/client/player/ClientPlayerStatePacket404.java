@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.player.PlayerState;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.client.player.ClientPlayerStatePacket;
@@ -34,14 +33,14 @@ public class ClientPlayerStatePacket404 extends MinecraftPacket implements Clien
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.state = MagicValues404.key(PlayerState.class, in.readVarInt());
+        this.state = getMagic().key(PlayerState.class, in.readVarInt());
         this.jumpBoost = in.readVarInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.state));
+        out.writeVarInt(getMagic().value(Integer.class, this.state));
         out.writeVarInt(this.jumpBoost);
     }
 }

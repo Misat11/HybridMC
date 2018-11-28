@@ -6,7 +6,6 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.world.particle.Particle;
 import misat11.hybrid.network.java.pabstract.data.game.world.particle.ParticleType;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
@@ -41,7 +40,7 @@ public class ServerSpawnParticlePacket404 extends MinecraftPacket implements Ser
         this.offsetZ = in.readFloat();
         this.velocityOffset = in.readFloat();
         this.amount = in.readInt();
-        this.particle = new Particle(type, NetUtil404.readParticleData(in, type));
+        this.particle = new Particle(type, getUtil().readParticleData(in, type));
     }
 
     @Override
@@ -56,6 +55,6 @@ public class ServerSpawnParticlePacket404 extends MinecraftPacket implements Ser
         out.writeFloat(this.offsetZ);
         out.writeFloat(this.velocityOffset);
         out.writeInt(this.amount);
-        NetUtil404.writeParticleData(out, this.particle.getData(), this.particle.getType());
+        getUtil().writeParticleData(out, this.particle.getData(), this.particle.getType());
     }
 }

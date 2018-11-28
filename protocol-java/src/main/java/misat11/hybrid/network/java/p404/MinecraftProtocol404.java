@@ -147,9 +147,11 @@ import misat11.hybrid.network.java.p404.packet.status.client.StatusPingPacket404
 import misat11.hybrid.network.java.p404.packet.status.client.StatusQueryPacket404;
 import misat11.hybrid.network.java.p404.packet.status.server.StatusPongPacket404;
 import misat11.hybrid.network.java.p404.packet.status.server.StatusResponsePacket404;
+import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.MinecraftProtocolAbstract;
 import misat11.hybrid.network.java.pabstract.data.MagicValues;
 import misat11.hybrid.network.java.pabstract.data.SubProtocol;
+import misat11.hybrid.network.java.pabstract.util.NetUtil;
 
 import java.net.Proxy;
 
@@ -352,5 +354,10 @@ public class MinecraftProtocol404 extends MinecraftProtocolAbstract {
 	@Override
 	public MagicValues getMagic() {
 		return MagicValues404.INSTANCE;
+	}
+
+	@Override
+	public NetUtil getNetUtil() {
+		return NetUtil404.INSTANCE;
 	}
 }

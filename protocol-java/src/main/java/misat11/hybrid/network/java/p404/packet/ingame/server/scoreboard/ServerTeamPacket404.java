@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.scoreboard.CollisionRule;
 import misat11.hybrid.network.java.pabstract.data.game.scoreboard.NameTagVisibility;
 import misat11.hybrid.network.java.pabstract.data.game.scoreboard.TeamAction;
@@ -86,17 +85,17 @@ public class ServerTeamPacket404 extends MinecraftPacket implements ServerTeamPa
     @Override
     public void read(NetInput in) throws IOException {
         this.teamName = in.readString();
-        this.action = MagicValues404.key(TeamAction.class, in.readByte());
+        this.action = getMagic().key(TeamAction.class, in.readByte());
         if(this.action == TeamAction.CREATE || this.action == TeamAction.UPDATE) {
             this.displayName = Message.fromString(in.readString());
             byte flags = in.readByte();
             this.friendlyFire = (flags & 0x1) != 0;
             this.seeFriendlyInvisibles = (flags & 0x2) != 0;
-            this.nameTagVisibility = MagicValues404.key(NameTagVisibility.class, in.readString());
-            this.collisionRule = MagicValues404.key(CollisionRule.class, in.readString());
+            this.nameTagVisibility = getMagic().key(NameTagVisibility.class, in.readString());
+            this.collisionRule = getMagic().key(CollisionRule.class, in.readString());
 
             try {
-                this.color = MagicValues404.key(TeamColor.class, in.readVarInt());
+                this.color = getMagic().key(TeamColor.class, in.readVarInt());
             } catch(IllegalArgumentException e) {
                 this.color = TeamColor.NONE;
             }
@@ -116,13 +115,13 @@ public class ServerTeamPacket404 extends MinecraftPacket implements ServerTeamPa
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeString(this.teamName);
-        out.writeByte(MagicValues404.value(Integer.class, this.action));
+        out.writeByte(getMagic().value(Integer.class, this.action));
         if(this.action == TeamAction.CREATE || this.action == TeamAction.UPDATE) {
             out.writeString(this.displayName.toJsonString());
             out.writeByte((this.friendlyFire ? 0x1 : 0x0) | (this.seeFriendlyInvisibles ? 0x2 : 0x0));
-            out.writeString(MagicValues404.value(String.class, this.nameTagVisibility));
-            out.writeString(MagicValues404.value(String.class, this.collisionRule));
-            out.writeVarInt(MagicValues404.value(Integer.class, this.color));
+            out.writeString(getMagic().value(String.class, this.nameTagVisibility));
+            out.writeString(getMagic().value(String.class, this.collisionRule));
+            out.writeVarInt(getMagic().value(Integer.class, this.color));
             out.writeString(this.prefix.toJsonString());
             out.writeString(this.suffix.toJsonString());
         }

@@ -4,8 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
-import misat11.hybrid.network.java.p404.util.NetUtil404;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.Position;
 import misat11.hybrid.network.java.pabstract.data.game.world.block.CommandBlockMode;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
@@ -38,9 +36,9 @@ public class ClientUpdateCommandBlockPacket404 extends MinecraftPacket implement
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil404.readPosition(in);
+        this.position = getUtil().readPosition(in);
         this.command = in.readString();
-        this.mode = MagicValues404.key(CommandBlockMode.class, in.readVarInt());
+        this.mode = getMagic().key(CommandBlockMode.class, in.readVarInt());
         int flags = in.readUnsignedByte();
         this.doesTrackOutput = (flags & 0x01) != 0;
         this.isConditional = (flags & 0x02) != 0;
@@ -49,9 +47,9 @@ public class ClientUpdateCommandBlockPacket404 extends MinecraftPacket implement
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil404.writePosition(out, this.position);
+    	getUtil().writePosition(out, this.position);
         out.writeString(this.command);
-        out.writeVarInt(MagicValues404.value(Integer.class, this.mode));
+        out.writeVarInt(getMagic().value(Integer.class, this.mode));
         int flags = 0;
         if (this.doesTrackOutput) flags |= 0x01;
         if (this.isConditional) flags |= 0x02;

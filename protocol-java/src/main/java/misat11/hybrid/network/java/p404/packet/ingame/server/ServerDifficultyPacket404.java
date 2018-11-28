@@ -4,7 +4,6 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 
 import lombok.Getter;
-import misat11.hybrid.network.java.p404.data.MagicValues404;
 import misat11.hybrid.network.java.pabstract.data.game.setting.Difficulty;
 import misat11.hybrid.network.java.pabstract.packet.MinecraftPacket;
 import misat11.hybrid.network.java.pabstract.packet.ingame.server.ServerDifficultyPacket;
@@ -25,11 +24,11 @@ public class ServerDifficultyPacket404 extends MinecraftPacket implements Server
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.difficulty = MagicValues404.key(Difficulty.class, in.readUnsignedByte());
+        this.difficulty = getMagic().key(Difficulty.class, in.readUnsignedByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(MagicValues404.value(Integer.class, this.difficulty));
+        out.writeByte(getMagic().value(Integer.class, this.difficulty));
     }
 }
