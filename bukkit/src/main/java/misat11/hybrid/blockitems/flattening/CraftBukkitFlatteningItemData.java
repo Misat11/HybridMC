@@ -7,11 +7,21 @@ import misat11.hybrid.utils.ReflectionUtil;
 
 public class CraftBukkitFlatteningItemData extends AbstractFlatteningItemData {
 	
-	public CraftBukkitFlatteningItemData() throws Exception {
-		Object REGISTRY = ReflectionUtil.getStatic(NMSUtil.nms("IRegistry"), "ITEM", Object.class); // since 1.13.1
+	public CraftBukkitFlatteningItemData(int protocolVersion) throws Exception {
+		Object REGISTRY;
+		if (protocolVersion < 401) {
+			REGISTRY = ReflectionUtil.getStatic(NMSUtil.nms("Item"), "REGISTRY", Object.class); // before 1.13.1
+		} else {
+			REGISTRY = ReflectionUtil.getStatic(NMSUtil.nms("IRegistry"), "ITEM", Object.class); // since 1.13.1
+		}
 		for (Iterator iterator = (Iterator) ReflectionUtil.invoke(Iterable.class, REGISTRY, "iterator"); iterator.hasNext();) {
 			Object item = iterator.next();
-			Object minecraftKey = REGISTRY.getClass().getDeclaredMethod("getKey", Object.class).invoke(REGISTRY, item); // b -> getKey since 1.13.1
+			Object minecraftKey;
+			if (protocolVersion < 401) {
+				minecraftKey = REGISTRY.getClass().getDeclaredMethod("b", Object.class).invoke(REGISTRY, item);
+			} else {
+				minecraftKey = REGISTRY.getClass().getDeclaredMethod("getKey", Object.class).invoke(REGISTRY, item); 
+			}
 			int id = (int) NMSUtil.nms("Item").getDeclaredMethod("getId", NMSUtil.nms("Item")).invoke(null, item);
 			FlattedItem flattedItem = new FlattedItem(id, minecraftKey.toString());
 			idToItem.put(flattedItem.id, flattedItem);

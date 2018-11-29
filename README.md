@@ -1,9 +1,11 @@
 # HybridMC
 [![Build Status](https://jenkins.mtorus.cz/job/HybridMC/badge/icon)](https://jenkins.mtorus.cz/job/HybridMC/)
+[![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/t7p3F2e)
+
 HybridMC is plugin that allows connection of Bedrock Edition clients on your Java Edition Spigot or Craftbukkit server!
 
 #### This project is in early development. We don't recommend use it on production server.
-#### Now only support for 1.13.2 CraftBukkit/Spigot server!!! (1.8 - 1.13.1 is planned but now not working)
+#### Now only support for 1.13.2/1 CraftBukkit/Spigot server!!! (1.8 - 1.13 is planned but now not working)
 
 ## Features and planned features
 - [x] Connection to downstream server
@@ -18,7 +20,7 @@ HybridMC is plugin that allows connection of Bedrock Edition clients on your Jav
 - [x] Effects - Partial support
 - [ ] API for Modal Forms
 - [ ] Skins
-- [ ] Multiversion - HybridMC can do it, but now there are only one supported version
+- [x] Multiversion
 - [ ] IP forwarding - is needed !!!! (example for Ip Bans)
 
 ## Building

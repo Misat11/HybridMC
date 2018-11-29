@@ -13,11 +13,21 @@ import misat11.hybrid.utils.ReflectionUtil;
 
 public class CraftBukkitFlatteningBlockData extends AbstractFlatteningBlockData {
 
-	public CraftBukkitFlatteningBlockData() throws Exception {
-		Object REGISTRY = ReflectionUtil.getStatic(NMSUtil.nms("IRegistry"), "BLOCK", Object.class); // since 1.13.1
+	public CraftBukkitFlatteningBlockData(int protocolVersion) throws Exception {
+		Object REGISTRY;
+		if (protocolVersion < 401) {
+			REGISTRY = ReflectionUtil.getStatic(NMSUtil.nms("Block"), "REGISTRY", Object.class); // before 1.13.1
+		} else {
+			REGISTRY = ReflectionUtil.getStatic(NMSUtil.nms("IRegistry"), "BLOCK", Object.class); // since 1.13.1
+		}
 		for (Iterator iterator = (Iterator) ReflectionUtil.invoke(Iterable.class, REGISTRY, "iterator"); iterator.hasNext();) {
 			Object block = iterator.next();
-			Object minecraftKey = REGISTRY.getClass().getDeclaredMethod("getKey", Object.class).invoke(REGISTRY, block); // b -> getKey since 1.13.1
+			Object minecraftKey;
+			if (protocolVersion < 401) {
+				minecraftKey = REGISTRY.getClass().getDeclaredMethod("b", Object.class).invoke(REGISTRY, block);
+			} else {
+				minecraftKey = REGISTRY.getClass().getDeclaredMethod("getKey", Object.class).invoke(REGISTRY, block);
+			}
 			List<FlattedBlockState> states = new ArrayList<FlattedBlockState>();
 			FlattedBlock flattedBlock = new FlattedBlock(minecraftKey.toString(), states);
 			Object blockStateList = ReflectionUtil.invoke(NMSUtil.nms("Block"), block, "getStates");

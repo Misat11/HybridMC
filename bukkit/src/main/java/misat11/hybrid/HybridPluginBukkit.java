@@ -53,8 +53,8 @@ public final class HybridPluginBukkit extends JavaPlugin implements IPlatform {
 						getServer().getPort(), NMSUtil.getServerProtocolVersion(), getConfig().getInt("networkthreads"),
 						(hybridServer, javaProtocolInfo) -> {
 							if (javaProtocolInfo.getVersionType() == VersionType.FLATTENING) {
-								CraftBukkitFlatteningBlockData blockData = new CraftBukkitFlatteningBlockData();
-								CraftBukkitFlatteningItemData itemData = new CraftBukkitFlatteningItemData();
+								CraftBukkitFlatteningBlockData blockData = new CraftBukkitFlatteningBlockData(javaProtocolInfo.getProtocolVersion());
+								CraftBukkitFlatteningItemData itemData = new CraftBukkitFlatteningItemData(javaProtocolInfo.getProtocolVersion());
 								hybridServer.setBlockTranslator(new FlatteningBlockTranslator(blockData));
 								hybridServer.setItemTranslator(new FlatteningItemTranslator(itemData));
 							} else {

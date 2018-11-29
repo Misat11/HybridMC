@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
+import misat11.hybrid.network.java.p401.MinecraftConstants401;
+import misat11.hybrid.network.java.p401.MinecraftProtocol401;
 import misat11.hybrid.network.java.p404.MinecraftConstants404;
 import misat11.hybrid.network.java.p404.MinecraftProtocol404;
 import misat11.hybrid.network.java.pabstract.MinecraftProtocolAbstract;
@@ -17,7 +19,8 @@ public class JavaProtocolBuilder {
 		new MinecraftProtocolInfo(MinecraftConstants404.PROTOCOL_VERSION, MinecraftConstants404.GAME_VERSION,
 				MinecraftProtocol404.class, VersionType.FLATTENING);
 		// 1.13.1
-		// TODO
+		new MinecraftProtocolInfo(MinecraftConstants401.PROTOCOL_VERSION, MinecraftConstants401.GAME_VERSION,
+				MinecraftProtocol401.class, VersionType.FLATTENING);
 		// 1.13
 		// TODO
 		// 1.12.2
