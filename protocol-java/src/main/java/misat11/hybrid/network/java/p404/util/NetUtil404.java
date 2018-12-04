@@ -2,13 +2,14 @@ package misat11.hybrid.network.java.p404.util;
 
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
-import misat11.hybrid.network.java.p401.util.NetUtil401;
+
+import misat11.hybrid.network.java.p393.util.NetUtil393;
 import misat11.hybrid.network.java.pabstract.data.game.entity.metadata.ItemStack;
 import misat11.hybrid.network.java.pabstract.util.NetUtil;
 
 import java.io.IOException;
 
-public class NetUtil404 extends NetUtil401 {
+public class NetUtil404 extends NetUtil393 {
 
 	public static final NetUtil INSTANCE = new NetUtil404();
 	

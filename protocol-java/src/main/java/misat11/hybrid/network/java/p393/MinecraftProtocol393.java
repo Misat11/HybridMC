@@ -1,10 +1,10 @@
-package misat11.hybrid.network.java.p401;
+package misat11.hybrid.network.java.p393;
 
 import com.github.steveice10.mc.auth.data.GameProfile;
 import com.github.steveice10.mc.auth.exception.request.RequestException;
 import com.github.steveice10.packetlib.Session;
 
-import misat11.hybrid.network.java.p393.MinecraftProtocol393;
+import misat11.hybrid.network.java.p393.data.MagicValues393;
 import misat11.hybrid.network.java.p393.packet.handshake.client.HandshakePacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.client.ClientChatPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.client.ClientKeepAlivePacket393;
@@ -30,6 +30,7 @@ import misat11.hybrid.network.java.p393.packet.ingame.client.window.ClientCloseW
 import misat11.hybrid.network.java.p393.packet.ingame.client.window.ClientConfirmTransactionPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.client.window.ClientCraftingBookDataPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.client.window.ClientCreativeInventoryActionPacket393;
+import misat11.hybrid.network.java.p393.packet.ingame.client.window.ClientEditBookPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.client.window.ClientEnchantItemPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.client.window.ClientMoveItemToHotbarPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.client.window.ClientPrepareCraftingGridPacket393;
@@ -50,6 +51,7 @@ import misat11.hybrid.network.java.p393.packet.ingame.client.world.ClientUpdateS
 import misat11.hybrid.network.java.p393.packet.ingame.client.world.ClientVehicleMovePacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.server.ServerAdvancementTabPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.server.ServerAdvancementsPacket393;
+import misat11.hybrid.network.java.p393.packet.ingame.server.ServerBossBarPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.server.ServerChatPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.server.ServerCombatPacket393;
 import misat11.hybrid.network.java.p393.packet.ingame.server.ServerDeclareCommandsPacket393;
@@ -145,39 +147,41 @@ import misat11.hybrid.network.java.p393.packet.status.client.StatusPingPacket393
 import misat11.hybrid.network.java.p393.packet.status.client.StatusQueryPacket393;
 import misat11.hybrid.network.java.p393.packet.status.server.StatusPongPacket393;
 import misat11.hybrid.network.java.p393.packet.status.server.StatusResponsePacket393;
-import misat11.hybrid.network.java.p401.packet.ingame.client.window.ClientEditBookPacket401;
-import misat11.hybrid.network.java.p401.packet.ingame.server.ServerBossBarPacket401;
+import misat11.hybrid.network.java.p393.util.NetUtil393;
+import misat11.hybrid.network.java.pabstract.MinecraftProtocolAbstract;
+import misat11.hybrid.network.java.pabstract.data.MagicValues;
 import misat11.hybrid.network.java.pabstract.data.SubProtocol;
+import misat11.hybrid.network.java.pabstract.util.NetUtil;
 
 import java.net.Proxy;
 
-public class MinecraftProtocol401 extends MinecraftProtocol393 {
+public class MinecraftProtocol393 extends MinecraftProtocolAbstract {
 	
-    public MinecraftProtocol401(SubProtocol subProtocol) {
+    public MinecraftProtocol393(SubProtocol subProtocol) {
     	super(subProtocol);
     }
 
-	public MinecraftProtocol401(String username) {
+	public MinecraftProtocol393(String username) {
 		super(username);
 	}
 
-    public MinecraftProtocol401(String username, String password) throws RequestException {
+    public MinecraftProtocol393(String username, String password) throws RequestException {
     	super(username, password);
     }
 
-    public MinecraftProtocol401(String username, String clientToken, String accessToken) throws RequestException {
+    public MinecraftProtocol393(String username, String clientToken, String accessToken) throws RequestException {
     	super(username, clientToken, accessToken);
     }
 
-    public MinecraftProtocol401(String username, String password, Proxy proxy) throws RequestException {
+    public MinecraftProtocol393(String username, String password, Proxy proxy) throws RequestException {
     	super(username, password, proxy);
     }
 
-    public MinecraftProtocol401(String username, String clientToken, String accessToken, Proxy proxy) throws RequestException {
+    public MinecraftProtocol393(String username, String clientToken, String accessToken, Proxy proxy) throws RequestException {
     	super(username, clientToken, accessToken, proxy);
     }
 
-    public MinecraftProtocol401(GameProfile profile, String clientToken, String accessToken) {
+    public MinecraftProtocol393(GameProfile profile, String clientToken, String accessToken) {
     	super(profile, clientToken, accessToken);
     }
 
@@ -213,7 +217,7 @@ public class MinecraftProtocol401 extends MinecraftProtocol393 {
         this.registerIn(0x09, ServerUpdateTileEntityPacket393.class);
         this.registerIn(0x0A, ServerBlockValuePacket393.class);
         this.registerIn(0x0B, ServerBlockChangePacket393.class);
-        this.registerIn(0x0C, ServerBossBarPacket401.class);
+        this.registerIn(0x0C, ServerBossBarPacket393.class);
         this.registerIn(0x0D, ServerDifficultyPacket393.class);
         this.registerIn(0x0E, ServerChatPacket393.class);
         this.registerIn(0x0F, ServerMultiBlockChangePacket393.class);
@@ -299,7 +303,7 @@ public class MinecraftProtocol401 extends MinecraftProtocol393 {
         this.registerOut(0x08, ClientWindowActionPacket393.class);
         this.registerOut(0x09, ClientCloseWindowPacket393.class);
         this.registerOut(0x0A, ClientPluginMessagePacket393.class);
-        this.registerOut(0x0B, ClientEditBookPacket401.class);
+        this.registerOut(0x0B, ClientEditBookPacket393.class);
         this.registerOut(0x0C, ClientEntityNBTRequestPacket393.class);
         this.registerOut(0x0D, ClientPlayerInteractEntityPacket393.class);
         this.registerOut(0x0E, ClientKeepAlivePacket393.class);
@@ -344,6 +348,16 @@ public class MinecraftProtocol401 extends MinecraftProtocol393 {
 
 	@Override
 	public int getProtocolVersion() {
-		return MinecraftConstants401.PROTOCOL_VERSION;
+		return MinecraftConstants393.PROTOCOL_VERSION;
+	}
+
+	@Override
+	public MagicValues getMagic() {
+		return MagicValues393.INSTANCE;
+	}
+
+	@Override
+	public NetUtil getNetUtil() {
+		return NetUtil393.INSTANCE;
 	}
 }
